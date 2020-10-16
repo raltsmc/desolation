@@ -2,6 +2,8 @@ package raltsmc.desolation.entity;
 
 import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.ai.goal.EscapeDangerGoal;
+import net.minecraft.entity.ai.goal.LookAtEntityGoal;
 import net.minecraft.entity.ai.goal.WanderAroundGoal;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -33,7 +35,9 @@ public class AshScuttlerEntity extends PathAwareEntity implements IAnimatedEntit
             this::headPredicate);
 
     protected void initGoals() {
-        this.goalSelector.add(1, new WanderAroundGoal(this, 0.2F));
+        this.goalSelector.add(1, new EscapeDangerGoal(this, 0.4F));
+        this.goalSelector.add(2, new WanderAroundGoal(this, 0.2F));
+        this.goalSelector.add(3, new LookAtEntityGoal(this, PlayerEntity.class, 8F));
     }
 
     public ActionResult interactMob(PlayerEntity player, Hand hand) {

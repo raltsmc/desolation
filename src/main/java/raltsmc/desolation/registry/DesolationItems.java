@@ -8,12 +8,13 @@ import net.minecraft.util.registry.Registry;
 import raltsmc.desolation.Desolation;
 import raltsmc.desolation.DesolationMod;
 import raltsmc.desolation.misc.MaskMaterial;
+import raltsmc.desolation.item.*;
 
 public final class DesolationItems {
 
     public static final Item CHARCOAL_BIT = register(new Item(new Item.Settings().group(DesolationMod.DSL_GROUP)),
             "charcoal_bit");
-    public static final Item ASH_PILE = register(new Item(new Item.Settings().group(DesolationMod.DSL_GROUP)),
+    public static final Item ASH_PILE = register(new AshItem(new Item.Settings().group(DesolationMod.DSL_GROUP)),
             "ash_pile");
     public static final Item ACTIVATED_CHARCOAL =
             register(new Item(new Item.Settings().group(DesolationMod.DSL_GROUP)), "activated_charcoal");
