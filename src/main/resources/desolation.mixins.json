@@ -1,0 +1,19 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "raltsmc.desolation.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "BuiltinBiomesAccessor",
+    "SetBaseBiomesLayerAccessor",
+    "VanillaLayeredBiomeSourceAccessor",
+    "TreeFeatureMixin",
+    "BrewingRecipeRegistryInvoker"
+  ],
+  "client": [
+    "ExampleMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "AAA",
+    "AAA",
+    "AAA"
+  ],
+  "key": {
+      "A": {
+        "item": "desolation:ash_pile"
+      }
+  },
+  "result": {
+    "item": "desolation:ash_block"
+  }
+}

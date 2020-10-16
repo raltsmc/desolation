@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:smelting",
+  "ingredient": {
+    "item": "minecraft:charcoal"
+  },
+  "result": "desolation:activated_charcoal",
+  "experience": 8.0,
+  "cookingtime": 800
+}
