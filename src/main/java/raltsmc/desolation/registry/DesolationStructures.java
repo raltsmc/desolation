@@ -64,7 +64,7 @@ public final class DesolationStructures {
             (ConfiguredFeature)Feature.RANDOM_PATCH
                     .configure(Configs.ASH_BRAMBLE_CONFIG)
                     .decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP_SPREAD_DOUBLE)
-                    .repeat(5), "patch_charred_branch");
+                    .repeat(5), "patch_ash_bramble");
 
     public static final ConfiguredFeature<FeatureConfig, ?> PLANT_CINDERFRUIT = register(
             (ConfiguredFeature)Feature.RANDOM_PATCH
