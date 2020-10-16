@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "age=0": {
+      "model": "desolation:block/cinderfruit_plant_empty"
+    },
+    "age=1": {
+      "model": "desolation:block/cinderfruit_plant_full"
+    }
+  }
+}

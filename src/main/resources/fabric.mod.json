@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "id": "desolation",
+  "version": "${version}",
+
+  "name": "Desolation",
+  "description": "Wildfires bring both destruction and rebirth.",
+  "authors": [
+    "RaltsMC"
+  ],
+  "contact": {
+    "homepage": "https://fabricmc.net/",
+    "sources": "https://github.com/FabricMC/fabric-example-mod"
+  },
+
+  "license": "MIT",
+  "icon": "assets/desolation/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "raltsmc.desolation.DesolationMod"
+    ],
+    "client": [
+      "raltsmc.desolation.init.client.DesolationClient"
+    ]
+  },
+  "mixins": [
+    "desolation.mixins.json"
+  ],
+
+  "depends": {
+    "fabricloader": ">=0.7.4",
+    "fabric": "*",
+    "minecraft": "1.16.x"
+  },
+  "suggests": {
+    "flamingo": "*"
+  }
+}

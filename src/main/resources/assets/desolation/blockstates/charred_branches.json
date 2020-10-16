@@ -1,0 +1,21 @@
+{
+  "variants": {
+    "": [
+      {
+        "model": "desolation:block/charred_branches"
+      },
+      {
+        "model": "desolation:block/charred_branches",
+        "Z": 90
+      },
+      {
+        "model": "desolation:block/charred_branches",
+        "Z": 180
+      },
+      {
+        "model": "desolation:block/charred_branches",
+        "Z": 270
+      }
+    ]
+  }
+}

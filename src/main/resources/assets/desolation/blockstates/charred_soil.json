@@ -1,0 +1,14 @@
+{
+  "variants": {
+    "": [
+      { "model": "desolation:block/charred_soil" },
+      { "model": "desolation:block/charred_soil_mirrored" },
+      { "model": "desolation:block/charred_soil",
+        "y": 180
+      },
+      { "model": "desolation:block/charred_soil_mirrored",
+        "y": 180
+      }
+    ]
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "itemGroup.desolation.dsl_group": "Desolation",
+  "item.desolation.charcoal_bit": "Charcoal Bit",
+  "item.desolation.ash_pile": "Ash",
+  "item.desolation.activated_charcoal": "Activated Charcoal",
+  "item.desolation.cinderfruit": "Cinderfruit",
+  "item.desolation.infused_powder": "Infused Powder",
+  "item.desolation.air_filter": "Air Filter",
+  "item.desolation.mask": "Mask",
+  "item.desolation.ash_scuttler_spawn_egg": "Ash Scuttler Spawn Egg",
+  "block.desolation.ash": "Ash",
+  "block.desolation.ash_block": "Ash Block",
+  "block.desolation.ember_block": "Ember Block",
+  "block.desolation.charred_log": "Charred Log",
+  "block.desolation.charred_branches": "Charred Branches",
+  "block.desolation.ash_bramble": "Ash Bramble",
+  "block.desolation.charred_soil": "Charred Soil",
+  "block.desolation.scorched_tuft": "Scorched Tuft",
+  "block.desolation.cinderfruit_plant": "Cinderfruit Plant",
+  "biome.desolation.charred_forest": "Charred Forest",
+  "entity.desolation.ash_scuttler": "Ash Scuttler"
+}

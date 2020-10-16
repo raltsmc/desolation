@@ -1,0 +1,6 @@
+{
+  "parent": "block/cross",
+  "textures": {
+    "cross": "desolation:block/scorched_tuft_large"
+  }
+}
