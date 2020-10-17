@@ -45,20 +45,17 @@ public class DigAshGoal extends MoveToTargetPosGoal {
     public void start() {
         super.start();
         this.digTick = 0;
-        System.out.println("Starting");
     }
 
     public void stop() {
         super.stop();
         this.mob.setSearching(false);
-        System.out.println("Stopping");
     }
 
     public void tick() {
         BlockPos blockPos = this.getTargetPos();
         if (!blockPos.isWithinDistance(this.mob.getPos(), getDesiredSquaredDistanceToTarget())) {
             this.reached = false;
-            System.out.println("False: " + blockPos + " is not within " + getDesiredSquaredDistanceToTarget() + " of " + this.mob.getPos());
             ++this.tryingTime;
             if (this.shouldResetPath()) {
                 this.mob.getNavigation().startMovingTo((double)((float)blockPos.getX()) + 0.5D, (double)blockPos.getY(), (double)((float)blockPos.getZ()) + 0.5D, this.speed);
@@ -70,7 +67,6 @@ public class DigAshGoal extends MoveToTargetPosGoal {
         if (this.reached) {
             digTick++;
             if (digTick >= 20) {
-                System.out.println("Scuttler reached ash");
                 if (!world.isClient) {
                     world.breakBlock(targetPos, false, this.mob, 1);
                     world.syncWorldEvent(2001, targetPos, 0);
@@ -100,7 +96,6 @@ public class DigAshGoal extends MoveToTargetPosGoal {
                             testPos = startPos.add(x, y, z);
                             if (DigAshGoal.ASH_PREDICATE.test(world.getBlockState(testPos))) {
                                 this.targetPos = testPos;
-                                System.out.println("Found ash at: " + testPos);
                                 return true;
                             }
                         }
@@ -108,7 +103,7 @@ public class DigAshGoal extends MoveToTargetPosGoal {
                 }
             }
         }
-        System.out.println("Could not find ash");
+        // TODO Return Cinderfruit and emit smoke particle when ash not found
         stop();
         return false;
     }
