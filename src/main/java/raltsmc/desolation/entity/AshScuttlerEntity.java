@@ -14,6 +14,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
@@ -36,8 +37,6 @@ public class AshScuttlerEntity extends PathAwareEntity implements IAnimatedEntit
 
     public AshScuttlerEntity(EntityType<? extends PathAwareEntity> entityType, World world) {
         super(entityType, world);
-        this.setPathfindingPenalty(PathNodeType.DANGER_FIRE, 0.0F);
-        this.setPathfindingPenalty(PathNodeType.DAMAGE_FIRE, 0.0F);
         registerAnimationControllers();
     }
 
@@ -91,19 +90,21 @@ public class AshScuttlerEntity extends PathAwareEntity implements IAnimatedEntit
     public ActionResult interactMob(PlayerEntity player, Hand hand) {
         ItemStack itemStack = player.getStackInHand(hand);
         Item item = itemStack.getItem();
-        if (this.world.isClient) {
-            return !this.isSearching() ? ActionResult.CONSUME : ActionResult.PASS;
-        } else {
-            if (item == DesolationItems.CINDERFRUIT && !this.isSearching()) {
+        if (item == DesolationItems.CINDERFRUIT && !this.isSearching()) {
+            if (!this.world.isClient) {
                 if (!player.abilities.creativeMode) {
                     itemStack.decrement(1);
                 }
-                player.playSound(SoundEvents.ITEM_NETHER_WART_PLANT, 1.0F, 1.0F);
                 this.dataTracker.set(SEARCHING, true);
                 return ActionResult.SUCCESS;
+            } else {
+                double pVel = random.nextGaussian() * 0.02D;
+                world.addParticle(ParticleTypes.HEART, this.getX(), this.getY(), this.getZ(), pVel, pVel, pVel);
+                player.playSound(SoundEvents.ITEM_NETHER_WART_PLANT, 1.0F, 1.0F);
+                return ActionResult.CONSUME;
             }
-            return super.interactMob(player, hand);
         }
+        return super.interactMob(player, hand);
     }
 
     public EntityGroup getGroup() { return EntityGroup.ARTHROPOD; }
