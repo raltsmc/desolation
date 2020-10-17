@@ -1,17 +1,27 @@
 package raltsmc.desolation.entity;
 
+import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.ai.goal.EscapeDangerGoal;
-import net.minecraft.entity.ai.goal.LookAtEntityGoal;
-import net.minecraft.entity.ai.goal.WanderAroundGoal;
+import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.ai.pathing.PathNodeType;
+import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.ItemStack;
+import net.minecraft.recipe.Ingredient;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import raltsmc.desolation.entity.ai.goal.DigAshGoal;
 import raltsmc.desolation.registry.DesolationItems;
 import software.bernie.geckolib.animation.builder.AnimationBuilder;
 import software.bernie.geckolib.animation.controller.AnimationController;
@@ -21,10 +31,13 @@ import software.bernie.geckolib.event.AnimationTestEvent;
 import software.bernie.geckolib.manager.EntityAnimationManager;
 
 public class AshScuttlerEntity extends PathAwareEntity implements IAnimatedEntity {
-    private boolean isLooking = false;
+    private static final TrackedData<Boolean> SEARCHING;
+    private static final Ingredient ATTRACTING_INGREDIENT;
 
     public AshScuttlerEntity(EntityType<? extends PathAwareEntity> entityType, World world) {
         super(entityType, world);
+        this.setPathfindingPenalty(PathNodeType.DANGER_FIRE, 0.0F);
+        this.setPathfindingPenalty(PathNodeType.DAMAGE_FIRE, 0.0F);
         registerAnimationControllers();
     }
 
@@ -35,19 +48,60 @@ public class AshScuttlerEntity extends PathAwareEntity implements IAnimatedEntit
             this::headPredicate);
 
     protected void initGoals() {
-        this.goalSelector.add(1, new EscapeDangerGoal(this, 0.4F));
-        this.goalSelector.add(2, new WanderAroundGoal(this, 0.2F));
-        this.goalSelector.add(3, new LookAtEntityGoal(this, PlayerEntity.class, 8F));
+        this.goalSelector.add(1, new DigAshGoal(this, 0.3D,40,2));
+        this.goalSelector.add(2, new EscapeDangerGoal(this, 0.4F));
+        this.goalSelector.add(3, new TemptGoal(this, 0.3D, false, ATTRACTING_INGREDIENT));
+        this.goalSelector.add(4, new WanderAroundGoal(this, 0.2F));
+        this.goalSelector.add(5, new LookAtEntityGoal(this, PlayerEntity.class, 8F));
+    }
+
+    protected void initDataTracker() {
+        super.initDataTracker();
+        this.dataTracker.startTracking(SEARCHING, false);
+    }
+
+    protected void playStepSound(BlockPos pos, BlockState state) {
+        this.playSound(SoundEvents.ENTITY_ENDERMITE_STEP, 0.5F, 1.0F);
+    }
+
+    protected SoundEvent getHurtSound(DamageSource source) {
+        return SoundEvents.ENTITY_BAT_HURT;
+    }
+
+    protected SoundEvent getDeathSound() {
+        return SoundEvents.ENTITY_BAT_DEATH;
+    }
+
+    public boolean isFireImmune() {
+        return false;
+    }
+
+    public boolean isOnFire() {
+        return false;
+    }
+
+    public boolean isSearching() {
+        return (Boolean)this.dataTracker.get(SEARCHING);
+    }
+
+    public void setSearching(boolean val) {
+        this.dataTracker.set(SEARCHING, val);
     }
 
     public ActionResult interactMob(PlayerEntity player, Hand hand) {
         ItemStack itemStack = player.getStackInHand(hand);
-        if (itemStack.getItem() == DesolationItems.CINDERFRUIT) {
-            player.playSound(SoundEvents.BLOCK_ANVIL_LAND, 1.0F, 1.0F);
-            itemStack.decrement(1);
-            player.setStackInHand(hand, itemStack);
-            return ActionResult.success(this.world.isClient);
+        Item item = itemStack.getItem();
+        if (this.world.isClient) {
+            return !this.isSearching() ? ActionResult.CONSUME : ActionResult.PASS;
         } else {
+            if (item == DesolationItems.CINDERFRUIT && !this.isSearching()) {
+                if (!player.abilities.creativeMode) {
+                    itemStack.decrement(1);
+                }
+                player.playSound(SoundEvents.ITEM_NETHER_WART_PLANT, 1.0F, 1.0F);
+                this.dataTracker.set(SEARCHING, true);
+                return ActionResult.SUCCESS;
+            }
             return super.interactMob(player, hand);
         }
     }
@@ -81,5 +135,10 @@ public class AshScuttlerEntity extends PathAwareEntity implements IAnimatedEntit
     private void registerAnimationControllers() {
         manager.addAnimationController(walkController);
         manager.addAnimationController(lookController);
+    }
+
+    static {
+        SEARCHING = DataTracker.registerData(AshScuttlerEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+        ATTRACTING_INGREDIENT = Ingredient.ofItems(new ItemConvertible[]{DesolationItems.CINDERFRUIT});
     }
 }
