@@ -15,6 +15,7 @@ import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.stateprovider.WeightedBlockStateProvider;
 import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
 import raltsmc.desolation.Desolation;
+import raltsmc.desolation.world.gen.trunk.FallenTrunkPlacer;
 
 import static net.minecraft.block.SnowBlock.LAYERS;
 import static raltsmc.desolation.block.CinderfruitPlantBlock.AGE;
@@ -40,6 +41,27 @@ public final class DesolationStructures {
                     .decorate(net.minecraft.world.gen.feature.ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP)
                     .decorate(Decorator.COUNT_EXTRA.configure(new CountExtraDecoratorConfig(10, 0.1F, 1))),
                     "tree_charred")
+    );
+
+    public static final ConfiguredFeature<TreeFeatureConfig, ?> TREE_CHARRED_FALLEN = (
+            register(
+                    Feature.TREE.configure((new TreeFeatureConfig.Builder(
+                                    new SimpleBlockStateProvider(DesolationBlocks.CHARRED_LOG.getDefaultState()),
+                                    new SimpleBlockStateProvider(DesolationBlocks.CHARRED_BRANCHES.getDefaultState()),
+                                    new BlobFoliagePlacer(
+                                            UniformIntDistribution.of(0),
+                                            UniformIntDistribution.of(0),
+                                            0),
+                                    new FallenTrunkPlacer(6, 10, 1),
+                                    new TwoLayersFeatureSize(0, 0, 0)
+                            ))
+                                    .ignoreVines()
+                                    .build()
+
+                    )
+                            .decorate(net.minecraft.world.gen.feature.ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP)
+                            .decorate(Decorator.COUNT_EXTRA.configure(new CountExtraDecoratorConfig(1, 0.1F, 1))),
+                    "tree_charred_fallen")
     );
 
     public static final ConfiguredFeature<FeatureConfig, ?> PATCH_SCORCHED_TUFT = register(

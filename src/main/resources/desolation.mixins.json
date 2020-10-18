@@ -8,7 +8,8 @@
     "SetBaseBiomesLayerAccessor",
     "VanillaLayeredBiomeSourceAccessor",
     "TreeFeatureMixin",
-    "BrewingRecipeRegistryInvoker"
+    "BrewingRecipeRegistryInvoker",
+    "TrunkPlacerTypeInvoker"
   ],
   "client": [
     "ExampleMixin"

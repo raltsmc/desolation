@@ -47,7 +47,7 @@ public class DesolationMod implements ModInitializer {
 
 	private static Biome createCharredForest() {
 		SpawnSettings.Builder spawnSettings = new SpawnSettings.Builder();
-		spawnSettings.spawn(SpawnGroup.CREATURE, new SpawnSettings.SpawnEntry(DesolationEntities.ASH_SCUTTLER, 12, 1, 3));
+		spawnSettings.spawn(SpawnGroup.CREATURE, new SpawnSettings.SpawnEntry(DesolationEntities.ASH_SCUTTLER, 12, 1, 2));
 		DefaultBiomeFeatures.addMonsters(spawnSettings, 5, 5, 100);
 
 		GenerationSettings.Builder generationSettings = new GenerationSettings.Builder();
@@ -62,6 +62,7 @@ public class DesolationMod implements ModInitializer {
 		DefaultBiomeFeatures.addSprings(generationSettings);
 		DefaultBiomeFeatures.addFrozenTopLayer(generationSettings);
 		generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, DesolationStructures.TREE_CHARRED);
+		generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, DesolationStructures.TREE_CHARRED_FALLEN);
 		generationSettings.feature(GenerationStep.Feature.TOP_LAYER_MODIFICATION, DesolationStructures.PATCH_ASH_LAYER);
 		generationSettings.feature(GenerationStep.Feature.TOP_LAYER_MODIFICATION, DesolationStructures.PATCH_EMBER_CHUNK);
 		generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, DesolationStructures.PATCH_SCORCHED_TUFT);

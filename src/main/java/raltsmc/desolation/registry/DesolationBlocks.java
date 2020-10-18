@@ -29,12 +29,12 @@ public final class DesolationBlocks {
     public static final Block CHARRED_BRANCHES =
             register(new CharredBranchBlock(FabricBlockSettings.of(Material.LEAVES).hardness(0.3f).nonOpaque().sounds(BlockSoundGroup.VINE)), "charred_branches");
     public static final Block ASH_BRAMBLE =
-            register(new Block(FabricBlockSettings.of(Material.LEAVES).hardness(0.3f).noCollision().nonOpaque().sounds(BlockSoundGroup.VINE)), "ash_bramble");
+            register(new Block(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).hardness(0.3f).noCollision().nonOpaque().sounds(BlockSoundGroup.VINE)), "ash_bramble");
     public static final Block CHARRED_SOIL =
             register(new Block(FabricBlockSettings.of(Material.SOIL).hardness(0.5f).sounds(BlockSoundGroup.GRAVEL))
             , "charred_soil");
     public static final Block SCORCHED_TUFT =
-            register(new ScorchedTuftBlock(FabricBlockSettings.of(Material.PLANT).breakInstantly().nonOpaque().noCollision().sounds(BlockSoundGroup.CROP)),
+            register(new ScorchedTuftBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).breakInstantly().nonOpaque().noCollision().sounds(BlockSoundGroup.CROP)),
                     "scorched_tuft");
     public static final Block CINDERFRUIT_PLANT =
             register(new CinderfruitPlantBlock(FabricBlockSettings.of(Material.PLANT).hardness(0.1f).lightLevel(10)
