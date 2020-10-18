@@ -12,29 +12,21 @@ import raltsmc.desolation.item.*;
 
 public final class DesolationItems {
 
-    public static final Item CHARCOAL_BIT = register(new Item(new Item.Settings().group(DesolationMod.DSL_GROUP)),
-            "charcoal_bit");
-    public static final Item ASH_PILE = register(new AshItem(new Item.Settings().group(DesolationMod.DSL_GROUP)),
-            "ash_pile");
-    public static final Item ACTIVATED_CHARCOAL =
-            register(new Item(new Item.Settings().group(DesolationMod.DSL_GROUP)), "activated_charcoal");
-    public static final Item CINDERFRUIT =
-            register(new Item(new Item.Settings().group(DesolationMod.DSL_GROUP).food(new FoodComponent.Builder()
+    public static final Item CHARCOAL_BIT = register(new Item(new Item.Settings().group(DesolationMod.DSL_GROUP)), "charcoal_bit");
+    public static final Item ASH_PILE = register(new AshItem(new Item.Settings().group(DesolationMod.DSL_GROUP)), "ash_pile");
+    public static final Item ACTIVATED_CHARCOAL = register(new Item(new Item.Settings().group(DesolationMod.DSL_GROUP)), "activated_charcoal");
+    public static final Item PRIMED_ASH = register(new Item(new Item.Settings().group(DesolationMod.DSL_GROUP)), "primed_ash");
+    public static final Item CINDERFRUIT = register(new Item(new Item.Settings().group(DesolationMod.DSL_GROUP).food(new FoodComponent.Builder()
                     .hunger(5)
                     .saturationModifier(6.5F)
                     .alwaysEdible()
                     .statusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 200), 100)
                     .build())), "cinderfruit");
-    public static final Item INFUSED_POWDER =
-            register(new Item(new Item.Settings().group(DesolationMod.DSL_GROUP)), "infused_powder");
-    public static final Item AIR_FILTER = register(new Item(new Item.Settings().group(DesolationMod.DSL_GROUP)),
-            "air_filter");
+    public static final Item INFUSED_POWDER = register(new Item(new Item.Settings().group(DesolationMod.DSL_GROUP)), "infused_powder");
+    public static final Item AIR_FILTER = register(new Item(new Item.Settings().group(DesolationMod.DSL_GROUP)), "air_filter");
 
     public static final ArmorMaterial maskMaterial = new MaskMaterial();
-    public static final Item MASK =
-            register(new ArmorItem(maskMaterial, EquipmentSlot.HEAD,
-                            new Item.Settings().group(DesolationMod.DSL_GROUP)),
-            "mask");
+    public static final Item MASK = register(new ArmorItem(maskMaterial, EquipmentSlot.HEAD, new Item.Settings().group(DesolationMod.DSL_GROUP)), "mask");
 
 
 

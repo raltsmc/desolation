@@ -2,10 +2,13 @@
   "type": "minecraft:crafting_shapeless",
   "ingredients": [
     {
-      "item": "desolation:ash_pile"
+      "item": "minecraft:charcoal"
     },
     {
-      "item": "minecraft:blaze_powder"
+      "item": "minecraft:bone_meal"
+    },
+    {
+      "item": "minecraft:clay"
     }
   ],
   "result": {
