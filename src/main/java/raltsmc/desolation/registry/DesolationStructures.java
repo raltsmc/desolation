@@ -76,6 +76,7 @@ public final class DesolationStructures {
                     .decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP_SPREAD_DOUBLE)
                     .repeat(3), "patch_ash_layer");
 
+    // TODO stop these from generating in water
     public static final ConfiguredFeature<FeatureConfig, ?> PATCH_EMBER_CHUNK = register(
             (ConfiguredFeature)Feature.RANDOM_PATCH
                     .configure(Configs.EMBER_CHUNK_CONFIG)
