@@ -2,11 +2,7 @@
   "type": "minecraft:block",
   "pools": [
     {
-      "rolls": {
-        "type": "minecraft:binomial",
-        "n": 1,
-        "p": 0.1
-      },
+      "rolls": 2,
       "entries": [
         {
           "type": "minecraft:item",
@@ -14,7 +10,7 @@
           "conditions": [
             {
               "condition": "minecraft:random_chance",
-              "chance": 0.13
+              "chance": 0.18
             }
           ]
         }

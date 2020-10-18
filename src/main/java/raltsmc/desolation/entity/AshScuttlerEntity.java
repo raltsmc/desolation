@@ -35,6 +35,8 @@ public class AshScuttlerEntity extends PathAwareEntity implements IAnimatedEntit
     private static final TrackedData<Boolean> SEARCHING;
     private static final Ingredient ATTRACTING_INGREDIENT;
 
+    // TODO make fireproof and fix pathing around ember blocks
+
     public AshScuttlerEntity(EntityType<? extends PathAwareEntity> entityType, World world) {
         super(entityType, world);
         registerAnimationControllers();
@@ -52,6 +54,7 @@ public class AshScuttlerEntity extends PathAwareEntity implements IAnimatedEntit
         this.goalSelector.add(3, new TemptGoal(this, 0.3D, false, ATTRACTING_INGREDIENT));
         this.goalSelector.add(4, new WanderAroundGoal(this, 0.2F));
         this.goalSelector.add(5, new LookAtEntityGoal(this, PlayerEntity.class, 8F));
+        this.goalSelector.add(6, new LookAroundGoal(this));
     }
 
     protected void initDataTracker() {
