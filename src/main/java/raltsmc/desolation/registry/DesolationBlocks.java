@@ -11,7 +11,6 @@ import raltsmc.desolation.DesolationMod;
 import raltsmc.desolation.block.*;
 import net.minecraft.block.Block;
 import net.minecraft.util.registry.Registry;
-import raltsmc.desolation.block.*;
 
 public final class DesolationBlocks {
 
