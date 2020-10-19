@@ -43,7 +43,7 @@ public class DesolationMod implements ModInitializer {
 					DesolationBlocks.CHARRED_SOIL.getDefaultState()
 			));
 
-	public static final Biome CHARRED_FOREST = createCharredForest();
+	private static final Biome CHARRED_FOREST = createCharredForest();
 
 	private static Biome createCharredForest() {
 		SpawnSettings.Builder spawnSettings = new SpawnSettings.Builder();

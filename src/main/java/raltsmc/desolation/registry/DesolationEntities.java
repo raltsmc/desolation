@@ -7,7 +7,6 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.util.registry.Registry;
 import raltsmc.desolation.Desolation;
-import raltsmc.desolation.block.*;
 import raltsmc.desolation.entity.AshScuttlerEntity;
 
 public final class DesolationEntities {

@@ -1,6 +1,5 @@
 package raltsmc.desolation.block;
 
-import javafx.beans.property.Property;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SnowBlock;
 import net.minecraft.server.world.ServerWorld;
