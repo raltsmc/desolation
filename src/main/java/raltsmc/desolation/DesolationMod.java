@@ -15,7 +15,6 @@ import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.biome.*;
 import net.minecraft.world.gen.GenerationStep;
-import net.minecraft.world.gen.feature.ConfiguredFeatures;
 import net.minecraft.world.gen.feature.DefaultBiomeFeatures;
 import net.minecraft.world.gen.surfacebuilder.ConfiguredSurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
@@ -55,7 +54,6 @@ public class DesolationMod implements ModInitializer {
 		generationSettings.surfaceBuilder(CHARRED_SURFACE_BUILDER);
 		DefaultBiomeFeatures.addDefaultUndergroundStructures(generationSettings);
 		DefaultBiomeFeatures.addLandCarvers(generationSettings);
-		DefaultBiomeFeatures.addDefaultLakes(generationSettings);
 		DefaultBiomeFeatures.addDungeons(generationSettings);
 		DefaultBiomeFeatures.addMineables(generationSettings);
 		DefaultBiomeFeatures.addDefaultOres(generationSettings);
@@ -66,6 +64,7 @@ public class DesolationMod implements ModInitializer {
 		generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, DesolationStructures.TREE_CHARRED_FALLEN);
 		generationSettings.feature(GenerationStep.Feature.TOP_LAYER_MODIFICATION, DesolationStructures.PATCH_ASH_LAYER);
 		generationSettings.feature(GenerationStep.Feature.TOP_LAYER_MODIFICATION, DesolationStructures.PATCH_EMBER_CHUNK);
+		generationSettings.feature(GenerationStep.Feature.TOP_LAYER_MODIFICATION, DesolationStructures.GIANT_BOULDER);
 		generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, DesolationStructures.PATCH_SCORCHED_TUFT);
 		generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, DesolationStructures.PATCH_ASH_BRAMBLE);
 		generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, DesolationStructures.PLANT_CINDERFRUIT);
@@ -74,7 +73,7 @@ public class DesolationMod implements ModInitializer {
 				.precipitation(Biome.Precipitation.NONE)
 				.category(Biome.Category.NONE)
 				.depth(0.125F)
-				.scale(0.37F)
+				.scale(0.22F)
 				.temperature(0.9F)
 				.downfall(0.1F)
 				.effects((new BiomeEffects.Builder())

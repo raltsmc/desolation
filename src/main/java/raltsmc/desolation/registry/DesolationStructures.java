@@ -15,6 +15,7 @@ import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.stateprovider.WeightedBlockStateProvider;
 import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
 import raltsmc.desolation.Desolation;
+import raltsmc.desolation.world.feature.DesolationFeatures;
 import raltsmc.desolation.world.gen.trunk.FallenTrunkPlacer;
 
 import static net.minecraft.block.SnowBlock.LAYERS;
@@ -94,6 +95,12 @@ public final class DesolationStructures {
                     .configure(Configs.PLANT_CINDERFRUIT_CONFIG)
                     .decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP_SPREAD_DOUBLE)
                     .repeat(1), "plant_cinderfruit");
+
+    public static final ConfiguredFeature<?, ?> GIANT_BOULDER = register(
+            (ConfiguredFeature)DesolationFeatures.GIANT_BOULDER
+                    .configure(new SingleStateFeatureConfig(Blocks.STONE.getDefaultState()))
+                    .decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP)
+                    .repeatRandomly(1), "giant_boulder");
 
     public static final class Configs {
         public static final RandomPatchFeatureConfig SCORCHED_TUFT_CONFIG;
