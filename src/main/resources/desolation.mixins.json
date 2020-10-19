@@ -9,7 +9,8 @@
     "VanillaLayeredBiomeSourceAccessor",
     "TreeFeatureMixin",
     "BrewingRecipeRegistryInvoker",
-    "TrunkPlacerTypeInvoker"
+    "TrunkPlacerTypeInvoker",
+    "PlayerEntityMixin"
   ],
   "client": [
   ],
