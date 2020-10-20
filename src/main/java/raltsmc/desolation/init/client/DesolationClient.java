@@ -6,7 +6,8 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
 import net.minecraft.client.render.RenderLayer;
-import raltsmc.desolation.entity.AshScuttlerEntityRenderer;
+import raltsmc.desolation.entity.renderer.AshScuttlerEntityRenderer;
+import raltsmc.desolation.entity.renderer.BlackenedEntityRenderer;
 import raltsmc.desolation.registry.DesolationBlocks;
 import raltsmc.desolation.registry.DesolationEntities;
 
@@ -21,6 +22,9 @@ public class DesolationClient implements ClientModInitializer {
 
         EntityRendererRegistry.INSTANCE.register(DesolationEntities.ASH_SCUTTLER, (dispatcher, context) -> {
             return new AshScuttlerEntityRenderer(dispatcher);
+        });
+        EntityRendererRegistry.INSTANCE.register(DesolationEntities.BLACKENED, (dispatcher, context) -> {
+            return new BlackenedEntityRenderer(dispatcher);
         });
     }
 }

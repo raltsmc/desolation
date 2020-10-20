@@ -10,7 +10,8 @@
     "TreeFeatureMixin",
     "BrewingRecipeRegistryInvoker",
     "TrunkPlacerTypeInvoker",
-    "PlayerEntityMixin"
+    "PlayerEntityMixin",
+    "InGameHudMixin"
   ],
   "client": [
   ],
