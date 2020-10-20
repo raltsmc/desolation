@@ -37,6 +37,10 @@ public class PlayerEntityMixin extends LivingEntity {
                 }
             }
         }
+        if (this.hasStatusEffect(StatusEffects.BLINDNESS)
+                && this.getEquippedStack(EquipmentSlot.HEAD).getItem() == DesolationItems.GOGGLES) {
+            this.removeStatusEffect(StatusEffects.BLINDNESS);
+        }
     }
 
     @Shadow

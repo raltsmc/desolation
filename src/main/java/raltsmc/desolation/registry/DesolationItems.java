@@ -27,11 +27,14 @@ public final class DesolationItems {
 
     public static final ArmorMaterial maskMaterial = new MaskMaterial();
     public static final Item MASK = register(new ArmorItem(maskMaterial, EquipmentSlot.HEAD, new Item.Settings().group(DesolationMod.DSL_GROUP)), "mask");
+    public static final Item GOGGLES = register(new ArmorItem(maskMaterial, EquipmentSlot.HEAD, new Item.Settings().group(DesolationMod.DSL_GROUP)), "goggles");
 
 
 
     public static final Item SPAWN_EGG_ASH_SCUTTLER = register(new SpawnEggItem(DesolationEntities.ASH_SCUTTLER,
             0x111111, 0xff7b00, new Item.Settings().group(ItemGroup.MISC)), "ash_scuttler_spawn_egg");
+    public static final Item SPAWN_EGG_BLACKENED = register(new SpawnEggItem(DesolationEntities.BLACKENED,
+            0x0a0a0a, 0xcf4b00, new Item.Settings().group(ItemGroup.MISC)), "blackened_spawn_egg");
 
     static void init() {
     }

@@ -8,6 +8,7 @@ import net.minecraft.entity.SpawnGroup;
 import net.minecraft.util.registry.Registry;
 import raltsmc.desolation.Desolation;
 import raltsmc.desolation.entity.AshScuttlerEntity;
+import raltsmc.desolation.entity.BlackenedEntity;
 
 public final class DesolationEntities {
 
@@ -19,7 +20,16 @@ public final class DesolationEntities {
             .build()
     );
 
+    public static final EntityType<BlackenedEntity> BLACKENED = Registry.register(
+            Registry.ENTITY_TYPE,
+            Desolation.id("blackened"),
+            FabricEntityTypeBuilder.<BlackenedEntity>create(SpawnGroup.MONSTER, BlackenedEntity::new)
+                    .dimensions(EntityDimensions.fixed(0.75f,2f))
+                    .build()
+    );
+
     static void init() {
         FabricDefaultAttributeRegistry.register(ASH_SCUTTLER, AshScuttlerEntity.createMobAttributes());
+        FabricDefaultAttributeRegistry.register(BLACKENED, BlackenedEntity.createBlackenedAttributes());
     }
 }
