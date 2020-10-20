@@ -10,10 +10,12 @@
     "TreeFeatureMixin",
     "BrewingRecipeRegistryInvoker",
     "TrunkPlacerTypeInvoker",
-    "PlayerEntityMixin",
-    "InGameHudMixin"
+    "PlayerEntityMixin"
   ],
   "client": [
+    "InGameHudMixin",
+    "ArmorFeatureRendererMixin",
+    "HeadFeatureRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

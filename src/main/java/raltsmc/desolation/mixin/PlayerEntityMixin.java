@@ -31,14 +31,17 @@ public class PlayerEntityMixin extends LivingEntity {
     private void tick(CallbackInfo info) {
         if (Objects.equals(this.world.getRegistryManager().get(Registry.BIOME_KEY).getId(this.world.getBiome(this.getBlockPos())), Desolation.id("charred_forest"))) {
             if (!this.world.isClient) {
-                if (this.getEquippedStack(EquipmentSlot.HEAD).getItem() != DesolationItems.MASK) {
+                if (this.getEquippedStack(EquipmentSlot.HEAD).getItem() != DesolationItems.MASK
+                && this.getEquippedStack(EquipmentSlot.HEAD).getItem() != DesolationItems.MASK_GOGGLES) {
                     this.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 300));
                     this.addStatusEffect(new StatusEffectInstance(StatusEffects.MINING_FATIGUE, 300));
                 }
             }
         }
+        // TODO make goggles only stop blindness from ash rather than all blindness
         if (this.hasStatusEffect(StatusEffects.BLINDNESS)
-                && this.getEquippedStack(EquipmentSlot.HEAD).getItem() == DesolationItems.GOGGLES) {
+                && (this.getEquippedStack(EquipmentSlot.HEAD).getItem() == DesolationItems.GOGGLES
+                || this.getEquippedStack(EquipmentSlot.HEAD).getItem() == DesolationItems.MASK_GOGGLES)) {
             this.removeStatusEffect(StatusEffects.BLINDNESS);
         }
     }

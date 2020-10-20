@@ -1,5 +1,6 @@
 package raltsmc.desolation.registry;
 
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -7,7 +8,6 @@ import net.minecraft.item.*;
 import net.minecraft.util.registry.Registry;
 import raltsmc.desolation.Desolation;
 import raltsmc.desolation.DesolationMod;
-import raltsmc.desolation.misc.MaskMaterial;
 import raltsmc.desolation.item.*;
 
 public final class DesolationItems {
@@ -25,9 +25,9 @@ public final class DesolationItems {
     public static final Item INFUSED_POWDER = register(new Item(new Item.Settings().group(DesolationMod.DSL_GROUP)), "infused_powder");
     public static final Item AIR_FILTER = register(new Item(new Item.Settings().group(DesolationMod.DSL_GROUP)), "air_filter");
 
-    public static final ArmorMaterial maskMaterial = new MaskMaterial();
-    public static final Item MASK = register(new ArmorItem(maskMaterial, EquipmentSlot.HEAD, new Item.Settings().group(DesolationMod.DSL_GROUP)), "mask");
-    public static final Item GOGGLES = register(new ArmorItem(maskMaterial, EquipmentSlot.HEAD, new Item.Settings().group(DesolationMod.DSL_GROUP)), "goggles");
+    public static final Item MASK = register(new Item(new FabricItemSettings().group(DesolationMod.DSL_GROUP).equipmentSlot(itemStack -> EquipmentSlot.HEAD).maxCount(1)), "mask");
+    public static final Item GOGGLES = register(new Item(new FabricItemSettings().group(DesolationMod.DSL_GROUP).equipmentSlot(itemStack -> EquipmentSlot.HEAD).maxCount(1)), "goggles");
+    public static final Item MASK_GOGGLES = register(new Item(new FabricItemSettings().group(DesolationMod.DSL_GROUP).equipmentSlot(itemStack -> EquipmentSlot.HEAD).maxCount(1)), "mask_and_goggles");
 
 
 
