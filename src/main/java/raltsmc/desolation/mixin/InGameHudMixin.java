@@ -32,8 +32,11 @@ public class InGameHudMixin {
         this.scaledWidth = this.client.getWindow().getScaledWidth();
         this.scaledHeight = this.client.getWindow().getScaledHeight();
 
+        // TODO maybe use a generic 'goggles' tag instead of having to check both? same w/ mask
         ItemStack itemStackA = this.client.player.inventory.getArmorStack(3);
-        if (this.client.options.getPerspective().isFirstPerson() && itemStackA.getItem() == DesolationItems.GOGGLES) {
+        if (this.client.options.getPerspective().isFirstPerson()
+                && (itemStackA.getItem() == DesolationItems.GOGGLES
+                || itemStackA.getItem() == DesolationItems.MASK_GOGGLES)) {
             this.renderGogglesOverlay();
         }
     }
