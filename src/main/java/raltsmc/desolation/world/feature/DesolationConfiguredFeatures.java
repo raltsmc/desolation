@@ -167,7 +167,7 @@ public final class DesolationConfiguredFeatures {
         }
     }
 
-    static void init() {
+    public static void init() {
 
     }
 
