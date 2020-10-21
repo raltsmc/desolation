@@ -1,6 +1,7 @@
 package raltsmc.desolation;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.biome.v1.OverworldBiomes;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.fabricmc.fabric.mixin.biome.BuiltinBiomesAccessor;
@@ -44,9 +45,11 @@ public class DesolationMod implements ModInitializer {
 					DesolationBlocks.CHARRED_SOIL.getDefaultState()
 			));
 
-	private static final Biome CHARRED_FOREST = createCharredForest();
+	private static final Biome CHARRED_FOREST = createCharredForest(false, false);
+	private static final Biome CHARRED_FOREST_CLEARING = createCharredForest(true, true);
+	private static final Biome CHARRED_FOREST_SMALL = createCharredForest(false, true);
 
-	private static Biome createCharredForest() {
+	private static Biome createCharredForest(boolean isClearing, boolean isSmall) {
 		SpawnSettings.Builder spawnSettings = new SpawnSettings.Builder();
 		spawnSettings.spawn(SpawnGroup.CREATURE, new SpawnSettings.SpawnEntry(DesolationEntities.ASH_SCUTTLER, 50, 1, 2));
 		spawnSettings.spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(DesolationEntities.BLACKENED, 30, 1, 3));
@@ -61,8 +64,17 @@ public class DesolationMod implements ModInitializer {
 		DefaultBiomeFeatures.addDefaultDisks(generationSettings);
 		DefaultBiomeFeatures.addSprings(generationSettings);
 		DefaultBiomeFeatures.addFrozenTopLayer(generationSettings);
-		generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, DesolationConfiguredFeatures.TREE_CHARRED);
-		generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, DesolationConfiguredFeatures.TREE_CHARRED_FALLEN);
+		if (isSmall) {
+			if (!isClearing) {
+				generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, DesolationConfiguredFeatures.TREE_CHARRED_SMALL);
+			}
+			generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, DesolationConfiguredFeatures.TREE_CHARRED_FALLEN_SMALL);
+		} else {
+			if (!isClearing) {
+				generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, DesolationConfiguredFeatures.TREE_CHARRED);
+			}
+			generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, DesolationConfiguredFeatures.TREE_CHARRED_FALLEN);
+		}
 		generationSettings.feature(GenerationStep.Feature.TOP_LAYER_MODIFICATION, DesolationConfiguredFeatures.PATCH_ASH_LAYER);
 		generationSettings.feature(GenerationStep.Feature.TOP_LAYER_MODIFICATION, DesolationConfiguredFeatures.PATCH_EMBER_CHUNK);
 		generationSettings.feature(GenerationStep.Feature.TOP_LAYER_MODIFICATION, DesolationConfiguredFeatures.GIANT_BOULDER);
@@ -82,6 +94,7 @@ public class DesolationMod implements ModInitializer {
 						.waterFogColor(0x2a3036)
 						.fogColor(0xb5b5b5)
 						.skyColor(0xa1aab3)
+						.grassColor(0x342d2f)
 						.particleConfig(new BiomeParticleConfig(ParticleTypes.WHITE_ASH, 0.118093334F))
 						.loopSound(SoundEvents.AMBIENT_BASALT_DELTAS_LOOP)
 						.moodSound(new BiomeMoodSound(SoundEvents.AMBIENT_BASALT_DELTAS_MOOD, 6000, 8, 2.0D))
@@ -91,25 +104,35 @@ public class DesolationMod implements ModInitializer {
 				.build();
 	}
 
-	public static final RegistryKey<Biome> CHARRED_FOREST_KEY = RegistryKey.of(Registry.BIOME_KEY, Desolation.id(
-			"charred_forest"));
+	public static final RegistryKey<Biome> CHARRED_FOREST_KEY = RegistryKey.of(Registry.BIOME_KEY, Desolation.id("charred_forest"));
+	public static final RegistryKey<Biome> CHARRED_FOREST_CLEARING_KEY = RegistryKey.of(Registry.BIOME_KEY, Desolation.id("charred_forest_clearing"));
+	public static final RegistryKey<Biome> CHARRED_FOREST_SMALL_KEY = RegistryKey.of(Registry.BIOME_KEY, Desolation.id("charred_forest_small"));
 
 	@Override
 	public void onInitialize() {
 		DesolationRegistries.init();
-		Registry.register(BuiltinRegistries.CONFIGURED_SURFACE_BUILDER, Desolation.id("charred"),
-				CHARRED_SURFACE_BUILDER);
+		Registry.register(BuiltinRegistries.CONFIGURED_SURFACE_BUILDER, Desolation.id("charred"), CHARRED_SURFACE_BUILDER);
 		Registry.register(BuiltinRegistries.BIOME, CHARRED_FOREST_KEY.getValue(), CHARRED_FOREST);
+		Registry.register(BuiltinRegistries.BIOME, CHARRED_FOREST_CLEARING_KEY.getValue(), CHARRED_FOREST_CLEARING);
+		Registry.register(BuiltinRegistries.BIOME, CHARRED_FOREST_SMALL_KEY.getValue(), CHARRED_FOREST_SMALL);
+
 		BuiltinBiomesAccessor.getBY_RAW_ID().put(BuiltinRegistries.BIOME.getRawId(CHARRED_FOREST), CHARRED_FOREST_KEY);
+		BuiltinBiomesAccessor.getBY_RAW_ID().put(BuiltinRegistries.BIOME.getRawId(CHARRED_FOREST_CLEARING), CHARRED_FOREST_CLEARING_KEY);
+		BuiltinBiomesAccessor.getBY_RAW_ID().put(BuiltinRegistries.BIOME.getRawId(CHARRED_FOREST_SMALL), CHARRED_FOREST_SMALL_KEY);
 
 		List<RegistryKey<Biome>> biomes = new ArrayList<>(VanillaLayeredBiomeSourceAccessor.getBIOMES());
 		biomes.add(CHARRED_FOREST_KEY);
+		biomes.add(CHARRED_FOREST_CLEARING_KEY);
+		biomes.add(CHARRED_FOREST_SMALL_KEY);
 		VanillaLayeredBiomeSourceAccessor.setBIOMES(biomes);
 
 		SetBaseBiomesLayerAccessor.setTemperateBiomes(
 				ArrayUtils.add(SetBaseBiomesLayerAccessor.getTemperateBiomes(),
 						BuiltinRegistries.BIOME.getRawId(CHARRED_FOREST))
 		);
+
+		OverworldBiomes.addBiomeVariant(CHARRED_FOREST_KEY, CHARRED_FOREST_SMALL_KEY, 0.3D);
+		OverworldBiomes.addHillsBiome(CHARRED_FOREST_KEY, CHARRED_FOREST_CLEARING_KEY, 0.05D);
 
 		FuelRegistry.INSTANCE.add(DesolationItems.CHARCOAL_BIT, 400);
 

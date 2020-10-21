@@ -12,7 +12,7 @@ public class CharredBranchBlock extends TransparentBlock {
 
     @Environment(EnvType.CLIENT)
     public float getAmbientOcclusionLightLevel(BlockState state, BlockView world, BlockPos pos) {
-        return 0.55F;
+        return 0.35F;
     }
 
     public boolean isTranslucent(BlockState state, BlockView world, BlockPos pos) {
