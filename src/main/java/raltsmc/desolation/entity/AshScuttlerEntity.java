@@ -21,6 +21,7 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.WorldView;
 import raltsmc.desolation.entity.ai.goal.DigAshGoal;
 import raltsmc.desolation.registry.DesolationItems;
 import software.bernie.geckolib.animation.builder.AnimationBuilder;
@@ -72,14 +73,6 @@ public class AshScuttlerEntity extends PathAwareEntity implements IAnimatedEntit
 
     protected SoundEvent getDeathSound() {
         return SoundEvents.ENTITY_BAT_DEATH;
-    }
-
-    public boolean isFireImmune() {
-        return false;
-    }
-
-    public boolean isOnFire() {
-        return false;
     }
 
     public boolean isSearching() {

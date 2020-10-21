@@ -28,7 +28,7 @@ public class GiantBoulderFeature extends Feature<SingleStateFeatureConfig> {
             }
         }
 
-        if (blockPos.getY() <= 3) {
+        if (blockPos.getY() <= 3 && random.nextDouble() > 0.32) {
             return false;
         } else {
             BlockPos blockPosB = blockPos;

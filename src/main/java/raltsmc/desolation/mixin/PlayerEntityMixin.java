@@ -29,7 +29,12 @@ public class PlayerEntityMixin extends LivingEntity {
 
     @Inject(method = "tick", at = @At("HEAD"))
     private void tick(CallbackInfo info) {
-        if (Objects.equals(this.world.getRegistryManager().get(Registry.BIOME_KEY).getId(this.world.getBiome(this.getBlockPos())), Desolation.id("charred_forest")) && this.getY() >= world.getSeaLevel() - 10) {
+        // ugly but works =)
+        // TODO make not ugly but still work (biome tags????)
+        if ((Objects.equals(this.world.getRegistryManager().get(Registry.BIOME_KEY).getId(this.world.getBiome(this.getBlockPos())), Desolation.id("charred_forest"))
+                || Objects.equals(this.world.getRegistryManager().get(Registry.BIOME_KEY).getId(this.world.getBiome(this.getBlockPos())), Desolation.id("charred_forest_small"))
+                || Objects.equals(this.world.getRegistryManager().get(Registry.BIOME_KEY).getId(this.world.getBiome(this.getBlockPos())), Desolation.id("charred_forest_clearing")))
+                && this.getY() >= world.getSeaLevel() - 10) {
             if (!this.world.isClient) {
                 if (this.getEquippedStack(EquipmentSlot.HEAD).getItem() != DesolationItems.MASK
                 && this.getEquippedStack(EquipmentSlot.HEAD).getItem() != DesolationItems.MASK_GOGGLES) {
