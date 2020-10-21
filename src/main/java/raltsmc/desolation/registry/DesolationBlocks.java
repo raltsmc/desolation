@@ -46,7 +46,6 @@ public final class DesolationBlocks {
     public static Block register(Block block, String path) {
         Registry.register(Registry.ITEM, Desolation.id(path), new BlockItem(block,
                 new Item.Settings().group(DesolationMod.DSL_GROUP)));
-        System.out.println("Registering block: " + path);
         return Registry.register(Registry.BLOCK, Desolation.id(path), block);
     }
 }

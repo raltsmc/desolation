@@ -4,9 +4,7 @@
   "package": "raltsmc.desolation.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
-    "BuiltinBiomesAccessor",
     "SetBaseBiomesLayerAccessor",
-    "VanillaLayeredBiomeSourceAccessor",
     "TreeFeatureMixin",
     "BrewingRecipeRegistryInvoker",
     "TrunkPlacerTypeInvoker",

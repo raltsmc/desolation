@@ -3,6 +3,8 @@ package raltsmc.desolation;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
+import net.fabricmc.fabric.mixin.biome.BuiltinBiomesAccessor;
+import net.fabricmc.fabric.mixin.biome.VanillaLayeredBiomeSourceAccessor;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
@@ -20,9 +22,7 @@ import net.minecraft.world.gen.surfacebuilder.ConfiguredSurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
 import org.apache.commons.lang3.ArrayUtils;
-import raltsmc.desolation.mixin.BuiltinBiomesAccessor;
 import raltsmc.desolation.mixin.SetBaseBiomesLayerAccessor;
-import raltsmc.desolation.mixin.VanillaLayeredBiomeSourceAccessor;
 import raltsmc.desolation.registry.*;
 import raltsmc.desolation.world.feature.DesolationConfiguredFeatures;
 
@@ -86,7 +86,7 @@ public class DesolationMod implements ModInitializer {
 						.loopSound(SoundEvents.AMBIENT_BASALT_DELTAS_LOOP)
 						.moodSound(new BiomeMoodSound(SoundEvents.AMBIENT_BASALT_DELTAS_MOOD, 6000, 8, 2.0D))
 						.build())
-				//.spawnSettings(spawnSettings.spawnCost(DesolationEntities.ASH_SCUTTLER, 0.5D, 0.5D).build())
+				.spawnSettings(spawnSettings.spawnCost(DesolationEntities.ASH_SCUTTLER, 0.5D, 0.5D).build())
 				.generationSettings(generationSettings.build())
 				.build();
 	}
@@ -96,18 +96,15 @@ public class DesolationMod implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		// This code runs as soon as Minecraft is in a mod-load-ready state.
-		// However, some things (like resources) may still be uninitialized.
-		// Proceed with mild caution.
 		DesolationRegistries.init();
 		Registry.register(BuiltinRegistries.CONFIGURED_SURFACE_BUILDER, Desolation.id("charred"),
 				CHARRED_SURFACE_BUILDER);
 		Registry.register(BuiltinRegistries.BIOME, CHARRED_FOREST_KEY.getValue(), CHARRED_FOREST);
-		BuiltinBiomesAccessor.getRawIdMap().put(BuiltinRegistries.BIOME.getRawId(CHARRED_FOREST), CHARRED_FOREST_KEY);
+		BuiltinBiomesAccessor.getBY_RAW_ID().put(BuiltinRegistries.BIOME.getRawId(CHARRED_FOREST), CHARRED_FOREST_KEY);
 
-		List<RegistryKey<Biome>> biomes = new ArrayList<>(VanillaLayeredBiomeSourceAccessor.getBiomes());
+		List<RegistryKey<Biome>> biomes = new ArrayList<>(VanillaLayeredBiomeSourceAccessor.getBIOMES());
 		biomes.add(CHARRED_FOREST_KEY);
-		VanillaLayeredBiomeSourceAccessor.setBiomes(biomes);
+		VanillaLayeredBiomeSourceAccessor.setBIOMES(biomes);
 
 		SetBaseBiomesLayerAccessor.setTemperateBiomes(
 				ArrayUtils.add(SetBaseBiomesLayerAccessor.getTemperateBiomes(),
