@@ -1,0 +1,14 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "desolation:mask"
+    },
+    {
+      "item": "desolation:goggles"
+    }
+  ],
+  "result": {
+    "item": "desolation:mask_and_goggles"
+  }
+}

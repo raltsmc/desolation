@@ -24,7 +24,7 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	modImplementation "software.bernie.geckolib:fabric-1.16.2-geckolib:2.0.0:dev"
-	include "software.bernie.geckolib:fabric-1.16.2-geckolib:2.0.0:dev"
+	//include "software.bernie.geckolib:fabric-1.16.2-geckolib:2.0.0:dev"
 
 	modRuntime "me.shedaniel:RoughlyEnoughItems:5.6.1"
 

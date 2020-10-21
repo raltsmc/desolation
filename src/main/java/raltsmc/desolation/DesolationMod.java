@@ -24,6 +24,7 @@ import raltsmc.desolation.mixin.BuiltinBiomesAccessor;
 import raltsmc.desolation.mixin.SetBaseBiomesLayerAccessor;
 import raltsmc.desolation.mixin.VanillaLayeredBiomeSourceAccessor;
 import raltsmc.desolation.registry.*;
+import raltsmc.desolation.world.feature.DesolationConfiguredFeatures;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +49,7 @@ public class DesolationMod implements ModInitializer {
 	private static Biome createCharredForest() {
 		SpawnSettings.Builder spawnSettings = new SpawnSettings.Builder();
 		spawnSettings.spawn(SpawnGroup.CREATURE, new SpawnSettings.SpawnEntry(DesolationEntities.ASH_SCUTTLER, 50, 1, 2));
-		spawnSettings.spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(DesolationEntities.BLACKENED, 100, 4, 4));
+		spawnSettings.spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(DesolationEntities.BLACKENED, 30, 1, 3));
 
 		GenerationSettings.Builder generationSettings = new GenerationSettings.Builder();
 		generationSettings.surfaceBuilder(CHARRED_SURFACE_BUILDER);
@@ -60,14 +61,14 @@ public class DesolationMod implements ModInitializer {
 		DefaultBiomeFeatures.addDefaultDisks(generationSettings);
 		DefaultBiomeFeatures.addSprings(generationSettings);
 		DefaultBiomeFeatures.addFrozenTopLayer(generationSettings);
-		generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, DesolationStructures.TREE_CHARRED);
-		generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, DesolationStructures.TREE_CHARRED_FALLEN);
-		generationSettings.feature(GenerationStep.Feature.TOP_LAYER_MODIFICATION, DesolationStructures.PATCH_ASH_LAYER);
-		generationSettings.feature(GenerationStep.Feature.TOP_LAYER_MODIFICATION, DesolationStructures.PATCH_EMBER_CHUNK);
-		generationSettings.feature(GenerationStep.Feature.TOP_LAYER_MODIFICATION, DesolationStructures.GIANT_BOULDER);
-		generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, DesolationStructures.PATCH_SCORCHED_TUFT);
-		generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, DesolationStructures.PATCH_ASH_BRAMBLE);
-		generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, DesolationStructures.PLANT_CINDERFRUIT);
+		generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, DesolationConfiguredFeatures.TREE_CHARRED);
+		generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, DesolationConfiguredFeatures.TREE_CHARRED_FALLEN);
+		generationSettings.feature(GenerationStep.Feature.TOP_LAYER_MODIFICATION, DesolationConfiguredFeatures.PATCH_ASH_LAYER);
+		generationSettings.feature(GenerationStep.Feature.TOP_LAYER_MODIFICATION, DesolationConfiguredFeatures.PATCH_EMBER_CHUNK);
+		generationSettings.feature(GenerationStep.Feature.TOP_LAYER_MODIFICATION, DesolationConfiguredFeatures.GIANT_BOULDER);
+		generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, DesolationConfiguredFeatures.PATCH_SCORCHED_TUFT);
+		generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, DesolationConfiguredFeatures.PATCH_ASH_BRAMBLE);
+		generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, DesolationConfiguredFeatures.PLANT_CINDERFRUIT);
 
 		return (new Biome.Builder())
 				.precipitation(Biome.Precipitation.NONE)
@@ -85,7 +86,7 @@ public class DesolationMod implements ModInitializer {
 						.loopSound(SoundEvents.AMBIENT_BASALT_DELTAS_LOOP)
 						.moodSound(new BiomeMoodSound(SoundEvents.AMBIENT_BASALT_DELTAS_MOOD, 6000, 8, 2.0D))
 						.build())
-				.spawnSettings(spawnSettings.spawnCost(DesolationEntities.ASH_SCUTTLER, 0.5D, 0.5D).build())
+				//.spawnSettings(spawnSettings.spawnCost(DesolationEntities.ASH_SCUTTLER, 0.5D, 0.5D).build())
 				.generationSettings(generationSettings.build())
 				.build();
 	}
