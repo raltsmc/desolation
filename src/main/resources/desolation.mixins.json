@@ -8,6 +8,7 @@
     "TreeFeatureMixin",
     "BrewingRecipeRegistryInvoker",
     "TrunkPlacerTypeInvoker",
+    "FoliagePlacerTypeInvoker",
     "PlayerEntityMixin"
   ],
   "client": [

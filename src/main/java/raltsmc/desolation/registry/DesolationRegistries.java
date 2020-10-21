@@ -13,6 +13,7 @@ public class DesolationRegistries {
         DesolationConfiguredFeatures.init();
         DesolationEntities.init();
         DesolationTrunkPlacerTypes.init();
+        DesolationFoliagePlacerTypes.init();
         DesolationFeatures.init();
 
         BrewingRecipeRegistryInvoker.invokeRegisterPotionRecipe(Potions.AWKWARD, DesolationItems.INFUSED_POWDER,
