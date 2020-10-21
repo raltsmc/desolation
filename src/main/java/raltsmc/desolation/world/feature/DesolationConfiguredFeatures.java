@@ -17,6 +17,7 @@ import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
 import raltsmc.desolation.Desolation;
 import raltsmc.desolation.registry.DesolationBlocks;
 import raltsmc.desolation.world.feature.DesolationFeatures;
+import raltsmc.desolation.world.gen.foliage.CharredFoliagePlacer;
 import raltsmc.desolation.world.gen.trunk.FallenTrunkPlacer;
 
 import static net.minecraft.block.SnowBlock.LAYERS;
@@ -29,8 +30,8 @@ public final class DesolationConfiguredFeatures {
                     Feature.TREE.configure((new TreeFeatureConfig.Builder(
                                     new SimpleBlockStateProvider(DesolationBlocks.CHARRED_LOG.getDefaultState()),
                                     new SimpleBlockStateProvider(DesolationBlocks.CHARRED_BRANCHES.getDefaultState()),
-                                    new BlobFoliagePlacer(
-                                            UniformIntDistribution.of(2),
+                                    new CharredFoliagePlacer(
+                                            UniformIntDistribution.of(4),
                                             UniformIntDistribution.of(0),
                                             3),
                                     new StraightTrunkPlacer(6, 10, 1),
@@ -50,10 +51,10 @@ public final class DesolationConfiguredFeatures {
                     Feature.TREE.configure((new TreeFeatureConfig.Builder(
                                     new SimpleBlockStateProvider(DesolationBlocks.CHARRED_LOG.getDefaultState()),
                                     new SimpleBlockStateProvider(DesolationBlocks.CHARRED_BRANCHES.getDefaultState()),
-                                    new BlobFoliagePlacer(
+                                    new CharredFoliagePlacer(
                                             UniformIntDistribution.of(2),
                                             UniformIntDistribution.of(0),
-                                            3),
+                                            2),
                                     new StraightTrunkPlacer(4, 2, 0),
                                     new TwoLayersFeatureSize(1, 0, 1)
                             ))

@@ -3,11 +3,12 @@ package raltsmc.desolation.block;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.LeavesBlock;
 import net.minecraft.block.TransparentBlock;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 
-public class CharredBranchBlock extends TransparentBlock {
+public class CharredBranchBlock extends LeavesBlock {
     public CharredBranchBlock(Settings settings) { super(settings); }
 
     @Environment(EnvType.CLIENT)
