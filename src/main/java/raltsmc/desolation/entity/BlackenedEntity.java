@@ -35,10 +35,9 @@ public class BlackenedEntity extends HostileEntity implements IAnimatedEntity {
     }
 
     private EntityAnimationManager manager = new EntityAnimationManager();
-    private AnimationController idleController = new EntityAnimationController(this, "idleController", 20,
-            this::idlePredicate);
-    private AnimationController walkController = new EntityAnimationController(this, "walkController", 20,
-            this::walkPredicate);
+    private AnimationController idleController = new EntityAnimationController(this, "idleController", 20, this::idlePredicate);
+    private AnimationController walkController = new EntityAnimationController(this, "walkController", 20, this::walkPredicate);
+    private AnimationController heartController = new EntityAnimationController(this, "heartController", 20, this::heartPredicate);
 
     protected void initGoals() {
         this.goalSelector.add(3, new FleeEntityGoal(this, WolfEntity.class, 6.0F, 1.0D, 1.2D));
@@ -51,7 +50,9 @@ public class BlackenedEntity extends HostileEntity implements IAnimatedEntity {
     }
 
     public static DefaultAttributeContainer.Builder createBlackenedAttributes() {
-        return HostileEntity.createHostileAttributes().add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.19D);
+        return HostileEntity.createHostileAttributes()
+                .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.19D)
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 6);
     }
 
     protected void playStepSound(BlockPos pos, BlockState state) {
@@ -74,7 +75,6 @@ public class BlackenedEntity extends HostileEntity implements IAnimatedEntity {
     }
 
     public void tryAshAttack(LivingEntity target) {
-        //if (this.isHolding(DesolationItems.ASH_PILE)) {
             Vec3d eyePos = this.getPos().add(new Vec3d(0, this.getEyeY() - this.getY(), 0).multiply(0.75));
             Vec3d targetVector = eyePos.add(target.getPos().subtract(this.getPos()).normalize().multiply(2.5));
 
@@ -93,7 +93,6 @@ public class BlackenedEntity extends HostileEntity implements IAnimatedEntity {
                 areaEffectCloudEntity.playSound(SoundEvents.BLOCK_SNOW_BREAK, 1, 1);
                 world.spawnEntity(areaEffectCloudEntity);
             }
-       // }
     }
 
     @Override
@@ -103,8 +102,7 @@ public class BlackenedEntity extends HostileEntity implements IAnimatedEntity {
 
     private <E extends BlackenedEntity> boolean idlePredicate(AnimationTestEvent<E> event) {
         if (!event.isWalking()) {
-            idleController.setAnimation(new AnimationBuilder().addAnimation("animation.desolation.blackened_idle",
-                    true));
+            idleController.setAnimation(new AnimationBuilder().addAnimation("animation.desolation.blackened_idle", true));
             return true;
         } else {
             return false;
@@ -113,16 +111,21 @@ public class BlackenedEntity extends HostileEntity implements IAnimatedEntity {
 
     private <E extends BlackenedEntity> boolean walkPredicate(AnimationTestEvent<E> event) {
         if (event.isWalking()) {
-            walkController.setAnimation(new AnimationBuilder().addAnimation("animation.desolation.blackened_hobble",
-                    true));
+            walkController.setAnimation(new AnimationBuilder().addAnimation("animation.desolation.blackened_hobble", true));
             return true;
         } else {
             return false;
         }
     }
 
+    private <E extends BlackenedEntity> boolean heartPredicate(AnimationTestEvent<E> event) {
+        heartController.setAnimation(new AnimationBuilder().addAnimation("animation.desolation.blackened_heartbeat", true));
+        return true;
+    }
+
     private void registerAnimationControllers() {
         manager.addAnimationController(idleController);
         manager.addAnimationController(walkController);
+        manager.addAnimationController(heartController);
     }
 }

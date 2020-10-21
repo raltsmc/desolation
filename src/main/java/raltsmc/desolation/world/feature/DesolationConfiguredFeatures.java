@@ -1,4 +1,4 @@
-package raltsmc.desolation.registry;
+package raltsmc.desolation.world.feature;
 
 import com.google.common.collect.Sets;
 import net.minecraft.block.Blocks;
@@ -15,13 +15,14 @@ import net.minecraft.world.gen.stateprovider.SimpleBlockStateProvider;
 import net.minecraft.world.gen.stateprovider.WeightedBlockStateProvider;
 import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
 import raltsmc.desolation.Desolation;
+import raltsmc.desolation.registry.DesolationBlocks;
 import raltsmc.desolation.world.feature.DesolationFeatures;
 import raltsmc.desolation.world.gen.trunk.FallenTrunkPlacer;
 
 import static net.minecraft.block.SnowBlock.LAYERS;
 import static raltsmc.desolation.block.CinderfruitPlantBlock.AGE;
 
-public final class DesolationStructures {
+public final class DesolationConfiguredFeatures {
 
     public static final ConfiguredFeature<TreeFeatureConfig, ?> TREE_CHARRED = (
             register(

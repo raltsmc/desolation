@@ -14,6 +14,7 @@ public class BlackenedEntityModel extends AnimatedEntityModel<BlackenedEntity> {
 	private final AnimatedModelRenderer upper_head;
 	private final AnimatedModelRenderer torso;
 	private final AnimatedModelRenderer ribcage;
+	private final AnimatedModelRenderer heart;
 	private final AnimatedModelRenderer arm_left;
 	private final AnimatedModelRenderer arm_right;
 	private final AnimatedModelRenderer leg_left;
@@ -60,7 +61,6 @@ public class BlackenedEntityModel extends AnimatedEntityModel<BlackenedEntity> {
 		torso = new AnimatedModelRenderer(this);
 		torso.setRotationPoint(0.0F, 0.0F, 0.0F);
 		body_upper.addChild(torso);
-		torso.setTextureOffset(24, 0).addBox(-2.0F, -10.0F, -1.0F, 4.0F, 3.0F, 2.0F, 0.0F, false);
 		torso.setTextureOffset(32, 32).addBox(-1.0F, -12.0F, 0.0F, 2.0F, 10.0F, 2.0F, 0.0F, false);
 		torso.setTextureOffset(0, 24).addBox(-4.0F, -2.0F, -2.0F, 8.0F, 2.0F, 4.0F, 0.0F, false);
 		torso.setModelRendererName("torso");
@@ -75,6 +75,13 @@ public class BlackenedEntityModel extends AnimatedEntityModel<BlackenedEntity> {
 		ribcage.setTextureOffset(29, 12).addBox(-4.0F, -6.0F, -2.0F, 1.0F, 6.0F, 3.0F, 0.0F, false);
 		ribcage.setModelRendererName("ribcage");
 		this.registerModelRenderer(ribcage);
+
+		heart = new AnimatedModelRenderer(this);
+		heart.setRotationPoint(0.0F, -7.0F, -1.0F);
+		torso.addChild(heart);
+		heart.setTextureOffset(24, 0).addBox(-2.0F, -3.0F, 0.0F, 4.0F, 3.0F, 2.0F, 0.0F, false);
+		heart.setModelRendererName("heart");
+		this.registerModelRenderer(heart);
 
 		arm_left = new AnimatedModelRenderer(this);
 		arm_left.setRotationPoint(5.0F, -11.0F, 0.0F);
