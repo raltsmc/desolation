@@ -4,6 +4,7 @@ import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.OverworldBiomes;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
+import net.fabricmc.fabric.api.structure.v1.FabricStructureBuilder;
 import net.fabricmc.fabric.mixin.biome.BuiltinBiomesAccessor;
 import net.fabricmc.fabric.mixin.biome.VanillaLayeredBiomeSourceAccessor;
 import net.minecraft.entity.SpawnGroup;
@@ -12,19 +13,25 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.BiomeMoodSound;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.structure.StructurePieceType;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.biome.*;
 import net.minecraft.world.gen.GenerationStep;
+import net.minecraft.world.gen.feature.ConfiguredStructureFeature;
 import net.minecraft.world.gen.feature.DefaultBiomeFeatures;
+import net.minecraft.world.gen.feature.DefaultFeatureConfig;
+import net.minecraft.world.gen.feature.StructureFeature;
 import net.minecraft.world.gen.surfacebuilder.ConfiguredSurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
 import org.apache.commons.lang3.ArrayUtils;
 import raltsmc.desolation.mixin.SetBaseBiomesLayerAccessor;
 import raltsmc.desolation.registry.*;
+import raltsmc.desolation.structure.AshTinkerBaseGenerator;
+import raltsmc.desolation.world.feature.AshTinkerBaseFeature;
 import raltsmc.desolation.world.feature.DesolationConfiguredFeatures;
 
 import java.util.ArrayList;
@@ -37,6 +44,12 @@ public class DesolationMod implements ModInitializer {
 	public static final ItemGroup DSL_GROUP = FabricItemGroupBuilder.build(
 			new Identifier("desolation", "dsl_group"),
 			() -> new ItemStack(DesolationBlocks.EMBER_BLOCK));
+
+	public static final StructurePieceType TINKER_BASE_PIECE = AshTinkerBaseGenerator.Piece::new;
+	private static final StructureFeature<DefaultFeatureConfig> TINKER_BASE =
+			new AshTinkerBaseFeature(DefaultFeatureConfig.CODEC);
+	public static final ConfiguredStructureFeature<?, ?> TINKER_BASE_CONFIGURED =
+			TINKER_BASE.configure(DefaultFeatureConfig.DEFAULT);
 
 	private static final ConfiguredSurfaceBuilder<TernarySurfaceConfig> CHARRED_SURFACE_BUILDER =
 			SurfaceBuilder.DEFAULT.withConfig(new TernarySurfaceConfig(
@@ -81,6 +94,7 @@ public class DesolationMod implements ModInitializer {
 		generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, DesolationConfiguredFeatures.PATCH_SCORCHED_TUFT);
 		generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, DesolationConfiguredFeatures.PATCH_ASH_BRAMBLE);
 		generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, DesolationConfiguredFeatures.PLANT_CINDERFRUIT);
+		generationSettings.structureFeature(TINKER_BASE_CONFIGURED);
 
 		return (new Biome.Builder())
 				.precipitation(Biome.Precipitation.NONE)
@@ -111,6 +125,15 @@ public class DesolationMod implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		DesolationRegistries.init();
+
+		Registry.register(Registry.STRUCTURE_PIECE, Desolation.id("tinker_base_piece"), TINKER_BASE_PIECE);
+		FabricStructureBuilder.create(Desolation.id("tinker_base"), TINKER_BASE)
+				.step(GenerationStep.Feature.SURFACE_STRUCTURES)
+				.defaultConfig(32, 8, 12345)
+				.register();
+
+		BuiltinRegistries.add(BuiltinRegistries.CONFIGURED_STRUCTURE_FEATURE, Desolation.id("tinker_base"), TINKER_BASE_CONFIGURED);
+
 		Registry.register(BuiltinRegistries.CONFIGURED_SURFACE_BUILDER, Desolation.id("charred"), CHARRED_SURFACE_BUILDER);
 		Registry.register(BuiltinRegistries.BIOME, CHARRED_FOREST_KEY.getValue(), CHARRED_FOREST);
 		Registry.register(BuiltinRegistries.BIOME, CHARRED_FOREST_CLEARING_KEY.getValue(), CHARRED_FOREST_CLEARING);
