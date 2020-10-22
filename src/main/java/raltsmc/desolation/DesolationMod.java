@@ -126,13 +126,20 @@ public class DesolationMod implements ModInitializer {
 		biomes.add(CHARRED_FOREST_SMALL_KEY);
 		VanillaLayeredBiomeSourceAccessor.setBIOMES(biomes);
 
-		SetBaseBiomesLayerAccessor.setTemperateBiomes(
+		/*SetBaseBiomesLayerAccessor.setTemperateBiomes(
 				ArrayUtils.add(SetBaseBiomesLayerAccessor.getTemperateBiomes(),
 						BuiltinRegistries.BIOME.getRawId(CHARRED_FOREST))
-		);
+		);*/
 
-		OverworldBiomes.addBiomeVariant(CHARRED_FOREST_KEY, CHARRED_FOREST_SMALL_KEY, 0.3D);
-		OverworldBiomes.addHillsBiome(CHARRED_FOREST_KEY, CHARRED_FOREST_CLEARING_KEY, 0.05D);
+		OverworldBiomes.addBiomeVariant(BiomeKeys.FOREST, CHARRED_FOREST_SMALL_KEY, 0.03D);
+		OverworldBiomes.addBiomeVariant(BiomeKeys.BIRCH_FOREST, CHARRED_FOREST_SMALL_KEY, 0.02D);
+		OverworldBiomes.addBiomeVariant(BiomeKeys.TALL_BIRCH_FOREST, CHARRED_FOREST_KEY, 0.11D);
+		OverworldBiomes.addBiomeVariant(BiomeKeys.FOREST, CHARRED_FOREST_KEY, 0.02D);
+		OverworldBiomes.addBiomeVariant(BiomeKeys.TAIGA, CHARRED_FOREST_KEY, 0.02D);
+		OverworldBiomes.addHillsBiome(CHARRED_FOREST_KEY, CHARRED_FOREST_CLEARING_KEY, 0.07D);
+		OverworldBiomes.addHillsBiome(CHARRED_FOREST_SMALL_KEY, CHARRED_FOREST_CLEARING_KEY, 0.05D);
+		/*OverworldBiomes.addBiomeVariant(CHARRED_FOREST_KEY, CHARRED_FOREST_SMALL_KEY, 0.3D);
+		OverworldBiomes.addHillsBiome(CHARRED_FOREST_KEY, CHARRED_FOREST_CLEARING_KEY, 0.05D);*/
 
 		FuelRegistry.INSTANCE.add(DesolationItems.CHARCOAL_BIT, 400);
 
