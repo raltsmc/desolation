@@ -24,6 +24,8 @@ public final class DesolationItems {
                     .statusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 200), 100)
                     .build())), "cinderfruit");
     public static final Item INFUSED_POWDER = register(new Item(new Item.Settings().group(DesolationMod.DSL_GROUP)), "infused_powder");
+    public static final Item HEART_OF_CINDER = register(new Item(new Item.Settings().group(DesolationMod.DSL_GROUP)), "heart_of_cinder");
+
     public static final Item AIR_FILTER = register(new Item(new Item.Settings().group(DesolationMod.DSL_GROUP)), "air_filter");
 
     public static final Item MASK = register(new Item(new FabricItemSettings().group(DesolationMod.DSL_GROUP).equipmentSlot(itemStack -> EquipmentSlot.HEAD).maxCount(1)), "mask");

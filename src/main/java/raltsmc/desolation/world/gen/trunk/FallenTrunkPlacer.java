@@ -37,7 +37,6 @@ public class FallenTrunkPlacer extends StraightTrunkPlacer {
         return DesolationTrunkPlacerTypes.FALLEN;
     }
 
-    // TODO make generation less janky
     @Override
     public List<FoliagePlacer.TreeNode> generate(ModifiableTestableWorld world, Random random, int trunkHeight, BlockPos pos, Set<BlockPos> set, BlockBox blockBox, TreeFeatureConfig treeFeatureConfig) {
         Direction.Axis placementAxis = random.nextBoolean() ? Direction.Axis.X : Direction.Axis.Z;
