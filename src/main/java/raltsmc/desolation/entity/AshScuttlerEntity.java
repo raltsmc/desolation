@@ -35,9 +35,6 @@ public class AshScuttlerEntity extends PathAwareEntity implements IAnimatedEntit
     private static final TrackedData<Boolean> SEARCHING;
     private static final Ingredient ATTRACTING_INGREDIENT;
 
-    // TODO make fireproof and fix pathing around ember blocks
-    // TODO stop from spawning in water and drowning
-
     public AshScuttlerEntity(EntityType<? extends PathAwareEntity> entityType, World world) {
         super(entityType, world);
         registerAnimationControllers();

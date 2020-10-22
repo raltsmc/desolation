@@ -54,7 +54,7 @@ public class CinderfruitPlantBlock extends PlantBlock {
 
     public void randomTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
         int i = (Integer)state.get(AGE);
-        if (i < 1 && random.nextInt(25) == 0) {
+        if (i < 1 && random.nextInt(20) == 0) {
             world.setBlockState(pos, (BlockState)state.with(AGE, i + 1), 2);
         }
     }
