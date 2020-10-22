@@ -23,6 +23,7 @@ public final class DesolationItems {
                     .alwaysEdible()
                     .statusEffect(new StatusEffectInstance(StatusEffects.FIRE_RESISTANCE, 200), 100)
                     .build())), "cinderfruit");
+    public static final Item CINDERFRUIT_SEEDS = register(new AliasedBlockItem(DesolationBlocks.CINDERFRUIT_PLANT, new Item.Settings().group(DesolationMod.DSL_GROUP)), "cinderfruit_seeds");
     public static final Item INFUSED_POWDER = register(new Item(new Item.Settings().group(DesolationMod.DSL_GROUP)), "infused_powder");
     public static final Item HEART_OF_CINDER = register(new Item(new Item.Settings().group(DesolationMod.DSL_GROUP)), "heart_of_cinder");
 

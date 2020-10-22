@@ -35,6 +35,25 @@
           }
         }
       ]
+    },
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:bone"
+        }
+      ],
+      "functions": [
+        {
+          "function": "minecraft:set_count",
+          "count": {
+            "max": 1,
+            "min": 0,
+            "type": "minecraft:uniform"
+          }
+        }
+      ]
     }
   ]
 }
