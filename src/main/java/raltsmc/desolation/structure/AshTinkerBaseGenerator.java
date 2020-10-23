@@ -60,7 +60,6 @@ public class AshTinkerBaseGenerator {
             tag.putString("Rot", this.rotation.name());
         }
 
-        // TODO make loot table work
         @Override
         protected void handleMetadata(String metadata, BlockPos pos, ServerWorldAccess serverWorldAccess,
                                       Random random, BlockBox boundingBox) {

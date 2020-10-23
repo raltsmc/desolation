@@ -7,9 +7,11 @@ import raltsmc.desolation.Desolation;
 
 public class DesolationFeatures {
     public static Feature<SingleStateFeatureConfig> GIANT_BOULDER = new GiantBoulderFeature(SingleStateFeatureConfig.CODEC);
+    public static Feature<ScatteredFeatureConfig> SCATTERED = new ScatteredFeature(ScatteredFeatureConfig.CODEC);
 
     public static void init() {
         register("giant_boulder", GIANT_BOULDER);
+        register("scattered", SCATTERED);
     }
 
     private static void register(String name, Feature feature) {
