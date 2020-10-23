@@ -56,7 +56,7 @@
                   "function": "minecraft:explosion_decay"
                 }
               ],
-              "name": "minecraft:charcoal"
+              "name": "desolation:charcoal_bit"
             }
           ]
         }

@@ -109,6 +109,7 @@ public class DesolationMod implements ModInitializer {
 						.fogColor(0xb5b5b5)
 						.skyColor(0xa1aab3)
 						.grassColor(0x342d2f)
+						.foliageColor(0x443d3f)
 						.particleConfig(new BiomeParticleConfig(ParticleTypes.WHITE_ASH, 0.118093334F))
 						.loopSound(SoundEvents.AMBIENT_BASALT_DELTAS_LOOP)
 						.moodSound(new BiomeMoodSound(SoundEvents.AMBIENT_BASALT_DELTAS_MOOD, 6000, 8, 2.0D))
@@ -130,6 +131,8 @@ public class DesolationMod implements ModInitializer {
 		FabricStructureBuilder.create(Desolation.id("tinker_base"), TINKER_BASE)
 				.step(GenerationStep.Feature.SURFACE_STRUCTURES)
 				.defaultConfig(32, 8, 12345)
+				// TODO have support beams extend down so this isnt necessary
+				.adjustsSurface()
 				.register();
 
 		BuiltinRegistries.add(BuiltinRegistries.CONFIGURED_STRUCTURE_FEATURE, Desolation.id("tinker_base"), TINKER_BASE_CONFIGURED);
