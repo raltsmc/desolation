@@ -1,0 +1,7 @@
+{
+  "parent": "block/door_bottom",
+  "textures": {
+    "top": "desolation:block/charred_door_top",
+    "bottom": "desolation:block/charred_door_bottom"
+  }
+}

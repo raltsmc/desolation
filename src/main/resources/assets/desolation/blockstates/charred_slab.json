@@ -1,0 +1,13 @@
+{
+  "variants": {
+    "type=bottom": {
+      "model": "desolation:block/charred_slab"
+    },
+    "type=double": {
+      "model": "desolation:block/charred_planks"
+    },
+    "type=top": {
+      "model": "desolation:block/charred_slab_top"
+    }
+  }
+}
