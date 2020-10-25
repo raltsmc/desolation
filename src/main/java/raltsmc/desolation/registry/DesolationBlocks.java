@@ -2,15 +2,15 @@ package raltsmc.desolation.registry;
 
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.fabricmc.fabric.api.tool.attribute.v1.FabricToolTags;
-import net.minecraft.block.Material;
-import net.minecraft.block.PillarBlock;
+import net.minecraft.block.*;
+import net.minecraft.block.PressurePlateBlock.ActivationRule;
+import net.minecraft.block.AbstractBlock.Settings;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.sound.BlockSoundGroup;
 import raltsmc.desolation.Desolation;
 import raltsmc.desolation.DesolationMod;
 import raltsmc.desolation.block.*;
-import net.minecraft.block.Block;
 import net.minecraft.util.registry.Registry;
 
 public final class DesolationBlocks {
@@ -19,6 +19,18 @@ public final class DesolationBlocks {
     public static final Block ASH_BLOCK = register(new AshBlock(FabricBlockSettings.of(Material.AGGREGATE).hardness(0.5f).sounds(BlockSoundGroup.SAND).breakByTool(FabricToolTags.SHOVELS)), "ash_block", true);
     public static final Block ASH_LAYER_BLOCK = register(new AshLayerBlock(FabricBlockSettings.of(Material.AGGREGATE).hardness(0.3f).sounds(BlockSoundGroup.SAND).breakByTool(FabricToolTags.SHOVELS)), "ash", true);
     public static final Block CHARRED_LOG = register(new PillarBlock(FabricBlockSettings.of(Material.WOOD).hardness(1.8f).sounds(BlockSoundGroup.BASALT).breakByTool(FabricToolTags.AXES)), "charred_log", true);
+    public static final Block CHARRED_PLANKS = register(new Block(FabricBlockSettings.of(Material.WOOD, MaterialColor.GRAY).strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD)), "charred_planks", true);
+    // TODO add signs (and add them to non_flammable_wood, wall_signs, and standing_signs tags) (and add loot table +recipe)
+    //public static final Block CHARRED_SIGN = register(new SignBlock(FabricBlockSettings.of(Material.WOOD,MaterialColor.GRAY).noCollision().strength(1.0f).sounds(BlockSoundGroup.WOOD)));
+    public static final Block CHARRED_PRESSURE_PLATE = register(new DesolationPressurePlateBlock(ActivationRule.EVERYTHING, FabricBlockSettings.of(Material.WOOD, MaterialColor.GRAY).noCollision().strength(0.5f).sounds(BlockSoundGroup.WOOD)), "charred_pressure_plate", true);
+    public static final Block CHARRED_TRAPDOOR = register(new DesolationTrapdoorBlock(FabricBlockSettings.of(Material.WOOD, MaterialColor.GRAY).strength(3.0f).sounds(BlockSoundGroup.WOOD).nonOpaque().allowsSpawning((state, world, pos, entityType) -> { return false; })), "charred_trapdoor", true);
+    public static final Block CHARRED_BUTTON = register(new DesolationWoodenButtonBlock(FabricBlockSettings.of(Material.SUPPORTED).noCollision().strength(0.5f).sounds(BlockSoundGroup.WOOD)), "charred_button", true);
+    public static final Block CHARRED_STAIRS = register(new DesolationStairsBlock(CHARRED_PLANKS.getDefaultState(), Settings.copy(CHARRED_PLANKS)), "charred_stairs", true);
+    public static final Block CHARRED_SLAB = register(new SlabBlock(FabricBlockSettings.of(Material.WOOD, MaterialColor.GRAY).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)), "charred_slab", true);
+    public static final Block CHARRED_FENCE_GATE = register(new FenceGateBlock(FabricBlockSettings.of(Material.WOOD, MaterialColor.GRAY).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)), "charred_fence_gate", true);
+    public static final Block CHARRED_FENCE = register(new FenceBlock(FabricBlockSettings.of(Material.WOOD, MaterialColor.GRAY).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)), "charred_fence", true);
+    public static final Block CHARRED_DOOR = register(new DesolationDoorBlock(FabricBlockSettings.of(Material.WOOD, MaterialColor.GRAY).strength(3.0f).sounds(BlockSoundGroup.WOOD).nonOpaque()), "charred_door", false);
+    // TODO make branches decay properly (extend LeavesBlock without the ugly rendering)
     public static final Block CHARRED_BRANCHES = register(new Block(FabricBlockSettings.of(Material.LEAVES).hardness(0.3f).nonOpaque().sounds(BlockSoundGroup.VINE).breakByTool(FabricToolTags.SWORDS).allowsSpawning((state, world, pos, entityType) -> { return false; })), "charred_branches", true);
     public static final Block ASH_BRAMBLE = register(new Block(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).hardness(0.3f).noCollision().nonOpaque().sounds(BlockSoundGroup.VINE).breakByTool(FabricToolTags.SWORDS)), "ash_bramble", true);
     public static final Block CHARRED_SOIL = register(new Block(FabricBlockSettings.of(Material.SOIL).hardness(0.5f).sounds(BlockSoundGroup.GRAVEL).breakByTool(FabricToolTags.SHOVELS)), "charred_soil", true);

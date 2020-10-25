@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "planks",
+  "ingredients": [
+    {
+      "tag": "desolation:charred_logs"
+    }
+  ],
+  "result": {
+    "item": "desolation:charred_planks",
+    "count": 4
+  }
+}

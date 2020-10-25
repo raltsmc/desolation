@@ -12,6 +12,7 @@ import raltsmc.desolation.item.*;
 
 public final class DesolationItems {
 
+    public static final Item CHARRED_DOOR = register((BlockItem)(new TallBlockItem(DesolationBlocks.CHARRED_DOOR, (new FabricItemSettings()).group(DesolationMod.DSL_GROUP))), "charred_door");
     public static final Item CHARCOAL_BIT = register(new Item(new Item.Settings().group(DesolationMod.DSL_GROUP)), "charcoal_bit");
     public static final Item GLASS_SHARD = register(new Item(new Item.Settings().group(DesolationMod.DSL_GROUP)), "glass_shard");
     public static final Item ASH_PILE = register(new AshItem(new Item.Settings().group(DesolationMod.DSL_GROUP)), "ash_pile");

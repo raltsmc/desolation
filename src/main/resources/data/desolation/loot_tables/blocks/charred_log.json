@@ -5,29 +5,35 @@
       "rolls": 1,
       "entries": [
         {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "condition": "minecraft:match_tool",
+              "predicate": {
+                "enchantments": [
+                  {
+                    "enchantment": "minecraft:silk_touch",
+                    "levels": {
+                      "min": 1
+                    }
+                  }
+                ]
+              }
+            }
+          ],
+          "name": "desolation:charred_log"
+        },
+        {
           "type": "minecraft:alternatives",
           "children": [
             {
               "type": "minecraft:item",
               "conditions": [
                 {
-                  "condition": "minecraft:match_tool",
-                  "predicate": {
-                    "enchantments": [
-                      {
-                        "enchantment": "minecraft:silk_touch",
-                        "levels": {
-                          "min": 1
-                        }
-                      }
-                    ]
-                  }
+                  "condition": "minecraft:random_chance",
+                  "chance": 0.8
                 }
               ],
-              "name": "desolation:charred_log"
-            },
-            {
-              "type": "minecraft:item",
               "functions": [
                 {
                   "function": "minecraft:set_count",
@@ -57,6 +63,10 @@
                 }
               ],
               "name": "desolation:charcoal_bit"
+            },
+            {
+              "type": "minecraft:item",
+              "name": "desolation:charred_log"
             }
           ]
         }

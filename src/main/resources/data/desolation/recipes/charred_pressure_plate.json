@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "wooden_pressure_plate",
+  "pattern": [
+    "##"
+  ],
+  "key": {
+    "#": {
+      "item": "desolation:charred_planks"
+    }
+  },
+  "result": {
+    "item": "desolation:charred_pressure_plate"
+  }
+}
