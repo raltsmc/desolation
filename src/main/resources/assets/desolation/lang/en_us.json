@@ -46,5 +46,7 @@
   "item.minecraft.potion.effect.blindness": "Potion of Blindness",
   "item.minecraft.splash_potion.effect.blindness": "Splash Potion of Blindness",
   "item.minecraft.lingering_potion.effect.blindness": "Lingering Potion of Blindness",
-  "item.minecraft.tipped_arrow.effect.blindness": "Arrow of Blindness"
+  "item.minecraft.tipped_arrow.effect.blindness": "Arrow of Blindness",
+  "key.desolation.cinder_dash": "Cinder Dash",
+  "category.desolation.cat": "Desolation"
 }
