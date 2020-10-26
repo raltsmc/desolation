@@ -1,13 +1,11 @@
 package raltsmc.desolation.mixin;
 
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.*;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
-import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Arm;
 import net.minecraft.util.math.Vec3d;
@@ -66,7 +64,6 @@ public class PlayerEntityMixin extends LivingEntity {
         }
         
         if (this.hasStatusEffect(DesolationStatusEffects.CINDER_SOUL)) {
-            this.setFireTicks(0);
             // praise jesus if any of this works in multiplayer
             if (cinderDashCooldown < cinderDashCooldownMax) {
                 ++cinderDashCooldown;

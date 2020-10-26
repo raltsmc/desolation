@@ -9,7 +9,8 @@
     "BrewingRecipeRegistryInvoker",
     "TrunkPlacerTypeInvoker",
     "FoliagePlacerTypeInvoker",
-    "PlayerEntityMixin"
+    "PlayerEntityMixin",
+    "LivingEntityMixin"
   ],
   "client": [
     "InGameHudMixin",
