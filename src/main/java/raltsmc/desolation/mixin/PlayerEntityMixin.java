@@ -1,10 +1,7 @@
 package raltsmc.desolation.mixin;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.*;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
@@ -126,6 +123,8 @@ public class PlayerEntityMixin extends LivingEntity {
                         this.setVelocity(dashVector);
                         this.velocityDirty = true;
                     }
+                    this.setPose(EntityPose.SWIMMING);
+                    this.fallDistance = 0;
                     ++dashLength;
                 } else {
                     isDashing = false;
