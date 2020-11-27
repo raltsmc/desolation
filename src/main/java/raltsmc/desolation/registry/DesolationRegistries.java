@@ -1,7 +1,10 @@
 package raltsmc.desolation.registry;
 
+import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
+import me.sargunvohra.mcmods.autoconfig1u.serializer.JanksonConfigSerializer;
 import net.minecraft.item.Items;
 import net.minecraft.potion.Potions;
+import raltsmc.desolation.config.DesolationConfig;
 import raltsmc.desolation.entity.effect.DesolationStatusEffects;
 import raltsmc.desolation.item.potion.DesolationPotions;
 import raltsmc.desolation.mixin.BrewingRecipeRegistryInvoker;
@@ -27,5 +30,6 @@ public class DesolationRegistries {
         BrewingRecipeRegistryInvoker.invokeRegisterPotionRecipe(Potions.AWKWARD, DesolationItems.PRIMED_ASH, DesolationPotions.BLINDNESS);
         BrewingRecipeRegistryInvoker.invokeRegisterPotionRecipe(DesolationPotions.BLINDNESS, Items.REDSTONE, DesolationPotions.LONG_BLINDNESS);
 
+        AutoConfig.register(DesolationConfig.class, JanksonConfigSerializer::new);
     }
 }

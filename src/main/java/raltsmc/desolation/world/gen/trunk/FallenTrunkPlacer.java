@@ -72,7 +72,7 @@ public class FallenTrunkPlacer extends StraightTrunkPlacer {
 
     protected static void placeAt(ModifiableTestableWorld world, Random random, BlockPos pos, Direction direction,
                                   Set<BlockPos> set, BlockBox blockBox, TreeFeatureConfig treeFeatureConfig) {
-        method_27404(world, pos, treeFeatureConfig.trunkProvider.getBlockState(random, pos).with(PillarBlock.AXIS,
+        setBlockState(world, pos, treeFeatureConfig.trunkProvider.getBlockState(random, pos).with(PillarBlock.AXIS,
                 direction.getAxis()), blockBox);
         set.add(pos.toImmutable());
     }

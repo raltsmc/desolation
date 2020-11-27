@@ -1,6 +1,7 @@
 package raltsmc.desolation.mixin;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.BufferBuilder;
@@ -14,11 +15,13 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import raltsmc.desolation.Desolation;
+import raltsmc.desolation.config.DesolationConfig;
 import raltsmc.desolation.registry.DesolationItems;
 
 @Mixin(InGameHud.class)
 public class InGameHudMixin {
-    // pleasedontexplodepleasedontexplodepleasedontexplodepleasedontexplodepleasedontexplodepleasedontexplodepleasedontexplodepleasedontexplodepleasedontexplodepleasedontexplodepleasedontexplodepleasedontexplodepleasedontexplodepleasedontexplodepleasedontexplodepleasedontexplode
+    DesolationConfig config = AutoConfig.getConfigHolder(DesolationConfig.class).getConfig();
+
     @Shadow
     @Final
     private MinecraftClient client;
@@ -36,7 +39,8 @@ public class InGameHudMixin {
         ItemStack itemStackA = this.client.player.inventory.getArmorStack(3);
         if (this.client.options.getPerspective().isFirstPerson()
                 && (itemStackA.getItem() == DesolationItems.GOGGLES
-                || itemStackA.getItem() == DesolationItems.MASK_GOGGLES)) {
+                || itemStackA.getItem() == DesolationItems.MASK_GOGGLES)
+                && this.config.showGogglesOverlay) {
             this.renderGogglesOverlay();
         }
     }
