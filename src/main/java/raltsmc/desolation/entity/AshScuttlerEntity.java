@@ -21,30 +21,28 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldView;
 import raltsmc.desolation.entity.ai.goal.DigAshGoal;
 import raltsmc.desolation.registry.DesolationItems;
-import software.bernie.geckolib.animation.builder.AnimationBuilder;
-import software.bernie.geckolib.animation.controller.AnimationController;
-import software.bernie.geckolib.animation.controller.EntityAnimationController;
-import software.bernie.geckolib.entity.IAnimatedEntity;
-import software.bernie.geckolib.event.AnimationTestEvent;
-import software.bernie.geckolib.manager.EntityAnimationManager;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class AshScuttlerEntity extends PathAwareEntity implements IAnimatedEntity {
+public class AshScuttlerEntity extends PathAwareEntity implements IAnimatable {
     private static final TrackedData<Boolean> SEARCHING;
     private static final Ingredient ATTRACTING_INGREDIENT;
 
     public AshScuttlerEntity(EntityType<? extends PathAwareEntity> entityType, World world) {
         super(entityType, world);
-        registerAnimationControllers();
     }
 
-    private EntityAnimationManager manager = new EntityAnimationManager();
-    private AnimationController walkController = new EntityAnimationController(this, "walkController", 20,
-            this::walkPredicate);
-    private AnimationController lookController = new EntityAnimationController(this, "lookController", 20,
-            this::headPredicate);
+    private AnimationFactory factory = new AnimationFactory(this);
+
+    @Override
+    public AnimationFactory getFactory() { return this.factory; }
 
     protected void initGoals() {
         this.goalSelector.add(1, new DigAshGoal(this, 0.3D,40,2));
@@ -102,33 +100,28 @@ public class AshScuttlerEntity extends PathAwareEntity implements IAnimatedEntit
 
     public EntityGroup getGroup() { return EntityGroup.ARTHROPOD; }
 
+    private <E extends IAnimatable>PlayState walkPredicate(AnimationEvent<E> event) {
+        if (event.isMoving()) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.desolation.ash_scuttler_walk"));
+            return PlayState.CONTINUE;
+        } else {
+            return PlayState.STOP;
+        }
+    }
+
+    private <E extends IAnimatable>PlayState headPredicate(AnimationEvent<E> event) {
+        if (!event.isMoving()) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.desolation.ash_scuttler_head", true));
+            return PlayState.CONTINUE;
+        } else {
+            return PlayState.STOP;
+        }
+    }
+
     @Override
-    public EntityAnimationManager getAnimationManager() {
-        return manager;
-    }
-
-    private <E extends AshScuttlerEntity> boolean walkPredicate(AnimationTestEvent<E> event) {
-        if (event.isWalking()) {
-            walkController.setAnimation(new AnimationBuilder().addAnimation("animation.desolation.ash_scuttler_walk"));
-            return true;
-        } else {
-            return false;
-        }
-    }
-    
-    private <E extends AshScuttlerEntity> boolean headPredicate(AnimationTestEvent<E> event) {
-        if (!event.isWalking()) {
-            lookController.setAnimation(new AnimationBuilder().addAnimation("animation.desolation.ash_scuttler_head",
-             true));
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private void registerAnimationControllers() {
-        manager.addAnimationController(walkController);
-        manager.addAnimationController(lookController);
+    public void registerControllers(AnimationData data) {
+        data.addAnimationController(new AnimationController(this, "walkController", 0, this::walkPredicate));
+        data.addAnimationController(new AnimationController(this, "headController", 0, this::headPredicate));
     }
 
     static {

@@ -34,7 +34,8 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	modImplementation "software.bernie.geckolib:fabric-1.16.2-geckolib:2.0.0:dev"
+	modImplementation "software.bernie.geckolib:fabric-1.16.3-geckolib:3.0.0-beta.7:dev"
+	//modImplementation "software.bernie.geckolib:fabric-1.16.2-geckolib:2.0.0:dev"
 	//include "software.bernie.geckolib:fabric-1.16.2-geckolib:2.0.0:dev"
 
 	modImplementation "io.github.prospector:modmenu:1.14.13+build.21"
