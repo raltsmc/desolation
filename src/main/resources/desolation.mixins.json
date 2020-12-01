@@ -4,18 +4,19 @@
   "package": "raltsmc.desolation.mixin",
   "compatibilityLevel": "JAVA_8",
   "mixins": [
+    "BrewingRecipeRegistryInvoker",
+    "FoliagePlacerTypeInvoker",
+    "LivingEntityMixin",
+    "PlayerEntityMixin",
     "SetBaseBiomesLayerAccessor",
     "TreeFeatureMixin",
-    "BrewingRecipeRegistryInvoker",
-    "TrunkPlacerTypeInvoker",
-    "FoliagePlacerTypeInvoker",
-    "PlayerEntityMixin",
-    "LivingEntityMixin"
+    "TrunkPlacerTypeInvoker"
   ],
   "client": [
-    "InGameHudMixin",
+    "BiomeEffectSoundPlayerMixin",
     "ArmorFeatureRendererMixin",
-    "HeadFeatureRendererMixin"
+    "HeadFeatureRendererMixin",
+    "InGameHudMixin"
   ],
   "injectors": {
     "defaultRequire": 1

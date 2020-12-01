@@ -50,5 +50,7 @@
   "key.desolation.cinder_dash": "Cinder Dash",
   "category.desolation.cat": "Desolation",
   "text.autoconfig.desolation.title": "Desolation Config",
-  "text.autoconfig.desolation.option.showGogglesOverlay": "Show Goggles Overlay"
+  "text.autoconfig.desolation.option.showGogglesOverlay": "Show Goggles Overlay",
+  "text.autoconfig.desolation.option.inflictBiomeDebuffs": "Inflict Biome Debuffs",
+  "text.autoconfig.desolation.option.biomeSoundAmbience": "Biome Sound Ambience"
 }

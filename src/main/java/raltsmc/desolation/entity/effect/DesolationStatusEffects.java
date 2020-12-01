@@ -7,7 +7,6 @@ import net.minecraft.util.registry.Registry;
 import raltsmc.desolation.Desolation;
 
 public class DesolationStatusEffects {
-    // TODO give player fire immunity w/ cinder soul
     public static final StatusEffect CINDER_SOUL;
 
     private static StatusEffect register(String id, StatusEffect entry) {

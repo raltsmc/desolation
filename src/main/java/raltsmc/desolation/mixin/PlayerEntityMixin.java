@@ -1,5 +1,6 @@
 package raltsmc.desolation.mixin;
 
+import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
 import net.minecraft.entity.*;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -20,6 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import raltsmc.desolation.Desolation;
 import raltsmc.desolation.access.PlayerEntityAccess;
+import raltsmc.desolation.config.DesolationConfig;
 import raltsmc.desolation.entity.effect.DesolationStatusEffects;
 import raltsmc.desolation.init.client.DesolationClient;
 import raltsmc.desolation.registry.DesolationItems;
@@ -30,6 +32,7 @@ import java.util.Objects;
 
 @Mixin(PlayerEntity.class)
 public class PlayerEntityMixin extends LivingEntity implements PlayerEntityAccess {
+    DesolationConfig config = AutoConfig.getConfigHolder(DesolationConfig.class).getConfig();
 
     public int cinderDashCooldownMax = 200;
     public int cinderDashCooldown = 200;
@@ -52,7 +55,8 @@ public class PlayerEntityMixin extends LivingEntity implements PlayerEntityAcces
                 && this.getY() >= world.getSeaLevel() - 10) {
             if (!this.world.isClient) {
                 if (this.getEquippedStack(EquipmentSlot.HEAD).getItem() != DesolationItems.MASK
-                && this.getEquippedStack(EquipmentSlot.HEAD).getItem() != DesolationItems.MASK_GOGGLES) {
+                && this.getEquippedStack(EquipmentSlot.HEAD).getItem() != DesolationItems.MASK_GOGGLES
+                && this.config.inflictBiomeDebuffs) {
                     this.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 300));
                     this.addStatusEffect(new StatusEffectInstance(StatusEffects.MINING_FATIGUE, 300));
                 }

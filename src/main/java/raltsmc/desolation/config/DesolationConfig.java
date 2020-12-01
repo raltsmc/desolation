@@ -2,10 +2,11 @@ package raltsmc.desolation.config;
 
 import me.sargunvohra.mcmods.autoconfig1u.ConfigData;
 import me.sargunvohra.mcmods.autoconfig1u.annotation.Config;
-import me.sargunvohra.mcmods.autoconfig1u.annotation.ConfigEntry;
 
 @Config(name = "desolation")
 public class DesolationConfig implements ConfigData {
-    //@ConfigEntry.Gui.RequiresRestart
     public boolean showGogglesOverlay = true;
+    // TODO test if this works client-side on servers (would be bad)
+    public boolean inflictBiomeDebuffs = true;
+    public boolean biomeSoundAmbience = true;
 }
