@@ -55,8 +55,8 @@ public class PlayerEntityMixin extends LivingEntity implements PlayerEntityAcces
                 && this.getY() >= world.getSeaLevel() - 10) {
             if (!this.world.isClient) {
                 if (this.getEquippedStack(EquipmentSlot.HEAD).getItem() != DesolationItems.MASK
-                && this.getEquippedStack(EquipmentSlot.HEAD).getItem() != DesolationItems.MASK_GOGGLES
-                && this.config.inflictBiomeDebuffs) {
+                && this.getEquippedStack(EquipmentSlot.HEAD).getItem() != DesolationItems.MASK_GOGGLES) {
+                //&& this.config.inflictBiomeDebuffs) {
                     this.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 300));
                     this.addStatusEffect(new StatusEffectInstance(StatusEffects.MINING_FATIGUE, 300));
                 }

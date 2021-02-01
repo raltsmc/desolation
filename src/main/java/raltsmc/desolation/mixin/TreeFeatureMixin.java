@@ -32,32 +32,4 @@ public class TreeFeatureMixin {
         });
         info.setReturnValue(isValid);
     }
-
-    // janky as fuck but if it works......
-    // (it didnt)
-
-    /*@Inject(method = "generate", at = @At("HEAD"), cancellable = true)
-    private void generate(ModifiableTestableWorld world, Random random, BlockPos pos, Set<BlockPos> logPositions,
-                          Set<BlockPos> leavesPositions, BlockBox box, TreeFeatureConfig config,
-                          CallbackInfoReturnable<Boolean> info) {
-        if (config.trunkPlacer.getClass() == StraightTrunkPlacer.class) {
-            info.setReturnValue(canGenerateCharredTree(world, pos));
-        }
-    }
-
-    private boolean canGenerateCharredTree(ModifiableTestableWorld world, BlockPos pos) {
-        for (int i = 1; i <= 2; ++i) {
-            for (int y = 0; y <= 255 - pos.getY(); ++y) {
-                for (int x = -i; x <= i; ++i) {
-                    for (int z = -i; z <= i; ++z) {
-                        BlockPos posT = new BlockPos(pos.getX() + x, y, pos.getZ() + z);
-                        if (world.testBlockState(posT, blockState -> blockState == DesolationBlocks.CHARRED_LOG.getDefaultState())) {
-                            return false;
-                        }
-                    }
-                }
-            }
-        }
-        return true;
-    }*/
 }
