@@ -57,8 +57,8 @@ public class PlayerEntityMixin extends LivingEntity implements PlayerEntityAcces
                 if (this.getEquippedStack(EquipmentSlot.HEAD).getItem() != DesolationItems.MASK
                 && this.getEquippedStack(EquipmentSlot.HEAD).getItem() != DesolationItems.MASK_GOGGLES) {
                 //&& this.config.inflictBiomeDebuffs) {
-                    this.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 300));
-                    this.addStatusEffect(new StatusEffectInstance(StatusEffects.MINING_FATIGUE, 300));
+                    this.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 308));
+                    this.addStatusEffect(new StatusEffectInstance(StatusEffects.MINING_FATIGUE, 308));
                 }
             }
         }

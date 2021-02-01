@@ -10,6 +10,7 @@ import net.minecraft.predicate.block.BlockStatePredicate;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.collection.WeightedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 import raltsmc.desolation.entity.AshScuttlerEntity;
@@ -57,7 +58,9 @@ public class DigAshGoal extends MoveToTargetPosGoal {
         if (!blockPos.isWithinDistance(this.mob.getPos(), getDesiredSquaredDistanceToTarget())) {
             this.reached = false;
             ++this.tryingTime;
-            if (this.shouldResetPath()) {
+            Vec3d vel = this.mob.getVelocity();
+            if (this.shouldResetPath() && new Vec3d(vel.x, 0, vel.z).lengthSquared() < 0.2f) {
+                this.mob.setVelocity(vel.x, 0.5f, vel.z);
                 this.mob.getNavigation().startMovingTo((double)((float)blockPos.getX()) + 0.5D, (double)blockPos.getY(), (double)((float)blockPos.getZ()) + 0.5D, this.speed);
             }
         } else {
