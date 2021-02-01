@@ -9,8 +9,9 @@
     "RaltsMC"
   ],
   "contact": {
-    "homepage": "https://fabricmc.net/",
-    "sources": "https://github.com/FabricMC/fabric-example-mod"
+    "homepage": "https://www.curseforge.com/minecraft/mc-mods/desolation",
+    "sources": "https://github.com/raltsmc/desolation",
+    "issues": "https://github.com/raltsmc/desolation/issues"
   },
 
   "license": "MIT",
