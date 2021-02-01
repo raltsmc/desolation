@@ -30,9 +30,9 @@ public final class DesolationItems {
 
     public static final Item AIR_FILTER = register(new Item(new Item.Settings().group(DesolationMod.DSL_GROUP)), "air_filter");
 
-    public static final Item MASK = register(new ArmorItem(ArmorMaterials.LEATHER, EquipmentSlot.HEAD, new FabricItemSettings().group(DesolationMod.DSL_GROUP).maxCount(1)), "mask");
-    public static final Item GOGGLES = register(new ArmorItem(ArmorMaterials.LEATHER, EquipmentSlot.HEAD, new FabricItemSettings().group(DesolationMod.DSL_GROUP).maxCount(1)), "goggles");
-    public static final Item MASK_GOGGLES = register(new ArmorItem(ArmorMaterials.LEATHER, EquipmentSlot.HEAD, new FabricItemSettings().group(DesolationMod.DSL_GROUP).maxCount(1)), "mask_and_goggles");
+    public static final Item MASK = register(new Item(new FabricItemSettings().group(DesolationMod.DSL_GROUP).equipmentSlot(itemStack -> EquipmentSlot.HEAD).maxCount(1)), "mask");
+    public static final Item GOGGLES = register(new Item(new FabricItemSettings().group(DesolationMod.DSL_GROUP).equipmentSlot(itemStack -> EquipmentSlot.HEAD).maxCount(1)), "goggles");
+    public static final Item MASK_GOGGLES = register(new Item(new FabricItemSettings().group(DesolationMod.DSL_GROUP).equipmentSlot(itemStack -> EquipmentSlot.HEAD).maxCount(1)), "mask_and_goggles");
 
     public static final Item SPAWN_EGG_ASH_SCUTTLER = register(new SpawnEggItem(DesolationEntities.ASH_SCUTTLER,
             0x111111, 0xff7b00, new Item.Settings().group(ItemGroup.MISC)), "ash_scuttler_spawn_egg");

@@ -34,13 +34,13 @@ dependencies {
 	// Fabric API. This is technically optional, but you probably want it anyway.
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	modImplementation "software.bernie.geckolib:fabric-1.16.3-geckolib:3.0.0-beta.7:dev"
+	modImplementation "software.bernie.geckolib:geckolib-fabric-1.16.5:3.0.15:dev"
 	//modImplementation "software.bernie.geckolib:fabric-1.16.2-geckolib:2.0.0:dev"
 	//include "software.bernie.geckolib:fabric-1.16.2-geckolib:2.0.0:dev"
 
 	modImplementation "io.github.prospector:modmenu:1.14.13+build.21"
 
-	modRuntime "me.shedaniel:RoughlyEnoughItems:5.6.1"
+	modRuntime "me.shedaniel:RoughlyEnoughItems:5.8.9"
 
 	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
 	// You may need to force-disable transitiveness on them.
