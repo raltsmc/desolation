@@ -169,10 +169,12 @@ public class AshAttackGoal extends Goal {
             if (squaredDistance <= e) {
                 this.method_28346();
                 this.mob.swingHand(Hand.MAIN_HAND);
+                this.mob.setMeleeAttacking(true);
                 this.mob.tryAttack(target);
             } else if (squaredDistance <= d) {
                 this.method_28346();
                 this.mob.swingHand(Hand.MAIN_HAND);
+                this.mob.setAshAttacking(true);
                 this.mob.tryAshAttack(target);
             }
         }

@@ -6,14 +6,10 @@ import net.minecraft.util.Identifier;
 import raltsmc.desolation.Desolation;
 import raltsmc.desolation.entity.AshScuttlerEntity;
 import raltsmc.desolation.entity.model.AshScuttlerEntityModel;
+import software.bernie.geckolib3.renderer.geo.GeoEntityRenderer;
 
-public class AshScuttlerEntityRenderer extends MobEntityRenderer<AshScuttlerEntity, AshScuttlerEntityModel> {
+public class AshScuttlerEntityRenderer extends GeoEntityRenderer<AshScuttlerEntity> {
     public AshScuttlerEntityRenderer(EntityRenderDispatcher entityRenderDispatcher) {
-        super(entityRenderDispatcher, new AshScuttlerEntityModel(), 0.3f);
-    }
-
-    @Override
-    public Identifier getTexture(AshScuttlerEntity entity) {
-        return Desolation.id("textures/entity/ash_scuttler.png");
+        super(entityRenderDispatcher, new AshScuttlerEntityModel());
     }
 }

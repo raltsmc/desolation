@@ -33,6 +33,7 @@ import raltsmc.desolation.registry.*;
 import raltsmc.desolation.structure.AshTinkerBaseGenerator;
 import raltsmc.desolation.world.feature.AshTinkerBaseFeature;
 import raltsmc.desolation.world.feature.DesolationConfiguredFeatures;
+import software.bernie.geckolib3.GeckoLib;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -127,6 +128,8 @@ public class DesolationMod implements ModInitializer {
 	@Override
 	public void onInitialize() {
 		DesolationRegistries.init();
+
+		GeckoLib.initialize();
 
 		Registry.register(Registry.STRUCTURE_PIECE, Desolation.id("tinker_base_piece"), TINKER_BASE_PIECE);
 		FabricStructureBuilder.create(Desolation.id("tinker_base"), TINKER_BASE)

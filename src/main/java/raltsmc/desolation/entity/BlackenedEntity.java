@@ -6,6 +6,9 @@ import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.mob.HostileEntity;
@@ -21,23 +24,28 @@ import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.World;
 import raltsmc.desolation.entity.ai.goal.AshAttackGoal;
 import raltsmc.desolation.registry.DesolationItems;
-import software.bernie.geckolib.animation.builder.AnimationBuilder;
-import software.bernie.geckolib.animation.controller.AnimationController;
-import software.bernie.geckolib.animation.controller.EntityAnimationController;
-import software.bernie.geckolib.entity.IAnimatedEntity;
-import software.bernie.geckolib.event.AnimationTestEvent;
-import software.bernie.geckolib.manager.EntityAnimationManager;
+import software.bernie.geckolib3.core.IAnimatable;
+import software.bernie.geckolib3.core.PlayState;
+import software.bernie.geckolib3.core.builder.AnimationBuilder;
+import software.bernie.geckolib3.core.controller.AnimationController;
+import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
+import software.bernie.geckolib3.core.manager.AnimationData;
+import software.bernie.geckolib3.core.manager.AnimationFactory;
 
-public class BlackenedEntity extends HostileEntity implements IAnimatedEntity {
+public class BlackenedEntity extends HostileEntity implements IAnimatable {
+    private static final TrackedData<Boolean> MELEE_ATTACKING;
+    private static final TrackedData<Boolean> THROW_ATTACKING;
+
     public BlackenedEntity(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
-        registerAnimationControllers();
     }
 
-    private EntityAnimationManager manager = new EntityAnimationManager();
-    private AnimationController idleController = new EntityAnimationController(this, "idleController", 20, this::idlePredicate);
-    private AnimationController walkController = new EntityAnimationController(this, "walkController", 20, this::walkPredicate);
-    private AnimationController heartController = new EntityAnimationController(this, "heartController", 20, this::heartPredicate);
+    private AnimationFactory factory = new AnimationFactory(this);
+
+    @Override
+    public AnimationFactory getFactory() {
+        return this.factory;
+    }
 
     protected void initGoals() {
         this.goalSelector.add(3, new FleeEntityGoal(this, WolfEntity.class, 6.0F, 1.0D, 1.2D));
@@ -53,6 +61,12 @@ public class BlackenedEntity extends HostileEntity implements IAnimatedEntity {
         return HostileEntity.createHostileAttributes()
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.19D)
                 .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 6);
+    }
+
+    protected void initDataTracker() {
+        super.initDataTracker();
+        this.dataTracker.startTracking(MELEE_ATTACKING, false);
+        this.dataTracker.startTracking(THROW_ATTACKING, false);
     }
 
     protected void playStepSound(BlockPos pos, BlockState state) {
@@ -95,37 +109,69 @@ public class BlackenedEntity extends HostileEntity implements IAnimatedEntity {
             }
     }
 
+    public boolean isMeleeAttacking() {
+        return (Boolean)this.dataTracker.get(MELEE_ATTACKING);
+    }
+
+    public boolean isAshAttacking() {
+        return (Boolean)this.dataTracker.get(THROW_ATTACKING);
+    }
+
+    public void setMeleeAttacking(boolean val) {
+        this.dataTracker.set(MELEE_ATTACKING, val);
+    }
+
+    public void setAshAttacking(boolean val) {
+        this.dataTracker.set(MELEE_ATTACKING, val);
+    }
+
+    private <E extends IAnimatable>PlayState idlePredicate(AnimationEvent<E> event) {
+        if (!event.isMoving()) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.desolation.blackened_idle", true));
+            return PlayState.CONTINUE;
+        } else {
+            return PlayState.STOP;
+        }
+    }
+
+    private <E extends IAnimatable>PlayState walkPredicate(AnimationEvent<E> event) {
+        if (event.isMoving()) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.desolation.blackened_hobble", true));
+            return PlayState.CONTINUE;
+        } else {
+            return PlayState.STOP;
+        }
+    }
+
+    private <E extends IAnimatable>PlayState heartPredicate(AnimationEvent<E> event) {
+        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.desolation.blackened_heartbeat", true));
+        return PlayState.CONTINUE;
+    }
+
+    private <E extends IAnimatable>PlayState attackPredicate(AnimationEvent<E> event) {
+        if (this.isMeleeAttacking()) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.desolation.blackened_melee"));
+            this.setMeleeAttacking(false);
+            return PlayState.CONTINUE;
+        } else if (this.isAshAttacking()) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.desolation.blackened_throw"));
+            this.setAshAttacking(false);
+            return PlayState.CONTINUE;
+        } else {
+            return PlayState.STOP;
+        }
+    }
+
     @Override
-    public EntityAnimationManager getAnimationManager() {
-        return manager;
+    public void registerControllers(AnimationData data) {
+        data.addAnimationController(new AnimationController(this, "idleController", 0, this::idlePredicate));
+        data.addAnimationController(new AnimationController(this, "walkController", 0, this::walkPredicate));
+        data.addAnimationController(new AnimationController(this, "heartController", 0, this::heartPredicate));
+        data.addAnimationController(new AnimationController(this, "attackController", 0, this::attackPredicate));
     }
 
-    private <E extends BlackenedEntity> boolean idlePredicate(AnimationTestEvent<E> event) {
-        if (!event.isWalking()) {
-            idleController.setAnimation(new AnimationBuilder().addAnimation("animation.desolation.blackened_idle", true));
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private <E extends BlackenedEntity> boolean walkPredicate(AnimationTestEvent<E> event) {
-        if (event.isWalking()) {
-            walkController.setAnimation(new AnimationBuilder().addAnimation("animation.desolation.blackened_hobble", true));
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    private <E extends BlackenedEntity> boolean heartPredicate(AnimationTestEvent<E> event) {
-        heartController.setAnimation(new AnimationBuilder().addAnimation("animation.desolation.blackened_heartbeat", true));
-        return true;
-    }
-
-    private void registerAnimationControllers() {
-        manager.addAnimationController(idleController);
-        manager.addAnimationController(walkController);
-        manager.addAnimationController(heartController);
+    static {
+        MELEE_ATTACKING = DataTracker.registerData(BlackenedEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+        THROW_ATTACKING = DataTracker.registerData(BlackenedEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     }
 }
