@@ -1,0 +1,99 @@
+{
+	"format_version": "1.8.0",
+	"animations": {
+		"animation.ash_siphon.spin_inner": {
+			"loop": true,
+			"animation_length": 1.44,
+			"bones": {
+				"inner_ring_1": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.36": {
+							"vector": [0, 90, 0]
+						},
+						"0.72": {
+							"vector": [0, 180, 0]
+						},
+						"1.08": {
+							"vector": [0, 90, 0]
+						},
+						"1.44": {
+							"vector": [0, 0, 0]
+						}
+					}
+				},
+				"inner_ring_2": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.36": {
+							"vector": [0, -90, 0]
+						},
+						"0.72": {
+							"vector": [0, -180, 0]
+						},
+						"1.08": {
+							"vector": [0, -90, 0]
+						},
+						"1.44": {
+							"vector": [0, 0, 0]
+						}
+					}
+				},
+				"inner_ring_3": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.36": {
+							"vector": [0, 90, 0]
+						},
+						"0.72": {
+							"vector": [0, 180, 0]
+						},
+						"1.08": {
+							"vector": [0, 90, 0]
+						},
+						"1.44": {
+							"vector": [0, 0, 0]
+						}
+					}
+				}
+			}
+		},
+		"animation.ash_siphon.spin_outer": {
+			"loop": true,
+			"animation_length": 1.92,
+			"bones": {
+				"shaft": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 0]
+						},
+						"0.48": {
+							"vector": [0, -90, 0]
+						},
+						"0.96": {
+							"vector": [0, -180, 0]
+						},
+						"1.44": {
+							"vector": [0, -270, 0]
+						},
+						"1.92": {
+							"vector": [0, -360, 0]
+						}
+					}
+				},
+				"inner_ring_2": {
+					"rotation": {
+						"vector": [0, 0, 0]
+					}
+				}
+			}
+		}
+	},
+	"geckolib_format_version": 2
+}
