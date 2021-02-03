@@ -50,7 +50,7 @@ public class AshSiphonBlockEntity extends BlockEntity implements Tickable {
                 float b = random.nextFloat() * 100;
                 if (isActive && b < tickPercentChance) {
                     List<BlockPos> openBlocks = new ArrayList<>();
-                    BlockPos.stream(pos.getX() - radius, pos.getY(), pos.getZ() - radius, pos.getX() + radius, pos.getY() + dHeight, pos.getZ() + radius)
+                    BlockPos.stream(pos.getX() - radius, pos.getY() - dHeight, pos.getZ() - radius, pos.getX() + radius, pos.getY() + dHeight, pos.getZ() + radius)
                             .filter(blockPos -> world.getBlockState(blockPos.down()).isSolidBlock(world, blockPos.down()) && (world.getBlockState(blockPos).isAir() || (world.getBlockState(blockPos).getBlock() == DesolationBlocks.ASH_LAYER_BLOCK && world.getBlockState(blockPos).get(Properties.LAYERS) < 8)))
                             .forEach(e -> openBlocks.add(e.toImmutable()));
                     for (int i = openBlocks.size() - 1; i >= 0; i--) {
@@ -66,12 +66,10 @@ public class AshSiphonBlockEntity extends BlockEntity implements Tickable {
                         BlockState stateToUpdate = world.getBlockState(toUpdate);
 
                         if (stateToUpdate.getBlock() == DesolationBlocks.ASH_LAYER_BLOCK) {
-                            System.out.println("Updating ash block; current layer count: " + stateToUpdate.get(Properties.LAYERS));
                             int newLayers = stateToUpdate.get(Properties.LAYERS) + 1;
                             if (newLayers > 8) newLayers = 8;
                             world.setBlockState(toUpdate, stateToUpdate.with(Properties.LAYERS, newLayers));
                         } else {
-                            System.out.println("Updating non-solid block");
                             world.setBlockState(toUpdate, DesolationBlocks.ASH_LAYER_BLOCK.getDefaultState());
                         }
                     }
