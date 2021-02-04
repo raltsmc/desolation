@@ -6,6 +6,7 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
 import net.minecraft.client.options.KeyBinding;
 import net.minecraft.client.render.RenderLayer;
@@ -13,11 +14,15 @@ import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
 import raltsmc.desolation.Desolation;
 import raltsmc.desolation.access.PlayerEntityAccess;
+import raltsmc.desolation.block.entity.AshSiphonBlockEntityRenderer;
 import raltsmc.desolation.entity.renderer.AshScuttlerEntityRenderer;
 import raltsmc.desolation.entity.renderer.BlackenedEntityRenderer;
+import raltsmc.desolation.item.blockitem.AshSiphonBlockItemRenderer;
+import raltsmc.desolation.registry.DesolationBlockEntities;
 import raltsmc.desolation.registry.DesolationBlocks;
 import raltsmc.desolation.registry.DesolationEntities;
 import raltsmc.desolation.registry.DesolationItems;
+import software.bernie.geckolib3.renderer.geo.GeoItemRenderer;
 
 @Environment(EnvType.CLIENT)
 public class DesolationClient implements ClientModInitializer {
@@ -35,6 +40,9 @@ public class DesolationClient implements ClientModInitializer {
 
         EntityRendererRegistry.INSTANCE.register(DesolationEntities.ASH_SCUTTLER, (dispatcher, context) -> new AshScuttlerEntityRenderer(dispatcher));
         EntityRendererRegistry.INSTANCE.register(DesolationEntities.BLACKENED, (dispatcher, context) -> new BlackenedEntityRenderer(dispatcher));
+
+        BlockEntityRendererRegistry.INSTANCE.register(DesolationBlockEntities.ASH_SIPHON_BLOCK_ENTITY, AshSiphonBlockEntityRenderer::new);
+        GeoItemRenderer.registerItemRenderer(DesolationItems.ASH_SIPHON, new AshSiphonBlockItemRenderer());
 
         // TODO make this not suck
         /*ClientTickEvents.END_CLIENT_TICK.register(client -> {

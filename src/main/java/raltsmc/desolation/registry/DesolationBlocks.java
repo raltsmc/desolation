@@ -37,7 +37,7 @@ public final class DesolationBlocks {
     public static final Block SCORCHED_TUFT = register(new ScorchedTuftBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).breakInstantly().nonOpaque().noCollision().sounds(BlockSoundGroup.CROP)), "scorched_tuft", true);
     public static final Block CINDERFRUIT_PLANT = register(new CinderfruitPlantBlock(FabricBlockSettings.of(Material.PLANT).hardness(0.1f).lightLevel(10).nonOpaque().noCollision().sounds(BlockSoundGroup.CROP)), "cinderfruit_plant", false);
 
-    public static final Block ASH_SIPHON = register(new AshSiphonBlock(FabricBlockSettings.of(Material.STONE).hardness(2.0f).sounds(BlockSoundGroup.STONE).breakByTool(FabricToolTags.PICKAXES, 0)), "ash_siphon", true);
+    public static final Block ASH_SIPHON = register(new AshSiphonBlock(FabricBlockSettings.of(Material.STONE).hardness(2.0f).sounds(BlockSoundGroup.STONE).breakByTool(FabricToolTags.PICKAXES, 0).nonOpaque()), "ash_siphon", false);
 
     static void init() {
 

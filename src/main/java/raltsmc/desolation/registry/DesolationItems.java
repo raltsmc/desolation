@@ -1,6 +1,7 @@
 package raltsmc.desolation.registry;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.minecraft.block.Block;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -10,6 +11,7 @@ import net.minecraft.util.registry.Registry;
 import raltsmc.desolation.Desolation;
 import raltsmc.desolation.DesolationMod;
 import raltsmc.desolation.item.*;
+import raltsmc.desolation.item.blockitem.AshSiphonBlockItem;
 
 public final class DesolationItems {
 
@@ -39,6 +41,8 @@ public final class DesolationItems {
             0x111111, 0xff7b00, new Item.Settings().group(ItemGroup.MISC)), "ash_scuttler_spawn_egg");
     public static final Item SPAWN_EGG_BLACKENED = register(new SpawnEggItem(DesolationEntities.BLACKENED,
             0x0a0a0a, 0xcf4b00, new Item.Settings().group(ItemGroup.MISC)), "blackened_spawn_egg");
+
+    public static final Item ASH_SIPHON = register(new AshSiphonBlockItem(DesolationBlocks.ASH_SIPHON, new Item.Settings().group(DesolationMod.DSL_GROUP)), "ash_siphon");
 
     static void init() {
     }
