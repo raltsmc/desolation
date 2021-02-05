@@ -13,6 +13,7 @@ public class AshSiphonBlockEntityRenderer extends GeoBlockRenderer<AshSiphonBloc
         super(renderDispatcher, new AshSiphonBlockEntityModel());
     }
 
+    // TODO fix block rendering as solid w/ Canvas
     @Override
     public RenderLayer getRenderType(AshSiphonBlockEntity animatable, float partialTicks, MatrixStack stack, VertexConsumerProvider renderTypeBuffer, VertexConsumer vertexBuilder, int packedLightIn, Identifier textureLocation) {
         return RenderLayer.getEntitySolid(getTextureLocation(animatable));

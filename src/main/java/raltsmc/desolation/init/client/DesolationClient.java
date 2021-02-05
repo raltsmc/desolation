@@ -17,11 +17,14 @@ import raltsmc.desolation.access.PlayerEntityAccess;
 import raltsmc.desolation.block.entity.AshSiphonBlockEntityRenderer;
 import raltsmc.desolation.entity.renderer.AshScuttlerEntityRenderer;
 import raltsmc.desolation.entity.renderer.BlackenedEntityRenderer;
+import raltsmc.desolation.item.armor.TinkererArmorItem;
+import raltsmc.desolation.item.armor.TinkererArmorRenderer;
 import raltsmc.desolation.item.blockitem.AshSiphonBlockItemRenderer;
 import raltsmc.desolation.registry.DesolationBlockEntities;
 import raltsmc.desolation.registry.DesolationBlocks;
 import raltsmc.desolation.registry.DesolationEntities;
 import raltsmc.desolation.registry.DesolationItems;
+import software.bernie.geckolib3.renderer.geo.GeoArmorRenderer;
 import software.bernie.geckolib3.renderer.geo.GeoItemRenderer;
 
 @Environment(EnvType.CLIENT)
@@ -43,6 +46,8 @@ public class DesolationClient implements ClientModInitializer {
 
         BlockEntityRendererRegistry.INSTANCE.register(DesolationBlockEntities.ASH_SIPHON_BLOCK_ENTITY, AshSiphonBlockEntityRenderer::new);
         GeoItemRenderer.registerItemRenderer(DesolationItems.ASH_SIPHON, new AshSiphonBlockItemRenderer());
+
+        GeoArmorRenderer.registerArmorRenderer(TinkererArmorItem.class, new TinkererArmorRenderer());
 
         // TODO make this not suck
         /*ClientTickEvents.END_CLIENT_TICK.register(client -> {

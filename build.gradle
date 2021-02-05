@@ -12,6 +12,18 @@ group = project.maven_group
 
 repositories {
 	maven { url 'https://repo.repsy.io/mvn/gandiber/geckolib' }
+	maven {
+		name = "dblsaiko"
+		url = "https://maven.dblsaiko.net/"
+	}
+	maven {
+		name = "Cotton"
+		url = "http://server.bbkr.space:8081/artifactory/libs-release/"
+	}
+	maven {
+		name = "CurseForge"
+		url = "https://minecraft.curseforge.com/api/maven"
+	}
 	jcenter()
 }
 
@@ -41,6 +53,7 @@ dependencies {
 	modImplementation "io.github.prospector:modmenu:1.14.13+build.21"
 
 	modRuntime "me.shedaniel:RoughlyEnoughItems:5.8.9"
+	modRuntime "grondag:canvas-mc116:1.0.1267"
 
 	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
 	// You may need to force-disable transitiveness on them.

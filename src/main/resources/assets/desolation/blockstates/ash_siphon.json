@@ -2,27 +2,19 @@
   "variants": {
     "facing=north": {
       "y": 0,
-      "model": "geckolib3:block/box"
+      "model": "geckolib3:block/empty"
     },
     "facing=south": {
       "y": 180,
-      "model": "geckolib3:block/box"
+      "model": "geckolib3:block/empty"
     },
     "facing=east": {
       "y": 90,
-      "model": "geckolib3:block/box"
+      "model": "geckolib3:block/empty"
     },
     "facing=west": {
       "y": 270,
-      "model": "geckolib3:block/box"
-    },
-    "facing=up": {
-      "y": 0,
-      "model": "geckolib3:block/box"
-    },
-    "facing=down": {
-      "y": 0,
-      "model": "geckolib3:block/box"
+      "model": "geckolib3:block/empty"
     }
   }
 }
