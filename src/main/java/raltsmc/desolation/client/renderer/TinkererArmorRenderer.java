@@ -1,5 +1,7 @@
-package raltsmc.desolation.item.armor;
+package raltsmc.desolation.client.renderer;
 
+import raltsmc.desolation.client.model.TinkererArmorModel;
+import raltsmc.desolation.item.armor.TinkererArmorItem;
 import software.bernie.geckolib3.renderer.geo.GeoArmorRenderer;
 
 public class TinkererArmorRenderer extends GeoArmorRenderer<TinkererArmorItem> {
