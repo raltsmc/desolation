@@ -6,6 +6,7 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendereregistry.v1.EntityRendererRegistry;
 import net.minecraft.client.options.KeyBinding;
 import net.minecraft.client.render.RenderLayer;
@@ -22,7 +23,7 @@ import raltsmc.desolation.registry.DesolationItems;
 @Environment(EnvType.CLIENT)
 public class DesolationClient implements ClientModInitializer {
 
-    //public static KeyBinding cinderDashBinding;
+    public static KeyBinding cinderDashBinding;
 
     @Override
     public void onInitializeClient() {
@@ -47,11 +48,11 @@ public class DesolationClient implements ClientModInitializer {
     }
 
     static {
-        /*cinderDashBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
+        cinderDashBinding = KeyBindingHelper.registerKeyBinding(new KeyBinding(
                 "key.desolation.cinder_dash",
                 InputUtil.Type.KEYSYM,
                 GLFW.GLFW_KEY_V,
                 "category.desolation.cat"
-        ));*/
+        ));
     }
 }
