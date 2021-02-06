@@ -3,6 +3,7 @@ package raltsmc.desolation;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.OverworldBiomes;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.registry.FuelRegistry;
 import net.fabricmc.fabric.api.structure.v1.FabricStructureBuilder;
 import net.fabricmc.fabric.mixin.biome.BuiltinBiomesAccessor;
@@ -11,13 +12,17 @@ import net.minecraft.entity.SpawnGroup;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BiomeMoodSound;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.structure.StructurePieceType;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
+import net.minecraft.world.World;
 import net.minecraft.world.biome.*;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.ConfiguredStructureFeature;
@@ -37,6 +42,7 @@ import software.bernie.geckolib3.GeckoLib;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class DesolationMod implements ModInitializer {
 
@@ -45,6 +51,9 @@ public class DesolationMod implements ModInitializer {
 	public static final ItemGroup DSL_GROUP = FabricItemGroupBuilder.build(
 			new Identifier("desolation", "dsl_group"),
 			() -> new ItemStack(DesolationBlocks.EMBER_BLOCK));
+
+	public static final Identifier CINDER_SOUL_READY_PACKET_ID = Desolation.id("cinder_soul_ready");
+	public static final Identifier CINDER_SOUL_TICK_PACKET_ID = Desolation.id("cinder_soul_tick");
 
 	public static final StructurePieceType TINKER_BASE_PIECE = AshTinkerBaseGenerator.Piece::new;
 	private static final StructureFeature<DefaultFeatureConfig> TINKER_BASE =
@@ -172,6 +181,52 @@ public class DesolationMod implements ModInitializer {
 		OverworldBiomes.addHillsBiome(CHARRED_FOREST_KEY, CHARRED_FOREST_CLEARING_KEY, 0.05D);*/
 
 		FuelRegistry.INSTANCE.add(DesolationItems.CHARCOAL_BIT, 400);
+
+		ServerPlayNetworking.registerGlobalReceiver(CINDER_SOUL_TICK_PACKET_ID, (server, player, handler, buf, sender) -> {
+			server.execute(() -> {
+				ServerWorld world = ((ServerWorld)player.world);
+				Random random = new Random();
+				double d = player.getX() - 0.25D + random.nextDouble() / 2;
+				double e = player.getY();
+				double f = player.getZ() - 0.25D + random.nextDouble() / 2;
+
+				double g = random.nextDouble() * 0.6D - 0.3D;
+				double h = random.nextDouble() * 6.0D / 16.0D;
+				double i = (random.nextDouble() - 0.5D) / 5.0D;
+
+				world.spawnParticles(ParticleTypes.FLAME, d + g, e + h, f + g, 1, 0d, 0.1d + i, 0d, .1);
+				if (random.nextDouble() < 0.25) {
+				}
+			});
+		});
+
+		ServerPlayNetworking.registerGlobalReceiver(CINDER_SOUL_READY_PACKET_ID, (server, player, handler, buf, sender) -> {
+			server.execute(() -> {
+				ServerWorld world = ((ServerWorld)player.world);
+				Random random = new Random();
+				List<Vec3d> points = new ArrayList<Vec3d>();
+
+				double phi = Math.PI * (3. - Math.sqrt(5.));
+				for (int i = 0; i <= 250; ++i) {
+					double y = 1 - (i / (float) (250 - 1)) * 2;
+					double radius = Math.sqrt(1 - y * y);
+					double theta = phi * i;
+					double x = Math.cos(theta) * radius;
+					double z = Math.sin(theta) * radius;
+
+					points.add(new Vec3d(player.getX() + x * 0.5, player.getY() + 1 + y, player.getZ() + z * 0.5));
+				}
+
+				for (Vec3d vec : points) {
+					Vec3d vel = vec.subtract(player.getPos())
+							.normalize()
+							.multiply(0.12 + random.nextDouble() * 0.03)
+							.add(player.getVelocity().multiply(1, 0.1, 1))
+							.multiply(1.25, 1, 1.25);
+					world.spawnParticles(ParticleTypes.FLAME, vec.x, vec.y, vec.z, 1, vel.x, vel.y, vel.z, .1);
+				}
+			});
+		});
 
 		System.out.println("Desolation initialized!");
 	}

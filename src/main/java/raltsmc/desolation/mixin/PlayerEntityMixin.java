@@ -1,12 +1,16 @@
 package raltsmc.desolation.mixin;
 
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.minecraft.entity.*;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Arm;
@@ -20,7 +24,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import raltsmc.desolation.Desolation;
-import raltsmc.desolation.access.PlayerEntityAccess;
+import raltsmc.desolation.DesolationMod;
 import raltsmc.desolation.config.DesolationConfig;
 import raltsmc.desolation.entity.effect.DesolationStatusEffects;
 import raltsmc.desolation.init.client.DesolationClient;
@@ -31,7 +35,7 @@ import java.util.List;
 import java.util.Objects;
 
 @Mixin(PlayerEntity.class)
-public class PlayerEntityMixin extends LivingEntity implements PlayerEntityAccess {
+public class PlayerEntityMixin extends LivingEntity {
     DesolationConfig config = AutoConfig.getConfigHolder(DesolationConfig.class).getConfig();
 
     public int cinderDashCooldownMax = 200;
@@ -68,61 +72,37 @@ public class PlayerEntityMixin extends LivingEntity implements PlayerEntityAcces
                 || this.getEquippedStack(EquipmentSlot.HEAD).getItem() == DesolationItems.MASK_GOGGLES)) {
             this.removeStatusEffect(StatusEffects.BLINDNESS);
         }
-        
+
         if (this.hasStatusEffect(DesolationStatusEffects.CINDER_SOUL)) {
-            // praise jesus if any of this works in multiplayer
             if (cinderDashCooldown < cinderDashCooldownMax) {
                 ++cinderDashCooldown;
                 if (cinderDashCooldown == cinderDashCooldownMax) {
-                    if (this.world.isClient) {
-                        this.playSound(SoundEvents.BLOCK_NOTE_BLOCK_CHIME, 1F, 1.2F);
-                    } else {
-                        List<Vec3d> points = new ArrayList<Vec3d>();
 
-                        double phi = Math.PI * (3. - Math.sqrt(5.));
-                        for (int i = 0; i <= 250; ++i) {
-                            double y = 1 - (i / (float) (250 - 1)) * 2;
-                            double radius = Math.sqrt(1 - y * y);
-                            double theta = phi * i;
-                            double x = Math.cos(theta) * radius;
-                            double z = Math.sin(theta) * radius;
-
-                            points.add(new Vec3d(this.getX() + x * 0.5, this.getY() + 1 + y, this.getZ() + z * 0.5));
-                        }
-
-                        for (Vec3d vec : points) {
-                            Vec3d vel = vec.subtract(this.getPos())
-                                    .normalize()
-                                    .multiply(0.12 + random.nextDouble() * 0.03)
-                                    .add(this.getVelocity().multiply(1, 0.1, 1))
-                                    .multiply(1.25, 1, 1.25);
-                            this.world.addParticle(ParticleTypes.FLAME, vec.x, vec.y, vec.z, vel.x, vel.y, vel.z);
-                        }
+                    PacketByteBuf buf = PacketByteBufs.create();
+                    if (ClientPlayNetworking.canSend(DesolationMod.CINDER_SOUL_READY_PACKET_ID)) {
+                        ClientPlayNetworking.send(DesolationMod.CINDER_SOUL_READY_PACKET_ID, buf);
                     }
+                    this.playSound(SoundEvents.BLOCK_NOTE_BLOCK_CHIME, 1F, 1.2F);
                 }
             }
-            if (!world.isClient && random.nextDouble() < 0.3) {
-                double d = this.getX() - 0.25D + random.nextDouble() / 2;
-                double e = this.getY();
-                double f = this.getZ() - 0.25D + random.nextDouble() / 2;
 
-                double g = random.nextDouble() * 0.6D - 0.3D;
-                double h = random.nextDouble() * 6.0D / 16.0D;
-                double i = (random.nextDouble() - 0.5D) / 5.0D;
-
-                this.world.addParticle(ParticleTypes.FLAME, d + g, e + h, f + g, 0.0D, 0.1D + i, 0.0D);
+            if (random.nextDouble() < 0.3) {
+                PacketByteBuf buf = PacketByteBufs.create();
+                if (ClientPlayNetworking.canSend(DesolationMod.CINDER_SOUL_TICK_PACKET_ID)) {
+                    ClientPlayNetworking.send(DesolationMod.CINDER_SOUL_TICK_PACKET_ID, buf);
+                }
                 if (random.nextDouble() < 0.25) {
-                    this.world.playSound(this.getX(), this.getY(), this.getZ(), SoundEvents.BLOCK_FIRE_AMBIENT, SoundCategory.AMBIENT, .8F, 1F, false);
+                    world.playSound((PlayerEntity)null, this.getX(), this.getY(), this.getZ(), SoundEvents.BLOCK_FIRE_AMBIENT,SoundCategory.AMBIENT, .8F, 1F);
                 }
             }
-            /*if (world.isClient) {
-                if (DesolationClient.cinderDashBinding.isPressed() && cinderDashCooldown >= cinderDashCooldownMax) {
-                    dashVector = this.getRotationVector().normalize().multiply(0.75);
-                    cinderDashCooldown = 0;
-                    isDashing = true;
-                    //this.world.playSound(this.getX(), this.getY(), this.getZ(),SoundEvents.ENTITY_ENDER_DRAGON_GROWL, SoundCategory.PLAYERS, 1F, 1.6F, false);
-                }
-            }*/
+
+            if (DesolationClient.cinderDashBinding.isPressed() && cinderDashCooldown >= cinderDashCooldownMax) {
+                dashVector = this.getRotationVector().normalize().multiply(0.75);
+                cinderDashCooldown = 0;
+                isDashing = true;
+                world.playSound((PlayerEntity)null, this.getX(), this.getY(), this.getZ(),SoundEvents.ENTITY_ENDER_DRAGON_GROWL,SoundCategory.PLAYERS, 1F, 1.6F);
+            }
+
             if (isDashing) {
                 if (dashLength < dashLengthMax) {
                     if (this.world.isClient) {
@@ -155,16 +135,6 @@ public class PlayerEntityMixin extends LivingEntity implements PlayerEntityAcces
     private void doFireAttackB(Entity target, CallbackInfo info, float f, float h, boolean bl, boolean bl2, int j, boolean bl3, boolean bl4, float k, boolean bl5, int l, float n) {
         if (l <= 0 && this.hasStatusEffect(DesolationStatusEffects.CINDER_SOUL)) {
             target.setOnFireFor(6);
-        }
-    }
-
-    @Override
-    public void doDash() {
-        if (cinderDashCooldown >= cinderDashCooldownMax) {
-            dashVector = this.getRotationVector().normalize().multiply(0.75);
-            cinderDashCooldown = 0;
-            isDashing = true;
-            //this.playSound(SoundEvents.ENTITY_ENDER_DRAGON_GROWL, 1F, 1.6F);
         }
     }
 
