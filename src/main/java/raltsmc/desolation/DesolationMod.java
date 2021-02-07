@@ -9,6 +9,7 @@ import net.fabricmc.fabric.api.structure.v1.FabricStructureBuilder;
 import net.fabricmc.fabric.mixin.biome.BuiltinBiomesAccessor;
 import net.fabricmc.fabric.mixin.biome.VanillaLayeredBiomeSourceAccessor;
 import net.minecraft.entity.SpawnGroup;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemGroup;
 import net.minecraft.item.ItemStack;
 import net.minecraft.particle.ParticleTypes;
@@ -54,6 +55,7 @@ public class DesolationMod implements ModInitializer {
 
 	public static final Identifier CINDER_SOUL_READY_PACKET_ID = Desolation.id("cinder_soul_ready");
 	public static final Identifier CINDER_SOUL_TICK_PACKET_ID = Desolation.id("cinder_soul_tick");
+	public static final Identifier CINDER_SOUL_DO_CINDER_DASH = Desolation.id("do_cinder_dash");
 
 	public static final StructurePieceType TINKER_BASE_PIECE = AshTinkerBaseGenerator.Piece::new;
 	private static final StructureFeature<DefaultFeatureConfig> TINKER_BASE =
@@ -184,7 +186,7 @@ public class DesolationMod implements ModInitializer {
 
 		ServerPlayNetworking.registerGlobalReceiver(CINDER_SOUL_TICK_PACKET_ID, (server, player, handler, buf, sender) -> {
 			server.execute(() -> {
-				ServerWorld world = ((ServerWorld)player.world);
+				ServerWorld world = (ServerWorld)player.world;
 				Random random = new Random();
 				double d = player.getX() - 0.25D + random.nextDouble() / 2;
 				double e = player.getY();
@@ -196,18 +198,19 @@ public class DesolationMod implements ModInitializer {
 
 				world.spawnParticles(ParticleTypes.FLAME, d + g, e + h, f + g, 1, 0d, 0.1d + i, 0d, .1);
 				if (random.nextDouble() < 0.25) {
+					world.playSound((PlayerEntity) null, player.getX(), player.getY(), player.getZ(), SoundEvents.BLOCK_FIRE_AMBIENT, SoundCategory.AMBIENT, .8F, 1F);
 				}
 			});
 		});
 
 		ServerPlayNetworking.registerGlobalReceiver(CINDER_SOUL_READY_PACKET_ID, (server, player, handler, buf, sender) -> {
 			server.execute(() -> {
-				ServerWorld world = ((ServerWorld)player.world);
+				ServerWorld world = (ServerWorld)player.world;
 				Random random = new Random();
 				List<Vec3d> points = new ArrayList<Vec3d>();
 
 				double phi = Math.PI * (3. - Math.sqrt(5.));
-				for (int i = 0; i <= 250; ++i) {
+				for (int i = 0; i <= 150; ++i) {
 					double y = 1 - (i / (float) (250 - 1)) * 2;
 					double radius = Math.sqrt(1 - y * y);
 					double theta = phi * i;
@@ -225,6 +228,13 @@ public class DesolationMod implements ModInitializer {
 							.multiply(1.25, 1, 1.25);
 					world.spawnParticles(ParticleTypes.FLAME, vec.x, vec.y, vec.z, 1, vel.x, vel.y, vel.z, .1);
 				}
+			});
+		});
+
+		ServerPlayNetworking.registerGlobalReceiver(CINDER_SOUL_DO_CINDER_DASH, (server, player, handler, buf, sender) -> {
+			server.execute(() -> {
+				ServerWorld world = (ServerWorld)player.world;
+				world.playSound((PlayerEntity) null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_ENDER_DRAGON_GROWL, SoundCategory.PLAYERS, 1F, 1.6F);
 			});
 		});
 
