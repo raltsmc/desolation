@@ -1,8 +1,10 @@
 package raltsmc.desolation.mixin;
 
 import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.api.EnvType;
+//import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+//import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.entity.*;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -71,7 +73,7 @@ public class PlayerEntityMixin extends LivingEntity implements PlayerEntityAcces
             this.removeStatusEffect(StatusEffects.BLINDNESS);
         }
 
-        if (this.hasStatusEffect(DesolationStatusEffects.CINDER_SOUL)) {
+        /*if (this.hasStatusEffect(DesolationStatusEffects.CINDER_SOUL) && FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT) {
             if (cinderDashCooldown < cinderDashCooldownMax) {
                 ++cinderDashCooldown;
                 if (cinderDashCooldown == cinderDashCooldownMax) {
@@ -118,7 +120,7 @@ public class PlayerEntityMixin extends LivingEntity implements PlayerEntityAcces
         } else {
             dashLength = 0;
             isDashing = false;
-        }
+        }*/
     }
 
     @Inject(method = "attack", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;getHealth()F", ordinal = 0), locals = LocalCapture.CAPTURE_FAILHARD)

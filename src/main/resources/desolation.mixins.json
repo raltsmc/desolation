@@ -17,7 +17,9 @@
     "ArmorFeatureRendererMixin",
     "HeadFeatureRendererMixin",
     "InGameHudMixin",
-    "PotionUtilMixin"
+    "PotionUtilMixin",
+    "InGameHudMixin",
+    "ClientPlayerEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1
