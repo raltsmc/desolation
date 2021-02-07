@@ -18,6 +18,7 @@ public final class DesolationBlocks {
     public static final Block EMBER_BLOCK = register(new EmberBlock(FabricBlockSettings.of(Material.STONE).hardness(1.5f).lightLevel(8).sounds(BlockSoundGroup.STONE).breakByTool(FabricToolTags.PICKAXES, 0)), "ember_block", true);
     public static final Block ASH_BLOCK = register(new AshBlock(FabricBlockSettings.of(Material.AGGREGATE).hardness(0.5f).sounds(BlockSoundGroup.SAND).breakByTool(FabricToolTags.SHOVELS)), "ash_block", true);
     public static final Block ASH_LAYER_BLOCK = register(new AshLayerBlock(FabricBlockSettings.of(Material.AGGREGATE).hardness(0.3f).sounds(BlockSoundGroup.SAND).breakByTool(FabricToolTags.SHOVELS)), "ash", true);
+    public static final Block ACTIVATED_CHARCOAL_BLOCK = register(new Block(FabricBlockSettings.of(Material.STONE).hardness(0.5f).sounds(BlockSoundGroup.BASALT).breakByTool(FabricToolTags.PICKAXES)), "activated_charcoal_block", true);
     public static final Block CHARRED_LOG = register(new PillarBlock(FabricBlockSettings.of(Material.WOOD).hardness(1.8f).sounds(BlockSoundGroup.BASALT).breakByTool(FabricToolTags.AXES)), "charred_log", true);
     public static final Block CHARRED_PLANKS = register(new Block(FabricBlockSettings.of(Material.WOOD, MaterialColor.GRAY).strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD)), "charred_planks", true);
     // TODO add signs (and add them to non_flammable_wood, wall_signs, and standing_signs tags) (and add loot table +recipe)
