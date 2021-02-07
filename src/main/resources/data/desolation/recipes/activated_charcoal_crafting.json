@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "desolation:activated_charcoal_block"
+    }
+  ],
+  "result": {
+    "item": "desolation:activated_charcoal",
+    "count": 9
+  }
+}

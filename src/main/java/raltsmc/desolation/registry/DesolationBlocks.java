@@ -20,6 +20,7 @@ public final class DesolationBlocks {
     public static final Block EMBER_BLOCK = register(new EmberBlock(COOLED_EMBER_BLOCK, FabricBlockSettings.of(Material.STONE).hardness(1.5f).lightLevel(8).sounds(BlockSoundGroup.STONE).breakByTool(FabricToolTags.PICKAXES, 0)), "ember_block", true);
     public static final Block ASH_BLOCK = register(new AshBlock(FabricBlockSettings.of(Material.AGGREGATE).hardness(0.5f).sounds(BlockSoundGroup.SAND).breakByTool(FabricToolTags.SHOVELS)), "ash_block", true);
     public static final Block ASH_LAYER_BLOCK = register(new AshLayerBlock(FabricBlockSettings.of(Material.AGGREGATE).hardness(0.3f).sounds(BlockSoundGroup.SAND).breakByTool(FabricToolTags.SHOVELS)), "ash", true);
+    public static final Block ACTIVATED_CHARCOAL_BLOCK = register(new Block(FabricBlockSettings.of(Material.STONE).hardness(0.5f).sounds(BlockSoundGroup.BASALT).breakByTool(FabricToolTags.PICKAXES)), "activated_charcoal_block", true);
     public static final Block SCORCHED_TUFT = register(new ScorchedTuftBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).breakInstantly().nonOpaque().noCollision().sounds(BlockSoundGroup.CROP)), "scorched_tuft", true);
     public static final Block ASH_BRAMBLE = register(new AshBrambleBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).hardness(0.3f).noCollision().nonOpaque().sounds(BlockSoundGroup.CROP).breakByTool(FabricToolTags.SWORDS)), "ash_bramble", true);
     // TODO make branches decay properly (extend LeavesBlock without the ugly rendering)
