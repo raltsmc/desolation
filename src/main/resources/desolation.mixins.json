@@ -13,11 +13,11 @@
     "TrunkPlacerTypeInvoker"
   ],
   "client": [
-    "BiomeEffectSoundPlayerMixin",
     "ArmorFeatureRendererMixin",
+    "BiomeEffectSoundPlayerMixin",
+    "ClientPlayerEntityMixin",
     "HeadFeatureRendererMixin",
-    "InGameHudMixin",
-    "ClientPlayerEntityMixin"
+    "InGameHudMixin"
   ],
   "injectors": {
     "defaultRequire": 1

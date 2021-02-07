@@ -40,20 +40,15 @@ public class AshAttackGoal extends MeleeAttackGoal {
 // (powered by FernFlower decompiler)
 //
 
-import java.util.EnumSet;
-import java.util.Objects;
-
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.pathing.Path;
-import net.minecraft.entity.mob.PathAwareEntity;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.predicate.entity.EntityPredicates;
 import net.minecraft.util.Hand;
 import raltsmc.desolation.entity.BlackenedEntity;
-import raltsmc.desolation.registry.DesolationItems;
+
+import java.util.EnumSet;
 
 public class AshAttackGoal extends Goal {
     protected final BlackenedEntity mob;

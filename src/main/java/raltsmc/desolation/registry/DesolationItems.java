@@ -1,7 +1,6 @@
 package raltsmc.desolation.registry;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.minecraft.block.Block;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.effect.StatusEffects;
@@ -10,7 +9,8 @@ import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
 import raltsmc.desolation.Desolation;
 import raltsmc.desolation.DesolationMod;
-import raltsmc.desolation.item.*;
+import raltsmc.desolation.item.AshItem;
+import raltsmc.desolation.item.CinderHeartItem;
 import raltsmc.desolation.item.armor.TinkererArmorItem;
 import raltsmc.desolation.item.blockitem.AshSiphonBlockItem;
 

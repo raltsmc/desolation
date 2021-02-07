@@ -5,10 +5,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.mojang.serialization.codecs.RecordCodecBuilder.Instance;
 import com.mojang.serialization.codecs.RecordCodecBuilder.Mu;
-
-import java.util.Iterator;
-import java.util.Random;
-import java.util.Set;
 import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.ModifiableTestableWorld;
@@ -18,6 +14,10 @@ import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import net.minecraft.world.gen.foliage.FoliagePlacer;
 import net.minecraft.world.gen.foliage.FoliagePlacerType;
 import raltsmc.desolation.registry.DesolationFoliagePlacerTypes;
+
+import java.util.Iterator;
+import java.util.Random;
+import java.util.Set;
 
 public class CharredFoliagePlacer extends FoliagePlacer {
     public static final Codec<CharredFoliagePlacer> CODEC = RecordCodecBuilder.create((instance) -> {

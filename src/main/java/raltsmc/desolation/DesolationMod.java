@@ -23,7 +23,6 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
-import net.minecraft.world.World;
 import net.minecraft.world.biome.*;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.feature.ConfiguredStructureFeature;
@@ -33,9 +32,10 @@ import net.minecraft.world.gen.feature.StructureFeature;
 import net.minecraft.world.gen.surfacebuilder.ConfiguredSurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
-import org.apache.commons.lang3.ArrayUtils;
-import raltsmc.desolation.mixin.SetBaseBiomesLayerAccessor;
-import raltsmc.desolation.registry.*;
+import raltsmc.desolation.registry.DesolationBlocks;
+import raltsmc.desolation.registry.DesolationEntities;
+import raltsmc.desolation.registry.DesolationItems;
+import raltsmc.desolation.registry.DesolationRegistries;
 import raltsmc.desolation.structure.AshTinkerBaseGenerator;
 import raltsmc.desolation.world.feature.AshTinkerBaseFeature;
 import raltsmc.desolation.world.feature.DesolationConfiguredFeatures;
@@ -55,7 +55,7 @@ public class DesolationMod implements ModInitializer {
 
 	public static final Identifier CINDER_SOUL_READY_PACKET_ID = Desolation.id("cinder_soul_ready");
 	public static final Identifier CINDER_SOUL_TICK_PACKET_ID = Desolation.id("cinder_soul_tick");
-	public static final Identifier CINDER_SOUL_DO_CINDER_DASH = Desolation.id("do_cinder_dash");
+	public static final Identifier DO_CINDER_DASH_PACKET_ID = Desolation.id("do_cinder_dash");
 
 	public static final StructurePieceType TINKER_BASE_PIECE = AshTinkerBaseGenerator.Piece::new;
 	private static final StructureFeature<DefaultFeatureConfig> TINKER_BASE =
@@ -231,7 +231,7 @@ public class DesolationMod implements ModInitializer {
 			});
 		});
 
-		ServerPlayNetworking.registerGlobalReceiver(CINDER_SOUL_DO_CINDER_DASH, (server, player, handler, buf, sender) -> {
+		ServerPlayNetworking.registerGlobalReceiver(DO_CINDER_DASH_PACKET_ID, (server, player, handler, buf, sender) -> {
 			server.execute(() -> {
 				ServerWorld world = (ServerWorld)player.world;
 				world.playSound((PlayerEntity) null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_ENDER_DRAGON_GROWL, SoundCategory.PLAYERS, 1F, 1.6F);

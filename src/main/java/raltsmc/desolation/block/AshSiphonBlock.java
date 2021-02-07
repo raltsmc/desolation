@@ -5,8 +5,6 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.state.StateManager;
 import net.minecraft.world.BlockView;
-import org.jetbrains.annotations.Nullable;
-import raltsmc.desolation.block.entity.AshSiphonBlockEntity;
 import raltsmc.desolation.registry.DesolationBlockEntities;
 
 public class AshSiphonBlock extends HorizontalFacingBlock implements BlockEntityProvider {

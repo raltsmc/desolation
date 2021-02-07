@@ -1,30 +1,19 @@
 package raltsmc.desolation.mixin;
 
 import com.mojang.authlib.GameProfile;
-import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
-import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.AbstractClientPlayerEntity;
-import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.recipebook.ClientRecipeBook;
 import net.minecraft.client.world.ClientWorld;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityPose;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.network.PacketByteBuf;
-import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.stat.StatHandler;
 import net.minecraft.util.math.Vec3d;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import raltsmc.desolation.DesolationMod;
 import raltsmc.desolation.entity.effect.DesolationStatusEffects;
 import raltsmc.desolation.init.client.DesolationClient;
@@ -62,9 +51,6 @@ public class ClientPlayerEntityMixin extends AbstractClientPlayerEntity {
                 if (ClientPlayNetworking.canSend(DesolationMod.CINDER_SOUL_TICK_PACKET_ID)) {
                     ClientPlayNetworking.send(DesolationMod.CINDER_SOUL_TICK_PACKET_ID, buf);
                 }
-                /*if (random.nextDouble() < 0.25) {
-                    this.world.playSound((PlayerEntity) null, this.getX(), this.getY(), this.getZ(), SoundEvents.BLOCK_FIRE_AMBIENT, SoundCategory.AMBIENT, .8F, 1F);
-                }*/
             }
 
             if (DesolationClient.cinderDashBinding.isPressed() && cinderDashCooldown >= cinderDashCooldownMax) {
@@ -72,8 +58,8 @@ public class ClientPlayerEntityMixin extends AbstractClientPlayerEntity {
                 cinderDashCooldown = 0;
                 isDashing = true;
                 PacketByteBuf buf = PacketByteBufs.create();
-                if (ClientPlayNetworking.canSend(DesolationMod.CINDER_SOUL_DO_CINDER_DASH)) {
-                    ClientPlayNetworking.send(DesolationMod.CINDER_SOUL_DO_CINDER_DASH, buf);
+                if (ClientPlayNetworking.canSend(DesolationMod.DO_CINDER_DASH_PACKET_ID)) {
+                    ClientPlayNetworking.send(DesolationMod.DO_CINDER_DASH_PACKET_ID, buf);
                 }
             }
 

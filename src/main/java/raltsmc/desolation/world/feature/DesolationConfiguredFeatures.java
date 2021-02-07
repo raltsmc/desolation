@@ -16,7 +16,6 @@ import net.minecraft.world.gen.stateprovider.WeightedBlockStateProvider;
 import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
 import raltsmc.desolation.Desolation;
 import raltsmc.desolation.registry.DesolationBlocks;
-import raltsmc.desolation.world.feature.DesolationFeatures;
 import raltsmc.desolation.world.gen.foliage.CharredFoliagePlacer;
 import raltsmc.desolation.world.gen.trunk.FallenTrunkPlacer;
 

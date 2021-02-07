@@ -4,7 +4,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.LeavesBlock;
-import net.minecraft.block.TransparentBlock;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 
