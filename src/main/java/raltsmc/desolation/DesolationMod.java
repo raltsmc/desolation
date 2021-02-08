@@ -16,6 +16,7 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BiomeMoodSound;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.structure.StructurePieceType;
 import net.minecraft.util.Identifier;
@@ -56,6 +57,10 @@ public class DesolationMod implements ModInitializer {
 	public static final Identifier CINDER_SOUL_READY_PACKET_ID = Desolation.id("cinder_soul_ready");
 	public static final Identifier CINDER_SOUL_TICK_PACKET_ID = Desolation.id("cinder_soul_tick");
 	public static final Identifier DO_CINDER_DASH_PACKET_ID = Desolation.id("do_cinder_dash");
+	public static final Identifier SHRILL_WHISTLE_PACKET_ID = Desolation.id("do_shrill_whistle");
+
+	public static final Identifier SHRILL_WHISTLE_SOUND_ID = Desolation.id("shrill_whistle_sound");
+	public static SoundEvent SHRILL_WHISTLE_SOUND_EVENT = new SoundEvent(SHRILL_WHISTLE_SOUND_ID);
 
 	public static final StructurePieceType TINKER_BASE_PIECE = AshTinkerBaseGenerator.Piece::new;
 	private static final StructureFeature<DefaultFeatureConfig> TINKER_BASE =
@@ -141,6 +146,8 @@ public class DesolationMod implements ModInitializer {
 		DesolationRegistries.init();
 
 		GeckoLib.initialize();
+
+		Registry.register(Registry.SOUND_EVENT, SHRILL_WHISTLE_SOUND_ID, SHRILL_WHISTLE_SOUND_EVENT);
 
 		Registry.register(Registry.STRUCTURE_PIECE, Desolation.id("tinker_base_piece"), TINKER_BASE_PIECE);
 		FabricStructureBuilder.create(Desolation.id("tinker_base"), TINKER_BASE)
@@ -237,6 +244,13 @@ public class DesolationMod implements ModInitializer {
 				world.playSound((PlayerEntity) null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_ENDER_DRAGON_GROWL, SoundCategory.PLAYERS, 1F, 1.6F);
 			});
 		});
+
+		/*ServerPlayNetworking.registerGlobalReceiver(SHRILL_WHISTLE_PACKET_ID, (server, player, handler, buf, sender) -> {
+			server.execute(() -> {
+				ServerWorld world = (ServerWorld)player.world;
+				world.playSound((PlayerEntity) null, player.getX(), player.getY(), player.getZ(), DesolationMod.SHRILL_WHISTLE_SOUND_EVENT, SoundCategory.PLAYERS, 1F, player.getRandom().nextFloat() * 0.1f + 1f);
+			});
+		});*/
 
 		System.out.println("Desolation initialized!");
 	}

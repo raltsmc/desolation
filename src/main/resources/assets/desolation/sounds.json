@@ -1,0 +1,8 @@
+{
+  "shrill_whistle_sound": {
+    "subtitle": "subtitles.desolation.shrill_whistle_sound",
+    "sounds": [
+      "desolation:shrill_whistle_sound"
+    ]
+  }
+}

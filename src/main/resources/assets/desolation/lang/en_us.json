@@ -13,6 +13,7 @@
   "item.desolation.mask": "Mask",
   "item.desolation.goggles": "Goggles",
   "item.desolation.mask_and_goggles": "Mask and Goggles",
+  "item.desolation.shrill_whistle": "Shrill Whistle",
   "item.desolation.ash_tinkerer_headgear": "Ash Tinkerer's Headgear",
   "item.desolation.ash_tinkerer_chestpiece": "Ash Tinkerer's Chestpiece",
   "item.desolation.ash_tinkerer_leggings": "Ash Tinkerer's Leggings",
@@ -60,5 +61,6 @@
   "text.autoconfig.desolation.title": "Desolation Config",
   "text.autoconfig.desolation.option.showGogglesOverlay": "Show Goggles Overlay",
   "text.autoconfig.desolation.option.inflictBiomeDebuffs": "Inflict Biome Debuffs",
-  "text.autoconfig.desolation.option.biomeSoundAmbience": "Biome Sound Ambience"
+  "text.autoconfig.desolation.option.biomeSoundAmbience": "Biome Sound Ambience",
+  "subtitles.desolation.shrill_whistle_sound": "Shrill Whistle Sound"
 }

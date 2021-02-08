@@ -5,8 +5,12 @@ import net.minecraft.entity.EntityGroup;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.MovementType;
+import net.minecraft.entity.ai.TargetPredicate;
+import net.minecraft.entity.ai.control.FlightMoveControl;
 import net.minecraft.entity.ai.goal.*;
+import net.minecraft.entity.ai.pathing.BirdNavigation;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
+import net.minecraft.entity.ai.pathing.Path;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
@@ -14,15 +18,19 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import raltsmc.desolation.registry.DesolationEntities;
+import raltsmc.desolation.registry.DesolationItems;
 import software.bernie.geckolib3.core.IAnimatable;
 import software.bernie.geckolib3.core.PlayState;
 import software.bernie.geckolib3.core.builder.AnimationBuilder;
@@ -31,6 +39,7 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
+import java.util.EnumSet;
 import java.util.UUID;
 
 public class AshFlierEntity extends TameableEntity implements IAnimatable {
@@ -38,6 +47,8 @@ public class AshFlierEntity extends TameableEntity implements IAnimatable {
     private BlockPos circlingCenter;
     private boolean called;
     private boolean landing;
+    private boolean seeking;
+    private int tryTameCooldown;
 
     private AnimationFactory factory = new AnimationFactory(this);
 
@@ -48,25 +59,30 @@ public class AshFlierEntity extends TameableEntity implements IAnimatable {
 
     public AshFlierEntity(EntityType<? extends AshFlierEntity> entityType, World world) {
         super(entityType, world);
+        this.moveControl = new FlightMoveControl(this, 45, true);
         this.setTamed(false);
         this.setLanding(false);
         this.called = false;
+        this.tryTameCooldown = 0;
     }
 
     protected void initGoals() {
-        this.goalSelector.add(1, new AshFlierEntity.LandGoal(this));
+
+        this.goalSelector.add(1, new SeekTameGoal(this, 50));
+        this.goalSelector.add(2, new AshFlierEntity.LandGoal(this));
         this.targetSelector.add(1, new TrackOwnerAttackerGoal(this));
         this.targetSelector.add(2, new AttackWithOwnerGoal(this));
         this.targetSelector.add(3, (new RevengeGoal(this)).setGroupRevenge());
-        this.targetSelector.add(5, new FollowTargetGoal<BlackenedEntity>(this, BlackenedEntity.class, false));
-        this.targetSelector.add(6, new UniversalAngerGoal(this, true));
+        this.targetSelector.add(4, new FollowTargetGoal<BlackenedEntity>(this, BlackenedEntity.class, false));
+        this.targetSelector.add(5, new UniversalAngerGoal(this, true));
     }
 
     public static DefaultAttributeContainer.Builder createAshFlierAttributes() {
         return MobEntity.createMobAttributes()
                 .add(EntityAttributes.GENERIC_MOVEMENT_SPEED, 0.5D)
                 .add(EntityAttributes.GENERIC_MAX_HEALTH, 12D)
-                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 3D);
+                .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 3D)
+                .add(EntityAttributes.GENERIC_FLYING_SPEED, 0.8D);
     }
 
     protected SoundEvent getAmbientSound() { return SoundEvents.ITEM_ELYTRA_FLYING; }
@@ -126,6 +142,13 @@ public class AshFlierEntity extends TameableEntity implements IAnimatable {
         this.method_29242(this, false);
     }
 
+    public void tick() {
+        if (this.tryTameCooldown > 0) {
+            this.tryTameCooldown--;
+        }
+        super.tick();
+    }
+
     @Override public boolean isClimbing() { return false; }
 
     public boolean isLanding() {
@@ -135,6 +158,10 @@ public class AshFlierEntity extends TameableEntity implements IAnimatable {
     public void setLanding(boolean landingIn) {
         this.landing = landingIn;
     }
+
+    public boolean isSeeking() { return this.seeking; }
+
+    public void setSeeking(boolean seekingIn) { this.seeking = true; }
 
     public void readCustomDataFromTag(CompoundTag tag) {
         super.readCustomDataFromTag(tag);
@@ -146,10 +173,51 @@ public class AshFlierEntity extends TameableEntity implements IAnimatable {
 
     public void writeCustomDataToTag(CompoundTag tag) {
         super.writeCustomDataToTag(tag);
-        tag.putInt("AX", this.circlingCenter.getX());
+        /*tag.putInt("AX", this.circlingCenter.getX());
         tag.putInt("AY", this.circlingCenter.getY());
-        tag.putInt("AZ", this.circlingCenter.getZ());
+        tag.putInt("AZ", this.circlingCenter.getZ());*/
         tag.putBoolean("Called", this.called);
+    }
+
+    protected EntityNavigation createNavigation(World world) {
+        BirdNavigation birdNavigation = new BirdNavigation(this, world) {
+            public boolean isValidPosition(BlockPos pos) {
+                return !this.world.getBlockState(pos).isSolidBlock(world, pos);
+            }
+        };
+        birdNavigation.setCanPathThroughDoors(false);
+        birdNavigation.setCanSwim(false);
+        birdNavigation.setCanEnterOpenDoors(false);
+        return birdNavigation;
+    }
+
+    protected boolean hasWings() { return true; }
+
+    public boolean tryTame(PlayerEntity player) {
+        Hand[] var2 = Hand.values();
+        int var3 = var2.length;
+
+        for (Hand hand : var2) {
+            ItemStack itemStack = player.getStackInHand(hand);
+            if (!this.isTamed() && itemStack.getItem() == DesolationItems.CINDERFRUIT && !this.world.isClient()) {
+                if (!player.abilities.creativeMode) {
+                    itemStack.decrement(1);
+                }
+                world.playSound((PlayerEntity)null, player.getBlockPos(), SoundEvents.ENTITY_PHANTOM_BITE, SoundCategory.NEUTRAL, 1f,1f);
+                if (random.nextInt(5) == 0) {
+                    this.setOwner(player);
+                    this.navigation.stop();
+                    this.setTarget((LivingEntity)null);
+                    this.setLanding(true);
+                    this.world.sendEntityStatus(this, (byte)7);
+                    return true;
+                } else {
+                    this.world.sendEntityStatus(this, (byte)6);
+                    return false;
+                }
+            }
+        }
+        return false;
     }
 
     class LandGoal extends Goal {
@@ -170,6 +238,92 @@ public class AshFlierEntity extends TameableEntity implements IAnimatable {
                 this.owner = livingEntity;
                 return true;
             }
+        }
+    }
+
+    class SeekTameGoal extends Goal {
+        private final AshFlierEntity flier;
+        //private final EntityNavigation navigation;
+        private final World world;
+        private final float seekDistance;
+        private int timer;
+        private PlayerEntity tamer;
+        private final TargetPredicate tamerPredicate;
+        private boolean hasTried;
+        //private Path pathToTamer;
+
+        private SeekTameGoal(AshFlierEntity flier, float seekDistance) {
+            this.flier = flier;
+            this.world = flier.world;
+            //this.navigation = flier.getNavigation();
+            this.seekDistance = seekDistance;
+            this.tamerPredicate = (new TargetPredicate()).setBaseMaxDistance((double)seekDistance).includeInvulnerable().includeTeammates().ignoreEntityTargetRules();
+            this.setControls(EnumSet.of(Control.MOVE, Control.LOOK));
+        }
+
+        public boolean canStart() {
+            this.tamer = this.world.getClosestPlayer(this.tamerPredicate, this.flier);
+            return this.tamer != null && this.isAttractive(this.tamer) && this.flier.tryTameCooldown <= 0;
+        }
+
+        public boolean shouldContinue() {
+            if (this.tamer == null ) {
+                return false;
+            } else if (!this.tamer.isAlive()) {
+                return false;
+            } else if (this.flier.squaredDistanceTo(this.tamer) > (double)(this.seekDistance * this.seekDistance)) {
+                return false;
+            } else {
+                return this.isAttractive(this.tamer);
+            }
+        }
+
+        public void start() {
+            this.flier.setSeeking(true);
+            this.timer = 0;
+            this.hasTried = false;
+            //this.pathToTamer = this.navigation.findPathTo(this.tamer, (int)this.seekDistance*3);
+            this.flier.navigation.setRangeMultiplier(5);
+            this.flier.navigation.startMovingTo(this.tamer, 5);
+        }
+
+        public void stop() {
+            this.flier.setSeeking(false);
+            this.flier.navigation.stop();
+            this.timer = 0;
+            this.tamer = null;
+            super.stop();
+        }
+
+        public void tick() {
+            //this.navigation.recalculatePath();
+            //this.flier.navigation.tick();
+            if (timer % 40 == 0 && this.flier.distanceTo(tamer) > 2) {
+                this.flier.navigation.startMovingTo(this.tamer, 5);
+            } else if (this.flier.distanceTo(tamer) < 2) {
+                this.flier.tryTame(tamer);
+                this.flier.tryTameCooldown = 200;
+                this.stop();
+            } else {
+                timer++;
+            }
+            //System.out.println("Tamer position: " + this.tamer.getPos() + "/ Navigation: " + this.flier.navigation.isFollowingPath());
+        }
+
+
+
+        private boolean isAttractive(PlayerEntity player) {
+            Hand[] var2 = Hand.values();
+            int var3 = var2.length;
+
+            for (Hand hand : var2) {
+                ItemStack itemStack = player.getStackInHand(hand);
+                if (!this.flier.isTamed() && itemStack.getItem() == DesolationItems.CINDERFRUIT) {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 

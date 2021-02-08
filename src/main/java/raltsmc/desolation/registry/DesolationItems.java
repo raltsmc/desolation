@@ -11,6 +11,7 @@ import raltsmc.desolation.Desolation;
 import raltsmc.desolation.DesolationMod;
 import raltsmc.desolation.item.AshItem;
 import raltsmc.desolation.item.CinderHeartItem;
+import raltsmc.desolation.item.ShrillWhistleItem;
 import raltsmc.desolation.item.armor.TinkererArmorItem;
 import raltsmc.desolation.item.blockitem.AshSiphonBlockItem;
 
@@ -37,6 +38,8 @@ public final class DesolationItems {
     public static final Item MASK = register(new Item(new FabricItemSettings().group(DesolationMod.DSL_GROUP).equipmentSlot(itemStack -> EquipmentSlot.HEAD).maxCount(1)), "mask");
     public static final Item GOGGLES = register(new Item(new FabricItemSettings().group(DesolationMod.DSL_GROUP).equipmentSlot(itemStack -> EquipmentSlot.HEAD).maxCount(1)), "goggles");
     public static final Item MASK_GOGGLES = register(new Item(new FabricItemSettings().group(DesolationMod.DSL_GROUP).equipmentSlot(itemStack -> EquipmentSlot.HEAD).maxCount(1)), "mask_and_goggles");
+
+    public static final Item SHRILL_WHISTLE = register(new ShrillWhistleItem(new FabricItemSettings().group(DesolationMod.DSL_GROUP).maxCount(1)), "shrill_whistle");
 
     public static final Item ARMOR_TINKERER_HEAD = register(new TinkererArmorItem(ArmorMaterials.LEATHER, EquipmentSlot.HEAD, new FabricItemSettings().group(DesolationMod.DSL_GROUP).maxCount(1)), "ash_tinkerer_headgear");
     public static final Item ARMOR_TINKERER_CHEST = register(new TinkererArmorItem(ArmorMaterials.LEATHER, EquipmentSlot.CHEST, new FabricItemSettings().group(DesolationMod.DSL_GROUP).maxCount(1)), "ash_tinkerer_chestpiece");
