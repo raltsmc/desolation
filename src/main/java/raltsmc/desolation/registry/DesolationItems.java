@@ -47,6 +47,8 @@ public final class DesolationItems {
             0x111111, 0xff7b00, new Item.Settings().group(ItemGroup.MISC)), "ash_scuttler_spawn_egg");
     public static final Item SPAWN_EGG_BLACKENED = register(new SpawnEggItem(DesolationEntities.BLACKENED,
             0x0a0a0a, 0xcf4b00, new Item.Settings().group(ItemGroup.MISC)), "blackened_spawn_egg");
+    public static final Item SPAWN_EGG_ASH_FLIER = register(new SpawnEggItem(DesolationEntities.ASH_FLIER,
+            0x0a0a0a, 0x777896, new Item.Settings().group(ItemGroup.MISC)), "ash_flier_spawn_egg");
 
     public static final Item ASH_SIPHON = register(new AshSiphonBlockItem(DesolationBlocks.ASH_SIPHON, new Item.Settings().group(DesolationMod.DSL_GROUP)), "ash_siphon");
 

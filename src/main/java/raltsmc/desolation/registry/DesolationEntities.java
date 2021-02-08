@@ -12,6 +12,7 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.world.Heightmap;
 import raltsmc.desolation.Desolation;
+import raltsmc.desolation.entity.AshFlierEntity;
 import raltsmc.desolation.entity.AshScuttlerEntity;
 import raltsmc.desolation.entity.BlackenedEntity;
 
@@ -37,11 +38,22 @@ public final class DesolationEntities {
                     .build()
     );
 
+    public static final EntityType<AshFlierEntity> ASH_FLIER = Registry.register(
+            Registry.ENTITY_TYPE,
+            Desolation.id("ash_flier"),
+            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, AshFlierEntity::new)
+                    .dimensions(EntityDimensions.fixed(1.5f, 0.4f))
+                    .fireImmune()
+                    .build()
+    );
+
     static void init() {
         FabricDefaultAttributeRegistry.register(ASH_SCUTTLER, AshScuttlerEntity.createMobAttributes());
         FabricDefaultAttributeRegistry.register(BLACKENED, BlackenedEntity.createBlackenedAttributes());
+        FabricDefaultAttributeRegistry.register(ASH_FLIER, AshFlierEntity.createAshFlierAttributes());
 
         SpawnRestrictionAccessor.callRegister(ASH_SCUTTLER, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MobEntity::canMobSpawn);
         SpawnRestrictionAccessor.callRegister(BLACKENED, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canMobSpawn);
+        SpawnRestrictionAccessor.callRegister(ASH_FLIER, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MobEntity::canMobSpawn);
     }
 }

@@ -36,6 +36,7 @@ public class DesolationClient implements ClientModInitializer {
 
         EntityRendererRegistry.INSTANCE.register(DesolationEntities.ASH_SCUTTLER, (dispatcher, context) -> new AshScuttlerEntityRenderer(dispatcher));
         EntityRendererRegistry.INSTANCE.register(DesolationEntities.BLACKENED, (dispatcher, context) -> new BlackenedEntityRenderer(dispatcher));
+        EntityRendererRegistry.INSTANCE.register(DesolationEntities.ASH_FLIER, (dispatcher, context) -> new AshFlierEntityRenderer(dispatcher));
 
         BlockEntityRendererRegistry.INSTANCE.register(DesolationBlockEntities.ASH_SIPHON_BLOCK_ENTITY, AshSiphonBlockEntityRenderer::new);
         GeoItemRenderer.registerItemRenderer(DesolationItems.ASH_SIPHON, new AshSiphonBlockItemRenderer());
