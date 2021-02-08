@@ -1,29 +1,6 @@
-<h1 style="text-align: center;"><span style="font-size: 36px;"><strong>Desolation</strong></span></h2>
-<h4 style="text-align: center;"><em>1.16.3 Fabric mod for Minecraft</em></h4>
-<p style="text-align: center;"><a href="https://www.curseforge.com/minecraft/mc-mods/fabric-api">&nbsp;<img title="Requires Fabric API" src="https://i.imgur.com/Ol1Tcf8.png" width="149" height="50" /></a> <a href="https://www.curseforge.com/minecraft/mc-mods/geckolib-fabric">&nbsp;<img title="Requires GeckoLib" src="https://i.imgur.com/uJRh2EV.png" width="149" height="50" /></a></p>
-<p style="text-align: center;"><img src="https://i.imgur.com/ihiJYm2.png" alt="divider" width="1200" height="30" /></p>
-<p style="text-align: center;"><img src="https://i.imgur.com/dhZnRLV.png" alt="Splash image 1" width="1200" height="300" /></p>
-<h3 style="text-align: center;"><span style="font-size: 24px;"><strong>Explore the new Charred Forest biome</strong></span></h3>
-<ul>
-<li>Ash covers the surface of the biome, and has several useful applications.</li>
-<li>Keep an eye out for the rare Cinderfruit Plant, whose fruit is said to have fire-resistant properties.</li>
-<li>Make sure to wear a mask to counteract the biome's damaging effects!</li>
-</ul>
-<p style="text-align: center;"><img src="https://i.imgur.com/ihiJYm2.png" alt="divider" width=width="1200" height="30" /></p>
-<p style="text-align: center;"><img src="https://i.imgur.com/Jp5MiEU.png" alt="Splash image 2" width="1200" height="300" /></p>
-<h3 style="text-align: center;"><span style="font-size: 24px;"><strong>Befriend the peaceful Ash Scuttlers</strong></span></h3>
-<ul>
-<li>These curious critters wander the surface of the charred forest, and can sometimes be found hiding in trees.</li>
-<li>When fed a certain fruit, they can dig up ash piles and produce rare resources for the player!</li>
-</ul>
-<p style="text-align: center;"><img src="https://i.imgur.com/ihiJYm2.png" alt="divider" width=width="1200" height="30" /></p>
-<p style="text-align: center;"><img src="https://i.imgur.com/xkfmqTz.png" alt="Splash image 3" width="1200" height="300" /></p>
-<h3 style="text-align: center;"><span style="font-size: 24px;"><strong>Beware of dangerous new enemies</strong></span></h3>
-<ul>
-<li>The Blackened stalk the forest day and night, and will throw blinding ash at unsuspecting targets, or attack up close.</li>
-<li>Wear goggles to protect against their ash!</li>
-<li>Very rarely, they can drop their hearts, which can grant the player immense power when brewed into potions.</li>
-</ul>
-<p style="text-align: center;"><img src="https://i.imgur.com/ihiJYm2.png" alt="divider" width="1200" height="30" /></p>
-<p style="text-align: center;"><span style="font-size: 13px;"><strong>If you encounter mob animation issues when using with Optifabric, try disabling your shaders.</strong></span></p>
-<p style="text-align: center;"><span style="font-size: 13px;"><strong>Please don't ask for a Forge port. A Forge port is not currently planned, although anyone is free to port it themselves if they wish.</strong></span></p>
+# Desolation ![all](https://img.shields.io/badge/environment-any-4caf50?style=flat-square) ![Mod loader: Fabric](https://img.shields.io/badge/modloader-Fabric-1976d2?style=flat-square&logo=data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAACXBIWXMAAAsTAAALEwEAmpwYAAAFHGlUWHRYTUw6Y29tLmFkb2JlLnhtcAAAAAAAPD94cGFja2V0IGJlZ2luPSLvu78iIGlkPSJXNU0wTXBDZWhpSHpyZVN6TlRjemtjOWQiPz4gPHg6eG1wbWV0YSB4bWxuczp4PSJhZG9iZTpuczptZXRhLyIgeDp4bXB0az0iQWRvYmUgWE1QIENvcmUgNS42LWMxNDIgNzkuMTYwOTI0LCAyMDE3LzA3LzEzLTAxOjA2OjM5ICAgICAgICAiPiA8cmRmOlJERiB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiPiA8cmRmOkRlc2NyaXB0aW9uIHJkZjphYm91dD0iIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtbG5zOmRjPSJodHRwOi8vcHVybC5vcmcvZGMvZWxlbWVudHMvMS4xLyIgeG1sbnM6cGhvdG9zaG9wPSJodHRwOi8vbnMuYWRvYmUuY29tL3Bob3Rvc2hvcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RFdnQ9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZUV2ZW50IyIgeG1wOkNyZWF0b3JUb29sPSJBZG9iZSBQaG90b3Nob3AgQ0MgMjAxOCAoV2luZG93cykiIHhtcDpDcmVhdGVEYXRlPSIyMDE4LTEyLTE2VDE2OjU0OjE3LTA4OjAwIiB4bXA6TW9kaWZ5RGF0ZT0iMjAxOS0wNy0yOFQyMToxNzo0OC0wNzowMCIgeG1wOk1ldGFkYXRhRGF0ZT0iMjAxOS0wNy0yOFQyMToxNzo0OC0wNzowMCIgZGM6Zm9ybWF0PSJpbWFnZS9wbmciIHBob3Rvc2hvcDpDb2xvck1vZGU9IjMiIHBob3Rvc2hvcDpJQ0NQcm9maWxlPSJzUkdCIElFQzYxOTY2LTIuMSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDowZWRiMWMyYy1mZjhjLWU0NDEtOTMxZi00OTVkNGYxNGM3NjAiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6MGVkYjFjMmMtZmY4Yy1lNDQxLTkzMWYtNDk1ZDRmMTRjNzYwIiB4bXBNTTpPcmlnaW5hbERvY3VtZW50SUQ9InhtcC5kaWQ6MGVkYjFjMmMtZmY4Yy1lNDQxLTkzMWYtNDk1ZDRmMTRjNzYwIj4gPHhtcE1NOkhpc3Rvcnk+IDxyZGY6U2VxPiA8cmRmOmxpIHN0RXZ0OmFjdGlvbj0iY3JlYXRlZCIgc3RFdnQ6aW5zdGFuY2VJRD0ieG1wLmlpZDowZWRiMWMyYy1mZjhjLWU0NDEtOTMxZi00OTVkNGYxNGM3NjAiIHN0RXZ0OndoZW49IjIwMTgtMTItMTZUMTY6NTQ6MTctMDg6MDAiIHN0RXZ0OnNvZnR3YXJlQWdlbnQ9IkFkb2JlIFBob3Rvc2hvcCBDQyAyMDE4IChXaW5kb3dzKSIvPiA8L3JkZjpTZXE+IDwveG1wTU06SGlzdG9yeT4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz4/HiGMAAAAtUlEQVRYw+XXrQqAMBQF4D2P2eBL+QIG8RnEJFaNBjEum+0+zMQLtwwv+wV3ZzhhMDgfJ0wUSinxZUQWgKos1JP/AbD4OneIDyQPwCFniA+EJ4CaXm4TxAXCC0BNHgLhAdAnx9hC8PwGSRtAFVMQjF7cNTWED8B1cgwW20yfJgAvrssAsZ1cB3g/xckAxr6FmCDU5N6f488BrpCQ4rQBJkiMYh4ACmLzwOQF0CExinkCsvw7vgGikl+OotaKRwAAAABJRU5ErkJggg==)
+Wildfires bring both destruction and renewal.
+### Download
+Go to the mod's [Modrinth](https://modrinth.com/mod/desolation/) or [CurseForge](https://www.curseforge.com/minecraft/mc-mods/desolation) pages to download the latest releases.
+### Build from Source
+Run `./gradlew build`. The jar files will be output to `build/libs`.
