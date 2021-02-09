@@ -17,7 +17,8 @@
     "BiomeEffectSoundPlayerMixin",
     "ClientPlayerEntityMixin",
     "HeadFeatureRendererMixin",
-    "InGameHudMixin"
+    "InGameHudMixin",
+    "PotionUtilMixin"
   ],
   "injectors": {
     "defaultRequire": 1

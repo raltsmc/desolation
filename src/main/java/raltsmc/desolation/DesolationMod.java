@@ -242,7 +242,7 @@ public class DesolationMod implements ModInitializer {
 		ServerPlayNetworking.registerGlobalReceiver(DO_CINDER_DASH_PACKET_ID, (server, player, handler, buf, sender) -> {
 			server.execute(() -> {
 				ServerWorld world = (ServerWorld)player.world;
-				world.playSound((PlayerEntity) null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_ENDER_DRAGON_GROWL, SoundCategory.PLAYERS, 1F, 1.6F);
+				world.playSound((PlayerEntity) null, player.getX(), player.getY(), player.getZ(), SoundEvents.ENTITY_ENDER_DRAGON_GROWL, SoundCategory.PLAYERS, 2F, 1.6F);
 			});
 		});
 
