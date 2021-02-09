@@ -81,8 +81,9 @@ public class DesolationMod implements ModInitializer {
 
 	private static Biome createCharredForest(boolean isClearing, boolean isSmall) {
 		SpawnSettings.Builder spawnSettings = new SpawnSettings.Builder();
-		spawnSettings.spawn(SpawnGroup.CREATURE, new SpawnSettings.SpawnEntry(DesolationEntities.ASH_SCUTTLER, 4, 2, 3));
+		spawnSettings.spawn(SpawnGroup.CREATURE, new SpawnSettings.SpawnEntry(DesolationEntities.ASH_SCUTTLER, 60, 2, 3));
 		spawnSettings.spawn(SpawnGroup.MONSTER, new SpawnSettings.SpawnEntry(DesolationEntities.BLACKENED, 1, 1, 3));
+		spawnSettings.spawn(SpawnGroup.CREATURE, new SpawnSettings.SpawnEntry(DesolationEntities.ASH_FLIER, 40, 2, 5));
 
 		GenerationSettings.Builder generationSettings = new GenerationSettings.Builder();
 		generationSettings.surfaceBuilder(CHARRED_SURFACE_BUILDER);

@@ -24,7 +24,6 @@ public final class DesolationEntities {
             FabricEntityTypeBuilder.<AshScuttlerEntity>create(SpawnGroup.CREATURE, AshScuttlerEntity::new)
                     .dimensions(EntityDimensions.fixed(0.56f,0.32f))
                     .fireImmune()
-                    .specificSpawnBlocks(DesolationBlocks.CHARRED_SOIL)
                     .build()
     );
 
@@ -52,8 +51,8 @@ public final class DesolationEntities {
         FabricDefaultAttributeRegistry.register(BLACKENED, BlackenedEntity.createBlackenedAttributes());
         FabricDefaultAttributeRegistry.register(ASH_FLIER, AshFlierEntity.createAshFlierAttributes());
 
-        SpawnRestrictionAccessor.callRegister(ASH_SCUTTLER, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MobEntity::canMobSpawn);
+        SpawnRestrictionAccessor.callRegister(ASH_SCUTTLER, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.WORLD_SURFACE_WG, MobEntity::canMobSpawn);
         SpawnRestrictionAccessor.callRegister(BLACKENED, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, HostileEntity::canMobSpawn);
-        SpawnRestrictionAccessor.callRegister(ASH_FLIER, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, MobEntity::canMobSpawn);
+        SpawnRestrictionAccessor.callRegister(ASH_FLIER, SpawnRestriction.Location.ON_GROUND, Heightmap.Type.WORLD_SURFACE_WG, MobEntity::canMobSpawn);
     }
 }

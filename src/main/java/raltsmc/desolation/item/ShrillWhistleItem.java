@@ -15,8 +15,15 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
+import net.minecraft.util.math.BlockBox;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 import raltsmc.desolation.DesolationMod;
+import raltsmc.desolation.entity.AshFlierEntity;
+import raltsmc.desolation.registry.DesolationEntities;
+
+import java.util.List;
 
 public class ShrillWhistleItem extends Item {
 
@@ -40,6 +47,16 @@ public class ShrillWhistleItem extends Item {
         if (world.isClient()) {
             PositionedSoundInstance whistleSound = new PositionedSoundInstance(DesolationMod.SHRILL_WHISTLE_SOUND_EVENT, SoundCategory.PLAYERS, 4f, RANDOM.nextFloat() * 0.1f + 1f, user.getX(), user.getY(), user.getZ());
             MinecraftClient.getInstance().getSoundManager().play(whistleSound);
+        } else {
+            BlockPos pos = user.getBlockPos();
+            List<AshFlierEntity> tamedFliers = user.world.getEntitiesByType(DesolationEntities.ASH_FLIER, Box.from(BlockBox.create(pos.getX() - 150, pos.getY() - 50, pos.getZ() - 150, pos.getX() + 150, pos.getY() + 50, pos.getZ() + 150)), (e) -> e.getOwner() == user);
+            System.out.println(tamedFliers.size() + " tamed fliers found");
+            for (AshFlierEntity flier : tamedFliers) {
+                if (flier.isLanded()) {
+                    flier.setLanded(false);
+                }
+                flier.setCalled(!flier.isCalled());
+            }
         }
 
         return TypedActionResult.consume(itemStack);

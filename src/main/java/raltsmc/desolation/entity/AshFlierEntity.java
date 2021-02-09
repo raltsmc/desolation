@@ -10,10 +10,12 @@ import net.minecraft.entity.ai.control.FlightMoveControl;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.ai.pathing.BirdNavigation;
 import net.minecraft.entity.ai.pathing.EntityNavigation;
-import net.minecraft.entity.ai.pathing.Path;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.data.DataTracker;
+import net.minecraft.entity.data.TrackedData;
+import net.minecraft.entity.data.TrackedDataHandlerRegistry;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.entity.passive.TameableEntity;
@@ -27,6 +29,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.Hand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import raltsmc.desolation.registry.DesolationEntities;
@@ -39,16 +42,20 @@ import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
 import software.bernie.geckolib3.core.manager.AnimationData;
 import software.bernie.geckolib3.core.manager.AnimationFactory;
 
+import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.UUID;
 
 public class AshFlierEntity extends TameableEntity implements IAnimatable {
 
+    private static final TrackedData<Boolean> CALLED;
+    private static final TrackedData<Boolean> LANDED;
+    private static final TrackedData<Boolean> SEEKING;
+
     private BlockPos circlingCenter;
-    private boolean called;
-    private boolean landing;
-    private boolean seeking;
     private int tryTameCooldown;
+    private int tryLandCooldown;
 
     private AnimationFactory factory = new AnimationFactory(this);
 
@@ -61,15 +68,16 @@ public class AshFlierEntity extends TameableEntity implements IAnimatable {
         super(entityType, world);
         this.moveControl = new FlightMoveControl(this, 45, true);
         this.setTamed(false);
-        this.setLanding(false);
-        this.called = false;
+        this.setLanded(false);
+        this.setCalled(false);
         this.tryTameCooldown = 0;
+        this.tryLandCooldown = 0;
     }
 
     protected void initGoals() {
 
         this.goalSelector.add(1, new SeekTameGoal(this, 50));
-        this.goalSelector.add(2, new AshFlierEntity.LandGoal(this));
+        this.goalSelector.add(2, new LandGoal(this));
         this.targetSelector.add(1, new TrackOwnerAttackerGoal(this));
         this.targetSelector.add(2, new AttackWithOwnerGoal(this));
         this.targetSelector.add(3, (new RevengeGoal(this)).setGroupRevenge());
@@ -85,7 +93,20 @@ public class AshFlierEntity extends TameableEntity implements IAnimatable {
                 .add(EntityAttributes.GENERIC_FLYING_SPEED, 0.8D);
     }
 
-    protected SoundEvent getAmbientSound() { return SoundEvents.ITEM_ELYTRA_FLYING; }
+    @Override
+    protected void initDataTracker() {
+        super.initDataTracker();
+        this.dataTracker.startTracking(CALLED, false);
+        this.dataTracker.startTracking(LANDED, false);
+        this.dataTracker.startTracking(SEEKING, false);
+    }
+
+    protected SoundEvent getAmbientSound() {
+        if (random.nextInt(8) == 0) {
+            return SoundEvents.ENTITY_PHANTOM_AMBIENT;
+        }
+        return null;
+    }
 
     protected SoundEvent getHurtSound(DamageSource source) { return SoundEvents.ENTITY_BAT_HURT; }
 
@@ -146,29 +167,45 @@ public class AshFlierEntity extends TameableEntity implements IAnimatable {
         if (this.tryTameCooldown > 0) {
             this.tryTameCooldown--;
         }
+        if (this.tryLandCooldown > 0) {
+            this.tryLandCooldown--;
+        }
+        if (this.isLanded()) {
+            this.setVelocity(this.getVelocity().x, -0.03f, this.getVelocity().z);
+        }
         super.tick();
     }
 
     @Override public boolean isClimbing() { return false; }
 
-    public boolean isLanding() {
-        return this.landing;
+    public boolean isLanded() {
+        return this.dataTracker.get(LANDED);
     }
 
-    public void setLanding(boolean landingIn) {
-        this.landing = landingIn;
+    public void setLanded(boolean landingIn) {
+        this.dataTracker.set(LANDED, landingIn);
     }
 
-    public boolean isSeeking() { return this.seeking; }
+    public boolean isSeeking() { return this.dataTracker.get(SEEKING); }
 
-    public void setSeeking(boolean seekingIn) { this.seeking = true; }
+    public void setSeeking(boolean seekingIn) { this.dataTracker.set(SEEKING, seekingIn); }
+
+    public boolean isCalled() { return this.dataTracker.get(CALLED); }
+
+    public void setCalled(boolean calledIn) {
+        this.dataTracker.set(CALLED, calledIn);
+        if (!calledIn) {
+            this.setLanded(false);
+        }
+    }
 
     public void readCustomDataFromTag(CompoundTag tag) {
         super.readCustomDataFromTag(tag);
         if (tag.contains("AX")) {
             this.circlingCenter = new BlockPos(tag.getInt("AX"), tag.getInt("AY"), tag.getInt("AZ"));
         }
-        this.called = tag.getBoolean("Called");
+        this.setCalled(tag.getBoolean("Called"));
+        this.setLanded(tag.getBoolean("Landed"));
     }
 
     public void writeCustomDataToTag(CompoundTag tag) {
@@ -176,7 +213,8 @@ public class AshFlierEntity extends TameableEntity implements IAnimatable {
         /*tag.putInt("AX", this.circlingCenter.getX());
         tag.putInt("AY", this.circlingCenter.getY());
         tag.putInt("AZ", this.circlingCenter.getZ());*/
-        tag.putBoolean("Called", this.called);
+        tag.putBoolean("Called", this.isCalled());
+        tag.putBoolean("Landed", this.isLanded());
     }
 
     protected EntityNavigation createNavigation(World world) {
@@ -208,7 +246,6 @@ public class AshFlierEntity extends TameableEntity implements IAnimatable {
                     this.setOwner(player);
                     this.navigation.stop();
                     this.setTarget((LivingEntity)null);
-                    this.setLanding(true);
                     this.world.sendEntityStatus(this, (byte)7);
                     return true;
                 } else {
@@ -222,40 +259,104 @@ public class AshFlierEntity extends TameableEntity implements IAnimatable {
 
     class LandGoal extends Goal {
         private final AshFlierEntity flier;
-        private final EntityNavigation navigation;
+        private int timer;
         private LivingEntity owner;
+        private BlockPos landingPos;
 
         private LandGoal(AshFlierEntity flier) {
             this.flier = flier;
-            this.navigation = flier.getNavigation();
+            this.setControls(EnumSet.of(Control.MOVE, Control.LOOK));
         }
 
         public boolean canStart() {
-            LivingEntity livingEntity = flier.getOwner();
-            if (livingEntity == null || livingEntity.isSpectator() || flier.called) {
+            if (this.flier.tryLandCooldown <= 0) {
+                this.owner = flier.getOwner();
+                if (this.owner == null || this.owner.isSpectator() || !this.flier.isCalled() || this.flier.isLanded()) {
+                    return false;
+                } else {
+                    this.landingPos = getLandingPos(this.owner);
+                    if (this.landingPos != null) {
+                        return true;
+                    } else {
+                        this.flier.tryLandCooldown = 60;
+                        return false;
+                    }
+                }
+            } else {
+                return false;
+            }
+        }
+
+        public boolean shouldContinue() {
+            if (this.owner == null) {
+                return false;
+            } else if (!this.owner.isAlive()) {
                 return false;
             } else {
-                this.owner = livingEntity;
-                return true;
+                return this.flier.isCalled() && !this.flier.isLanded();
             }
+        }
+
+        public void start() {
+            this.timer = 0;
+            this.flier.navigation.setRangeMultiplier(5);
+            this.flier.navigation.startMovingTo(landingPos.getX(), landingPos.getY(), landingPos.getZ(), 7);
+        }
+
+        public void stop() {
+            this.flier.navigation.stop();
+            this.timer = 0;
+            this.owner = null;
+            this.landingPos = null;
+            super.stop();
+        }
+
+        public void tick() {
+            if (this.owner != null) {
+                if (timer % 20 == 0) {
+                    this.flier.navigation.startMovingTo(landingPos.getX(), landingPos.getY(), landingPos.getZ(), 7);
+                } else if (this.landingPos.isWithinDistance(this.flier.getPos(), 2f)) {
+                    this.flier.setLanded(true);
+                    this.stop();
+                }
+                timer++;
+            }
+        }
+
+        private @Nullable BlockPos getLandingPos(LivingEntity owner) {
+            List<BlockPos> openBlocks = new ArrayList<>();
+            BlockPos.streamOutwards(owner.getBlockPos(), 15, 0, 15)
+                    .forEach(e -> openBlocks.add(world.getTopPosition(Heightmap.Type.WORLD_SURFACE, e.toImmutable()).toImmutable()));
+
+            if (openBlocks.size() > 0) {
+                for (BlockPos pos : openBlocks) {
+                    BlockState state = world.getBlockState(pos);
+                    BlockState stateDown = world.getBlockState(pos.down());
+                    boolean dec = random.nextInt(30) == 0;
+
+                    if (Math.abs(pos.getY() - owner.getY()) < 10
+                            && stateDown.isSolidBlock(world, pos.down())
+                            && state.getFluidState().isEmpty()
+                            && dec) {
+                        return pos;
+                    }
+                }
+            }
+            return null;
         }
     }
 
     class SeekTameGoal extends Goal {
         private final AshFlierEntity flier;
-        //private final EntityNavigation navigation;
         private final World world;
         private final float seekDistance;
         private int timer;
         private PlayerEntity tamer;
         private final TargetPredicate tamerPredicate;
-        private boolean hasTried;
-        //private Path pathToTamer;
 
         private SeekTameGoal(AshFlierEntity flier, float seekDistance) {
             this.flier = flier;
             this.world = flier.world;
-            //this.navigation = flier.getNavigation();
             this.seekDistance = seekDistance;
             this.tamerPredicate = (new TargetPredicate()).setBaseMaxDistance((double)seekDistance).includeInvulnerable().includeTeammates().ignoreEntityTargetRules();
             this.setControls(EnumSet.of(Control.MOVE, Control.LOOK));
@@ -263,7 +364,7 @@ public class AshFlierEntity extends TameableEntity implements IAnimatable {
 
         public boolean canStart() {
             this.tamer = this.world.getClosestPlayer(this.tamerPredicate, this.flier);
-            return this.tamer != null && this.isAttractive(this.tamer) && this.flier.tryTameCooldown <= 0;
+            return this.tamer != null && this.isAttractive(this.tamer) && this.flier.tryTameCooldown <= 0 && !this.flier.isTamed();
         }
 
         public boolean shouldContinue() {
@@ -281,10 +382,8 @@ public class AshFlierEntity extends TameableEntity implements IAnimatable {
         public void start() {
             this.flier.setSeeking(true);
             this.timer = 0;
-            this.hasTried = false;
-            //this.pathToTamer = this.navigation.findPathTo(this.tamer, (int)this.seekDistance*3);
             this.flier.navigation.setRangeMultiplier(5);
-            this.flier.navigation.startMovingTo(this.tamer, 5);
+            this.flier.navigation.startMovingTo(this.tamer, 10);
         }
 
         public void stop() {
@@ -296,8 +395,6 @@ public class AshFlierEntity extends TameableEntity implements IAnimatable {
         }
 
         public void tick() {
-            //this.navigation.recalculatePath();
-            //this.flier.navigation.tick();
             if (timer % 40 == 0 && this.flier.distanceTo(tamer) > 2) {
                 this.flier.navigation.startMovingTo(this.tamer, 5);
             } else if (this.flier.distanceTo(tamer) < 2) {
@@ -307,7 +404,6 @@ public class AshFlierEntity extends TameableEntity implements IAnimatable {
             } else {
                 timer++;
             }
-            //System.out.println("Tamer position: " + this.tamer.getPos() + "/ Navigation: " + this.flier.navigation.isFollowingPath());
         }
 
 
@@ -328,8 +424,8 @@ public class AshFlierEntity extends TameableEntity implements IAnimatable {
     }
 
     private <E extends IAnimatable>PlayState floatPredicate(AnimationEvent<E> event) {
-        if (!this.isLanding()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.ash_flier.float"));
+        if (!this.isLanded()) {
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.ash_flier.float", true));
             return PlayState.CONTINUE;
         } else {
             return PlayState.STOP;
@@ -337,8 +433,10 @@ public class AshFlierEntity extends TameableEntity implements IAnimatable {
     }
 
     private <E extends IAnimatable>PlayState landPredicate(AnimationEvent<E> event) {
-        if (this.isLanding()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.ash_flier.land"));
+        if (this.isLanded()) {
+            event.getController().setAnimation(new AnimationBuilder()
+                    .addAnimation("animation.ash_flier.land", false)
+                    .addAnimation("animation.ash_flier.land_idle", true));
             return PlayState.CONTINUE;
         } else {
             return PlayState.STOP;
@@ -349,5 +447,11 @@ public class AshFlierEntity extends TameableEntity implements IAnimatable {
     public void registerControllers(AnimationData data) {
         data.addAnimationController(new AnimationController(this, "floatController", 40, this::floatPredicate));
         data.addAnimationController(new AnimationController(this, "landController", 40, this::landPredicate));
+    }
+
+    static {
+        CALLED = DataTracker.registerData(AshFlierEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+        LANDED = DataTracker.registerData(AshFlierEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+        SEEKING = DataTracker.registerData(AshFlierEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     }
 }

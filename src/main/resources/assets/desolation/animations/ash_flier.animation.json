@@ -209,6 +209,61 @@
 					}
 				}
 			}
+		},
+		"animation.ash_flier.land_idle": {
+			"loop": true,
+			"animation_length": 2.08,
+			"bones": {
+				"wing_left": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, -85],
+							"easing": "easeInOutBack"
+						},
+						"1.04": {
+							"vector": [0, 0, -82.5],
+							"easing": "easeInOutSine"
+						},
+						"2.08": {
+							"vector": [0, 0, -85],
+							"easing": "easeInSine"
+						}
+					},
+					"position": {
+						"vector": [1, 2, 0]
+					}
+				},
+				"wing_right": {
+					"rotation": {
+						"0.0": {
+							"vector": [0, 0, 85],
+							"easing": "easeInOutBack"
+						},
+						"1.04": {
+							"vector": [0, 0, 82.5],
+							"easing": "easeInOutSine"
+						},
+						"2.08": {
+							"vector": [0, 0, 85],
+							"easing": "easeInSine"
+						}
+					},
+					"position": {
+						"vector": [-1, 2, 0]
+					}
+				},
+				"tail": {
+					"rotation": {
+						"vector": [-50, 0, 0],
+						"easing": "easeOutSine"
+					}
+				},
+				"head": {
+					"rotation": {
+						"vector": [-10, 0, 0]
+					}
+				}
+			}
 		}
 	},
 	"geckolib_format_version": 2
