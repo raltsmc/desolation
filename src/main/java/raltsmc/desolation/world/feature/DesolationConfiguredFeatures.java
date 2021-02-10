@@ -18,6 +18,7 @@ import raltsmc.desolation.Desolation;
 import raltsmc.desolation.registry.DesolationBlocks;
 import raltsmc.desolation.world.gen.foliage.CharredFoliagePlacer;
 import raltsmc.desolation.world.gen.trunk.FallenTrunkPlacer;
+import raltsmc.desolation.world.gen.trunk.TwistedTrunkPlacer;
 
 import static net.minecraft.block.SnowBlock.LAYERS;
 import static raltsmc.desolation.block.CinderfruitPlantBlock.AGE;
