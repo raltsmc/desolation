@@ -48,6 +48,7 @@
   "item.minecraft.lingering_potion.effect.blindness": "Lingering Potion of Blindness",
   "item.minecraft.tipped_arrow.effect.blindness": "Arrow of Blindness",
   "key.desolation.cinder_dash": "Cinder Dash",
+  "potion.cinder_soul.tooltip_b": "Grants Fire Resistance",
   "category.desolation.cat": "Desolation",
   "text.autoconfig.desolation.title": "Desolation Config",
   "text.autoconfig.desolation.option.showGogglesOverlay": "Show Goggles Overlay",

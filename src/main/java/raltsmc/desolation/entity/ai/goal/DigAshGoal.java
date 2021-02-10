@@ -18,6 +18,7 @@ import raltsmc.desolation.registry.DesolationBlocks;
 import raltsmc.desolation.registry.DesolationItems;
 
 import java.util.EnumSet;
+import java.util.Optional;
 import java.util.function.Predicate;
 
 public class DigAshGoal extends MoveToTargetPosGoal {
@@ -90,21 +91,12 @@ public class DigAshGoal extends MoveToTargetPosGoal {
     }
 
     protected boolean getNearestBlock(BlockPos startPos, int maxRange, int maxDY) {
-        BlockPos testPos;
-        for (int range = 1; range <= maxRange; range++) {
-            for (int x = -range; x <= range; x++) {
-                for (int DY = 1; DY <= maxDY; DY++) {
-                    for (int y = -DY; y <= DY; y++) {
-                        for (int z = -range; z <= range; z++) {
-                            testPos = startPos.add(x, y, z);
-                            if (DigAshGoal.ASH_PREDICATE.test(world.getBlockState(testPos))) {
-                                this.targetPos = testPos;
-                                return true;
-                            }
-                        }
-                    }
-                }
-            }
+        Optional<BlockPos> closestAsh = BlockPos.findClosest(startPos, maxRange, maxDY,
+                (blockPos) -> world.getBlockState(blockPos).getBlock() == DesolationBlocks.ASH_LAYER_BLOCK
+                        || world.getBlockState(blockPos).getBlock() == DesolationBlocks.ASH_BLOCK);
+        if (closestAsh.isPresent()) {
+            this.targetPos = closestAsh.get();
+            return true;
         }
         if (world.isClient) {
             double pVel = world.random.nextGaussian() * 0.02D;
