@@ -13,7 +13,6 @@
     "TrunkPlacerTypeInvoker"
   ],
   "client": [
-    "BiomeEffectSoundPlayerMixin",
     "ArmorFeatureRendererMixin",
     "HeadFeatureRendererMixin",
     "InGameHudMixin",

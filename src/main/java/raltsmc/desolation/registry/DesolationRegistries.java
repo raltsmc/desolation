@@ -30,6 +30,6 @@ public class DesolationRegistries {
         BrewingRecipeRegistryInvoker.invokeRegisterPotionRecipe(Potions.AWKWARD, DesolationItems.PRIMED_ASH, DesolationPotions.BLINDNESS);
         BrewingRecipeRegistryInvoker.invokeRegisterPotionRecipe(DesolationPotions.BLINDNESS, Items.REDSTONE, DesolationPotions.LONG_BLINDNESS);
 
-        AutoConfig.register(DesolationConfig.class, JanksonConfigSerializer::new);
+        //AutoConfig.register(DesolationConfig.class, JanksonConfigSerializer::new);
     }
 }

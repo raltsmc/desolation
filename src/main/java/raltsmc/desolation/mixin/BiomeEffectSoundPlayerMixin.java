@@ -1,6 +1,5 @@
 package raltsmc.desolation.mixin;
 
-import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.network.ClientPlayerEntity;
@@ -17,15 +16,12 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import raltsmc.desolation.Desolation;
-import raltsmc.desolation.config.DesolationConfig;
 
 import java.util.Objects;
 
 @Environment(EnvType.CLIENT)
 @Mixin(BiomeEffectSoundPlayer.class)
 public class BiomeEffectSoundPlayerMixin {
-    DesolationConfig config = AutoConfig.getConfigHolder(DesolationConfig.class).getConfig();
-
     @Shadow @Final private ClientPlayerEntity player;
     @Shadow @Final private SoundManager soundManager;
 
@@ -41,7 +37,6 @@ public class BiomeEffectSoundPlayerMixin {
         if ((Objects.equals(player.world.getRegistryManager().get(Registry.BIOME_KEY).getId(biome), Desolation.id("charred_forest"))
                 || Objects.equals(player.world.getRegistryManager().get(Registry.BIOME_KEY).getId(biome), Desolation.id("charred_forest_small"))
                 || Objects.equals(player.world.getRegistryManager().get(Registry.BIOME_KEY).getId(biome), Desolation.id("charred_forest_clearing")))
-                && !config.biomeSoundAmbience
         ) {
             this.soundManager.stop(musicLoop);
             info.setReturnValue(musicLoop);

@@ -32,8 +32,6 @@ import java.util.Objects;
 
 @Mixin(PlayerEntity.class)
 public class PlayerEntityMixin extends LivingEntity implements PlayerEntityAccess {
-    DesolationConfig config = AutoConfig.getConfigHolder(DesolationConfig.class).getConfig();
-
     public int cinderDashCooldownMax = 200;
     public int cinderDashCooldown = 200;
     public boolean isDashing = false;

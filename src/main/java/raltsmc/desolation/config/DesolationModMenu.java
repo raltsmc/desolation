@@ -8,13 +8,11 @@ import net.fabricmc.api.Environment;
 
 @Environment(EnvType.CLIENT)
 public class DesolationModMenu implements ModMenuApi {
-    @Override
-    public String getModId() {
-        return "desolation";
-    }
+    /*@Override
+    public String getModId() { return "desolation"; }*/
 
-    @Override
+    /*@Override
     public ConfigScreenFactory<?> getModConfigScreenFactory() {
         return parent -> AutoConfig.getConfigScreen(DesolationConfig.class, parent).get();
-    }
+    }*/
 }
