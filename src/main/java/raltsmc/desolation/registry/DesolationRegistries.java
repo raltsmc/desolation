@@ -29,7 +29,5 @@ public class DesolationRegistries {
         BrewingRecipeRegistryInvoker.invokeRegisterPotionRecipe(DesolationPotions.CINDER_SOUL, Items.REDSTONE, DesolationPotions.LONG_CINDER_SOUL);
         BrewingRecipeRegistryInvoker.invokeRegisterPotionRecipe(Potions.AWKWARD, DesolationItems.PRIMED_ASH, DesolationPotions.BLINDNESS);
         BrewingRecipeRegistryInvoker.invokeRegisterPotionRecipe(DesolationPotions.BLINDNESS, Items.REDSTONE, DesolationPotions.LONG_BLINDNESS);
-
-        //AutoConfig.register(DesolationConfig.class, JanksonConfigSerializer::new);
     }
 }

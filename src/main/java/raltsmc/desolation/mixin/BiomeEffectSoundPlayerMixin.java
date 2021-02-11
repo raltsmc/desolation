@@ -16,6 +16,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import raltsmc.desolation.Desolation;
+import raltsmc.desolation.DesolationMod;
 
 import java.util.Objects;
 
@@ -37,6 +38,7 @@ public class BiomeEffectSoundPlayerMixin {
         if ((Objects.equals(player.world.getRegistryManager().get(Registry.BIOME_KEY).getId(biome), Desolation.id("charred_forest"))
                 || Objects.equals(player.world.getRegistryManager().get(Registry.BIOME_KEY).getId(biome), Desolation.id("charred_forest_small"))
                 || Objects.equals(player.world.getRegistryManager().get(Registry.BIOME_KEY).getId(biome), Desolation.id("charred_forest_clearing")))
+                && !DesolationMod.CONFIG.biomeSoundAmbience
         ) {
             this.soundManager.stop(musicLoop);
             info.setReturnValue(musicLoop);

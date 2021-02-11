@@ -14,6 +14,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import raltsmc.desolation.Desolation;
+import raltsmc.desolation.DesolationMod;
 import raltsmc.desolation.registry.DesolationItems;
 
 @Mixin(InGameHud.class)
@@ -35,7 +36,8 @@ public class InGameHudMixin {
         ItemStack itemStackA = this.client.player.inventory.getArmorStack(3);
         if (this.client.options.getPerspective().isFirstPerson()
                 && (itemStackA.getItem() == DesolationItems.GOGGLES
-                || itemStackA.getItem() == DesolationItems.MASK_GOGGLES)) {
+                || itemStackA.getItem() == DesolationItems.MASK_GOGGLES)
+                && DesolationMod.CONFIG.showGogglesOverlay) {
             this.renderGogglesOverlay();
         }
     }

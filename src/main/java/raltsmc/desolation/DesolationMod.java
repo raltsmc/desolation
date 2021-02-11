@@ -1,5 +1,7 @@
 package raltsmc.desolation;
 
+import me.sargunvohra.mcmods.autoconfig1u.AutoConfig;
+import me.sargunvohra.mcmods.autoconfig1u.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.biome.v1.OverworldBiomes;
 import net.fabricmc.fabric.api.client.itemgroup.FabricItemGroupBuilder;
@@ -28,6 +30,7 @@ import net.minecraft.world.gen.surfacebuilder.ConfiguredSurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
 import org.apache.commons.lang3.ArrayUtils;
+import raltsmc.desolation.config.DesolationConfig;
 import raltsmc.desolation.mixin.SetBaseBiomesLayerAccessor;
 import raltsmc.desolation.registry.*;
 import raltsmc.desolation.structure.AshTinkerBaseGenerator;
@@ -41,6 +44,7 @@ import java.util.List;
 public class DesolationMod implements ModInitializer {
 
 	public static final String MODID = "desolation";
+	public static final DesolationConfig CONFIG;
 
 	public static final ItemGroup DSL_GROUP = FabricItemGroupBuilder.build(
 			new Identifier("desolation", "dsl_group"),
@@ -174,5 +178,9 @@ public class DesolationMod implements ModInitializer {
 		FuelRegistry.INSTANCE.add(DesolationItems.CHARCOAL_BIT, 400);
 
 		System.out.println("Desolation initialized!");
+	}
+
+	static {
+		CONFIG = AutoConfig.register(DesolationConfig.class, JanksonConfigSerializer::new).getConfig();
 	}
 }
