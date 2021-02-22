@@ -16,9 +16,9 @@ import net.minecraft.world.gen.stateprovider.WeightedBlockStateProvider;
 import net.minecraft.world.gen.trunk.StraightTrunkPlacer;
 import raltsmc.desolation.Desolation;
 import raltsmc.desolation.registry.DesolationBlocks;
-import raltsmc.desolation.world.feature.DesolationFeatures;
 import raltsmc.desolation.world.gen.foliage.CharredFoliagePlacer;
 import raltsmc.desolation.world.gen.trunk.FallenTrunkPlacer;
+import raltsmc.desolation.world.gen.trunk.BasedTrunkPlacer;
 
 import static net.minecraft.block.SnowBlock.LAYERS;
 import static raltsmc.desolation.block.CinderfruitPlantBlock.AGE;
@@ -34,7 +34,7 @@ public final class DesolationConfiguredFeatures {
                                             UniformIntDistribution.of(4),
                                             UniformIntDistribution.of(0),
                                             3),
-                                    new StraightTrunkPlacer(6, 10, 1),
+                                    new BasedTrunkPlacer(6, 10, 1),
                                     new TwoLayersFeatureSize(1, 0, 1)
                             ))
                                     .ignoreVines()
@@ -131,7 +131,7 @@ public final class DesolationConfiguredFeatures {
             (ConfiguredFeature)Feature.RANDOM_PATCH
                     .configure(Configs.ASH_BRAMBLE_CONFIG)
                     .decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP_SPREAD_DOUBLE)
-                    .repeat(5), "patch_ash_bramble");
+                    .repeat(4), "patch_ash_bramble");
 
     public static final ConfiguredFeature<FeatureConfig, ?> PLANT_CINDERFRUIT = register(
             (ConfiguredFeature)Feature.RANDOM_PATCH
@@ -203,10 +203,10 @@ public final class DesolationConfiguredFeatures {
                     UniformIntDistribution.of(0),
                     2*/
                     SimpleBlockPlacer.INSTANCE))
-                    .tries(64)
-                    .spreadX(8)
+                    .tries(8)
+                    .spreadX(6)
                     .spreadY(2)
-                    .spreadZ(8)
+                    .spreadZ(6)
                     .whitelist(Sets.newHashSet(DesolationBlocks.CHARRED_SOIL, DesolationBlocks.CHARRED_LOG,
                             DesolationBlocks.ASH_BRAMBLE))
                     .build();
