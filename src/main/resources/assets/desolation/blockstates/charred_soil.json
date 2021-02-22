@@ -1,12 +1,20 @@
 {
   "variants": {
     "": [
-      { "model": "desolation:block/charred_soil" },
-      { "model": "desolation:block/charred_soil_mirrored" },
-      { "model": "desolation:block/charred_soil",
+      { "model": "desolation:block/charred_soil_var1" },
+      { "model": "desolation:block/charred_soil_var1_mirrored" },
+      { "model": "desolation:block/charred_soil_var1",
         "y": 180
       },
-      { "model": "desolation:block/charred_soil_mirrored",
+      { "model": "desolation:block/charred_soil_var1_mirrored",
+        "y": 180
+      },
+      { "model": "desolation:block/charred_soil_var2" },
+      { "model": "desolation:block/charred_soil_var2_mirrored" },
+      { "model": "desolation:block/charred_soil_var2",
+        "y": 180
+      },
+      { "model": "desolation:block/charred_soil_var2_mirrored",
         "y": 180
       }
     ]
