@@ -5,7 +5,7 @@ import raltsmc.desolation.Desolation;
 import raltsmc.desolation.entity.BlackenedEntity;
 import software.bernie.geckolib3.model.AnimatedGeoModel;
 
-public class BlackenedEntityModel extends AnimatedGeoModel<BlackenedEntity> {
+public class BlackenedEntityModel<T> extends AnimatedGeoModel<BlackenedEntity> {
 
     @Override
 	public Identifier getModelLocation(BlackenedEntity object) {
