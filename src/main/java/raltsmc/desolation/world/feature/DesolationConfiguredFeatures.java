@@ -113,7 +113,7 @@ public final class DesolationConfiguredFeatures {
             (ConfiguredFeature)Feature.RANDOM_PATCH
                     .configure(Configs.SCORCHED_TUFT_CONFIG)
                     .decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP_SPREAD_DOUBLE)
-                    .repeat(5), "patch_scorched_tuft");
+                    .repeat(8), "patch_scorched_tuft");
 
     public static final ConfiguredFeature<FeatureConfig, ?> PATCH_ASH_LAYER = register(
             (ConfiguredFeature)Feature.RANDOM_PATCH
@@ -125,13 +125,13 @@ public final class DesolationConfiguredFeatures {
             (ConfiguredFeature)DesolationFeatures.SCATTERED
                     .configure(Configs.EMBER_CHUNK_CONFIG)
                     .decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP_SPREAD_DOUBLE)
-                    .repeat(6), "patch_ember_chunk");
+                    .repeat(8), "patch_ember_chunk");
 
     public static final ConfiguredFeature<FeatureConfig, ?> PATCH_ASH_BRAMBLE = register(
             (ConfiguredFeature)Feature.RANDOM_PATCH
                     .configure(Configs.ASH_BRAMBLE_CONFIG)
                     .decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP_SPREAD_DOUBLE)
-                    .repeat(4), "patch_ash_bramble");
+                    .repeat(5), "patch_ash_bramble");
 
     public static final ConfiguredFeature<FeatureConfig, ?> PLANT_CINDERFRUIT = register(
             (ConfiguredFeature)Feature.RANDOM_PATCH
@@ -190,7 +190,7 @@ public final class DesolationConfiguredFeatures {
                     SimpleBlockPlacer.INSTANCE))
                     .tries(5)
                     .spreadX(3)
-                    .spreadY(1)
+                    .spreadY(0)
                     .spreadZ(3)
                     .whitelist(Sets.newHashSet(DesolationBlocks.CHARRED_SOIL, DesolationBlocks.EMBER_BLOCK))
                     .canReplace()

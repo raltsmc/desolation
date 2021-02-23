@@ -31,7 +31,7 @@ public class ScatteredFeature extends Feature<ScatteredFeatureConfig> {
         mutable.set(blockPos3);
 
         for (int j = 0; j < scatteredFeatureConfig.tries; ++j) {
-            boolean bl1 = random.nextBoolean();
+            boolean bl1 = random.nextInt(8) > 0;
             boolean bl2 = false;
             mutable.set(mutable,
                     random.nextInt(2) - random.nextInt(2),
