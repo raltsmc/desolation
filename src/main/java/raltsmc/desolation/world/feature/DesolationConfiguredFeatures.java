@@ -125,7 +125,7 @@ public final class DesolationConfiguredFeatures {
             (ConfiguredFeature)DesolationFeatures.SCATTERED
                     .configure(Configs.EMBER_CHUNK_CONFIG)
                     .decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP_SPREAD_DOUBLE)
-                    .repeat(8), "patch_ember_chunk");
+                    .repeat(3), "patch_ember_chunk");
 
     public static final ConfiguredFeature<FeatureConfig, ?> PATCH_ASH_BRAMBLE = register(
             (ConfiguredFeature)Feature.RANDOM_PATCH

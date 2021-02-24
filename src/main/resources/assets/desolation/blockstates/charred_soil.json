@@ -10,13 +10,7 @@
         "y": 180
       },
       { "model": "desolation:block/charred_soil_var2" },
-      { "model": "desolation:block/charred_soil_var2_mirrored" },
-      { "model": "desolation:block/charred_soil_var2",
-        "y": 180
-      },
-      { "model": "desolation:block/charred_soil_var2_mirrored",
-        "y": 180
-      }
+      { "model": "desolation:block/charred_soil_var2_mirrored" }
     ]
   }
 }
