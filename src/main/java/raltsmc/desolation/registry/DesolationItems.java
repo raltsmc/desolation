@@ -9,7 +9,8 @@ import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
 import raltsmc.desolation.Desolation;
 import raltsmc.desolation.DesolationMod;
-import raltsmc.desolation.item.*;
+import raltsmc.desolation.item.AshItem;
+import raltsmc.desolation.item.CinderHeartItem;
 
 public final class DesolationItems {
 

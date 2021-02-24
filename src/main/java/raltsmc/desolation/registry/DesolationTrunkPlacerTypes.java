@@ -5,8 +5,8 @@ import net.minecraft.world.gen.trunk.TrunkPlacer;
 import net.minecraft.world.gen.trunk.TrunkPlacerType;
 import raltsmc.desolation.Desolation;
 import raltsmc.desolation.mixin.TrunkPlacerTypeInvoker;
-import raltsmc.desolation.world.gen.trunk.FallenTrunkPlacer;
 import raltsmc.desolation.world.gen.trunk.BasedTrunkPlacer;
+import raltsmc.desolation.world.gen.trunk.FallenTrunkPlacer;
 
 public class DesolationTrunkPlacerTypes {
     public static TrunkPlacerType<FallenTrunkPlacer> FALLEN;

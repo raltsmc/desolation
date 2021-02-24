@@ -21,6 +21,7 @@ public class PotionUtilMixin {
     @Inject(method = "buildTooltip", at = @At("TAIL"), locals = LocalCapture.CAPTURE_FAILHARD)
     private static void buildTooltip(ItemStack stack, List<Text> list, float f, CallbackInfo ci, List<StatusEffectInstance> list2) {
         if (list2.stream().anyMatch(e -> e.getEffectType().equals(DesolationStatusEffects.CINDER_SOUL))) {
+            list.add((new TranslatableText("potion.cinder_soul.tooltip_a")).formatted(Formatting.GOLD));
             list.add((new TranslatableText("potion.cinder_soul.tooltip_b")).formatted(Formatting.GOLD));
         }
     }
