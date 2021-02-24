@@ -34,6 +34,8 @@ public class ScatteredFeatureConfig implements FeatureConfig {
             return scatteredFeatureConfig.spreadY;
         }), Codec.INT.fieldOf("zspread").orElse(7).forGetter((scatteredFeatureConfig) -> {
             return scatteredFeatureConfig.spreadZ;
+        }), Codec.DOUBLE.fieldOf("fail_chance").orElse(0d).forGetter((scatteredFeatureConfig) -> {
+            return scatteredFeatureConfig.failChance;
         }), Codec.BOOL.fieldOf("can_replace").orElse(false).forGetter((scatteredFeatureConfig) -> {
             return scatteredFeatureConfig.canReplace;
         }), Codec.BOOL.fieldOf("project").orElse(true).forGetter((scatteredFeatureConfig) -> {
@@ -54,6 +56,7 @@ public class ScatteredFeatureConfig implements FeatureConfig {
     public final int spreadX;
     public final int spreadY;
     public final int spreadZ;
+    public final double failChance;
     public final boolean canReplace;
     public final boolean project;
     public final boolean needsWater;
@@ -62,15 +65,15 @@ public class ScatteredFeatureConfig implements FeatureConfig {
 
     private ScatteredFeatureConfig(BlockStateProvider stateProvider, BlockPlacer blockPlacer,
                                    List<BlockState> whitelist, List<BlockState> blacklist, int tries, int spreadX,
-                                   int spreadY, int spreadZ, boolean canReplace, boolean project, boolean needsWater,
-                                   boolean modifyGround, boolean genInWater) {
-        this(stateProvider, blockPlacer, (Set)((Set)whitelist.stream().map(AbstractBlock.AbstractBlockState::getBlock).collect(Collectors.toSet())), (Set) ImmutableSet.copyOf(blacklist), tries, spreadX, spreadY, spreadZ, canReplace, project, needsWater, modifyGround, genInWater);
+                                   int spreadY, int spreadZ, double failChance, boolean canReplace, boolean project,
+                                   boolean needsWater, boolean modifyGround, boolean genInWater) {
+        this(stateProvider, blockPlacer, (Set)((Set)whitelist.stream().map(AbstractBlock.AbstractBlockState::getBlock).collect(Collectors.toSet())), (Set) ImmutableSet.copyOf(blacklist), tries, spreadX, spreadY, spreadZ, failChance, canReplace, project, needsWater, modifyGround, genInWater);
     }
 
     private ScatteredFeatureConfig(BlockStateProvider stateProvider, BlockPlacer blockPlacer, Set<Block> whitelist,
                                    Set<BlockState> blacklist, int tries, int spreadX, int spreadY, int spreadZ,
-                                   boolean canReplace, boolean project, boolean needsWater, boolean modifyGround,
-                                   boolean genInWater) {
+                                   double failChance, boolean canReplace, boolean project, boolean needsWater,
+                                   boolean modifyGround, boolean genInWater) {
         this.stateProvider = stateProvider;
         this.blockPlacer = blockPlacer;
         this.whitelist = whitelist;
@@ -79,6 +82,7 @@ public class ScatteredFeatureConfig implements FeatureConfig {
         this.spreadX = spreadX;
         this.spreadY = spreadY;
         this.spreadZ = spreadZ;
+        this.failChance = failChance;
         this.canReplace = canReplace;
         this.project = project;
         this.needsWater = needsWater;
@@ -95,6 +99,7 @@ public class ScatteredFeatureConfig implements FeatureConfig {
         private int spreadX = 7;
         private int spreadY = 3;
         private int spreadZ = 7;
+        private double failChance = 0d;
         private boolean canReplace;
         private boolean project = true;
         private boolean needsWater = false;
@@ -136,6 +141,11 @@ public class ScatteredFeatureConfig implements FeatureConfig {
             return this;
         }
 
+        public ScatteredFeatureConfig.Builder failChance(double failChance) {
+            this.failChance = failChance;
+            return this;
+        }
+
         public ScatteredFeatureConfig.Builder canReplace() {
             this.canReplace = true;
             return this;
@@ -163,8 +173,8 @@ public class ScatteredFeatureConfig implements FeatureConfig {
 
         public ScatteredFeatureConfig build() {
             return new ScatteredFeatureConfig(this.stateProvider, this.blockPlacer, this.whitelist, this.blacklist,
-                    this.tries, this.spreadX, this.spreadY, this.spreadZ, this.canReplace, this.project,
-                    this.needsWater, this.modifyGround, this.genInWater);
+                    this.tries, this.spreadX, this.spreadY, this.spreadZ, this.failChance, this.canReplace,
+                    this.project, this.needsWater, this.modifyGround, this.genInWater);
         }
     }
 }

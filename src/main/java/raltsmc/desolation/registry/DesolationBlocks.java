@@ -16,7 +16,8 @@ import net.minecraft.util.registry.Registry;
 public final class DesolationBlocks {
 
     public static final Block CHARRED_SOIL = register(new Block(FabricBlockSettings.of(Material.SOIL).hardness(0.5f).sounds(BlockSoundGroup.GRAVEL).breakByTool(FabricToolTags.SHOVELS)), "charred_soil", true);
-    public static final Block EMBER_BLOCK = register(new EmberBlock(FabricBlockSettings.of(Material.STONE).hardness(1.5f).lightLevel(8).sounds(BlockSoundGroup.STONE).breakByTool(FabricToolTags.PICKAXES, 0)), "ember_block", true);
+    public static final Block COOLED_EMBER_BLOCK = register(new Block(FabricBlockSettings.of(Material.STONE).hardness(1.5f).sounds(BlockSoundGroup.STONE).breakByTool(FabricToolTags.PICKAXES, 0)), "cooled_ember_block", true);
+    public static final Block EMBER_BLOCK = register(new EmberBlock(COOLED_EMBER_BLOCK, FabricBlockSettings.of(Material.STONE).hardness(1.5f).lightLevel(8).sounds(BlockSoundGroup.STONE).breakByTool(FabricToolTags.PICKAXES, 0)), "ember_block", true);
     public static final Block ASH_BLOCK = register(new AshBlock(FabricBlockSettings.of(Material.AGGREGATE).hardness(0.5f).sounds(BlockSoundGroup.SAND).breakByTool(FabricToolTags.SHOVELS)), "ash_block", true);
     public static final Block ASH_LAYER_BLOCK = register(new AshLayerBlock(FabricBlockSettings.of(Material.AGGREGATE).hardness(0.3f).sounds(BlockSoundGroup.SAND).breakByTool(FabricToolTags.SHOVELS)), "ash", true);
     public static final Block SCORCHED_TUFT = register(new ScorchedTuftBlock(FabricBlockSettings.of(Material.REPLACEABLE_PLANT).breakInstantly().nonOpaque().noCollision().sounds(BlockSoundGroup.CROP)), "scorched_tuft", true);

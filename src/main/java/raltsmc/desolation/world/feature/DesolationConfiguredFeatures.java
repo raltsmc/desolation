@@ -125,7 +125,7 @@ public final class DesolationConfiguredFeatures {
             (ConfiguredFeature)DesolationFeatures.SCATTERED
                     .configure(Configs.EMBER_CHUNK_CONFIG)
                     .decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP_SPREAD_DOUBLE)
-                    .repeat(3), "patch_ember_chunk");
+                    .repeat(5), "patch_ember_chunk");
 
     public static final ConfiguredFeature<FeatureConfig, ?> PATCH_ASH_BRAMBLE = register(
             (ConfiguredFeature)Feature.RANDOM_PATCH
@@ -134,7 +134,7 @@ public final class DesolationConfiguredFeatures {
                     .repeat(5), "patch_ash_bramble");
 
     public static final ConfiguredFeature<FeatureConfig, ?> PLANT_CINDERFRUIT = register(
-            (ConfiguredFeature)Feature.RANDOM_PATCH
+            (ConfiguredFeature)DesolationFeatures.SCATTERED
                     .configure(Configs.PLANT_CINDERFRUIT_CONFIG)
                     .decorate(ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP_SPREAD_DOUBLE)
                     .repeat(1), "plant_cinderfruit");
@@ -150,7 +150,7 @@ public final class DesolationConfiguredFeatures {
         public static final RandomPatchFeatureConfig ASH_LAYER_CONFIG;
         public static final ScatteredFeatureConfig EMBER_CHUNK_CONFIG;
         public static final RandomPatchFeatureConfig ASH_BRAMBLE_CONFIG;
-        public static final RandomPatchFeatureConfig PLANT_CINDERFRUIT_CONFIG;
+        public static final ScatteredFeatureConfig PLANT_CINDERFRUIT_CONFIG;
 
         static {
             SCORCHED_TUFT_CONFIG =
@@ -174,34 +174,21 @@ public final class DesolationConfiguredFeatures {
                     .spreadZ(11)
                     .whitelist(Sets.newHashSet(DesolationBlocks.CHARRED_BRANCHES, DesolationBlocks.CHARRED_LOG, DesolationBlocks.CHARRED_SOIL))
                     .build();
-            /*EMBER_CHUNK_CONFIG = (new RandomPatchFeatureConfig.Builder(
-                    new SimpleBlockStateProvider(DesolationBlocks.EMBER_BLOCK.getDefaultState()),
-                    SimpleBlockPlacer.INSTANCE))
-                    .tries(3)
-                    .spreadX(3)
-                    .spreadY(1)
-                    .spreadZ(3)
-                    .whitelist(Sets.newHashSet(DesolationBlocks.CHARRED_SOIL))
-                    .blacklist(Sets.newHashSet(Blocks.AIR.getDefaultState(), Blocks.WATER.getDefaultState()))
-                    .canReplace()
-                    .build();*/
             EMBER_CHUNK_CONFIG = (new ScatteredFeatureConfig.Builder(
-                    new SimpleBlockStateProvider(DesolationBlocks.EMBER_BLOCK.getDefaultState()),
+                    new WeightedBlockStateProvider()
+                            .addState(DesolationBlocks.EMBER_BLOCK.getDefaultState(), 1)
+                            .addState(DesolationBlocks.COOLED_EMBER_BLOCK.getDefaultState(), 1),
                     SimpleBlockPlacer.INSTANCE))
                     .tries(5)
                     .spreadX(3)
                     .spreadY(0)
                     .spreadZ(3)
-                    .whitelist(Sets.newHashSet(DesolationBlocks.CHARRED_SOIL, DesolationBlocks.EMBER_BLOCK))
+                    .whitelist(Sets.newHashSet(DesolationBlocks.CHARRED_SOIL, DesolationBlocks.EMBER_BLOCK, DesolationBlocks.COOLED_EMBER_BLOCK))
                     .canReplace()
                     .modifyGround()
                     .build();
             ASH_BRAMBLE_CONFIG = (new RandomPatchFeatureConfig.Builder(
                     new SimpleBlockStateProvider(DesolationBlocks.ASH_BRAMBLE.getDefaultState()),
-                    /*BushFoliagePlacer(
-                    UniformIntDistribution.of(2, 1),
-                    UniformIntDistribution.of(0),
-                    2*/
                     SimpleBlockPlacer.INSTANCE))
                     .tries(8)
                     .spreadX(6)
@@ -210,10 +197,14 @@ public final class DesolationConfiguredFeatures {
                     .whitelist(Sets.newHashSet(DesolationBlocks.CHARRED_SOIL, DesolationBlocks.CHARRED_LOG,
                             DesolationBlocks.ASH_BRAMBLE))
                     .build();
-            PLANT_CINDERFRUIT_CONFIG = (new RandomPatchFeatureConfig.Builder(
+            PLANT_CINDERFRUIT_CONFIG = (new ScatteredFeatureConfig.Builder(
                     new SimpleBlockStateProvider(DesolationBlocks.CINDERFRUIT_PLANT.getDefaultState().with(AGE, 1)),
                     SimpleBlockPlacer.INSTANCE))
                     .tries(1)
+                    .spreadX(0)
+                    .spreadY(0)
+                    .spreadZ(0)
+                    .failChance(0.92D)
                     .whitelist(Sets.newHashSet(DesolationBlocks.CHARRED_SOIL))
                     .blacklist(Sets.newHashSet(Blocks.AIR.getDefaultState(), Blocks.WATER.getDefaultState()))
                     .build();
