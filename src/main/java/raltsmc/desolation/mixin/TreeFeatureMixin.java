@@ -18,10 +18,8 @@ import static net.minecraft.world.gen.feature.Feature.isSoil;
 public class TreeFeatureMixin {
     @Inject(method = "isDirtOrGrass", at = @At("HEAD"), cancellable = true)
     private static void isDirtOrGrass(TestableWorld world, BlockPos pos, CallbackInfoReturnable<Boolean> info) {
-        boolean isValid = world.testBlockState(pos, blockState -> {
-            Block block = blockState.getBlock();
-            return isSoil(block) || block == Blocks.FARMLAND || block == DesolationBlocks.CHARRED_SOIL;
-        });
-        info.setReturnValue(isValid);
+        if (world.testBlockState(pos, blockState -> blockState.getBlock() == DesolationBlocks.CHARRED_SOIL)) {
+            info.setReturnValue(true);
+        }
     }
 }
