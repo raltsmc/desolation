@@ -171,20 +171,19 @@ public class DesolationMod implements ModInitializer {
 		biomes.add(CHARRED_FOREST_SMALL_KEY);
 		VanillaLayeredBiomeSourceAccessor.setBIOMES(biomes);
 
-		/*SetBaseBiomesLayerAccessor.setTemperateBiomes(
-				ArrayUtils.add(SetBaseBiomesLayerAccessor.getTemperateBiomes(),
-						BuiltinRegistries.BIOME.getRawId(CHARRED_FOREST))
-		);*/
-
-		OverworldBiomes.addBiomeVariant(BiomeKeys.FOREST, CHARRED_FOREST_SMALL_KEY, 0.03D);
-		OverworldBiomes.addBiomeVariant(BiomeKeys.BIRCH_FOREST, CHARRED_FOREST_SMALL_KEY, 0.02D);
-		OverworldBiomes.addBiomeVariant(BiomeKeys.TALL_BIRCH_FOREST, CHARRED_FOREST_KEY, 0.07D);
-		OverworldBiomes.addBiomeVariant(BiomeKeys.FOREST, CHARRED_FOREST_KEY, 0.02D);
-		OverworldBiomes.addBiomeVariant(BiomeKeys.TAIGA, CHARRED_FOREST_KEY, 0.02D);
-		OverworldBiomes.addHillsBiome(CHARRED_FOREST_KEY, CHARRED_FOREST_CLEARING_KEY, 0.07D);
-		OverworldBiomes.addHillsBiome(CHARRED_FOREST_SMALL_KEY, CHARRED_FOREST_CLEARING_KEY, 0.05D);
-		/*OverworldBiomes.addBiomeVariant(CHARRED_FOREST_KEY, CHARRED_FOREST_SMALL_KEY, 0.3D);
-		OverworldBiomes.addHillsBiome(CHARRED_FOREST_KEY, CHARRED_FOREST_CLEARING_KEY, 0.05D);*/
+		double cfLargeChance = CONFIG.charredForestChance;
+		double cfSmallChance = CONFIG.smallCharredForestChance;
+		double cfClearingChance = CONFIG.charredForestClearingChance;
+		boolean generateClearings = CONFIG.generateClearings;
+		OverworldBiomes.addBiomeVariant(BiomeKeys.FOREST, CHARRED_FOREST_SMALL_KEY, cfSmallChance);
+		OverworldBiomes.addBiomeVariant(BiomeKeys.BIRCH_FOREST, CHARRED_FOREST_SMALL_KEY, cfSmallChance);
+		OverworldBiomes.addBiomeVariant(BiomeKeys.TALL_BIRCH_FOREST, CHARRED_FOREST_KEY, cfLargeChance);
+		OverworldBiomes.addBiomeVariant(BiomeKeys.FOREST, CHARRED_FOREST_KEY, cfLargeChance);
+		OverworldBiomes.addBiomeVariant(BiomeKeys.TAIGA, CHARRED_FOREST_KEY, cfLargeChance);
+		if (generateClearings) {
+			OverworldBiomes.addHillsBiome(CHARRED_FOREST_KEY, CHARRED_FOREST_CLEARING_KEY, cfClearingChance);
+			OverworldBiomes.addHillsBiome(CHARRED_FOREST_SMALL_KEY, CHARRED_FOREST_CLEARING_KEY, cfClearingChance);
+		}
 
 		FuelRegistry.INSTANCE.add(DesolationItems.CHARCOAL_BIT, 400);
 

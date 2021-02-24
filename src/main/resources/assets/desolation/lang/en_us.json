@@ -54,7 +54,12 @@
   "potion.cinder_soul.tooltip_b": "Grants Fire Resistance",
   "category.desolation.cat": "Desolation",
   "text.autoconfig.desolation.title": "Desolation Config",
+  "text.autoconfig.desolation.category.default": "Main",
+  "text.autoconfig.desolation.category.generation": "Generation",
   "text.autoconfig.desolation.option.showGogglesOverlay": "Show Goggles Overlay",
-  "text.autoconfig.desolation.option.inflictBiomeDebuffs": "Inflict Biome Debuffs",
-  "text.autoconfig.desolation.option.biomeSoundAmbience": "Biome Sound Ambience"
+  "text.autoconfig.desolation.option.biomeSoundAmbience": "Biome Sound Ambience",
+  "text.autoconfig.desolation.option.charredForestChance": "Charred Forest Chance",
+  "text.autoconfig.desolation.option.smallCharredForestChance": "Small Charred Forest Chance",
+  "text.autoconfig.desolation.option.charredForestClearingChance": "Charred Forest Clearing Chance",
+  "text.autoconfig.desolation.option.generateClearings": "Generate Clearings"
 }
