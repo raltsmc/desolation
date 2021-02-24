@@ -84,7 +84,7 @@ public final class DesolationConfiguredFeatures {
 
                     )
                             .decorate(net.minecraft.world.gen.feature.ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP)
-                            .decorate(Decorator.COUNT_EXTRA.configure(new CountExtraDecoratorConfig(1, 0.1F, 1))),
+                            .decorate(Decorator.COUNT_EXTRA.configure(new CountExtraDecoratorConfig(4, 0.1F, 1))),
                     "tree_charred_fallen")
     );
 
@@ -105,7 +105,7 @@ public final class DesolationConfiguredFeatures {
 
                     )
                             .decorate(net.minecraft.world.gen.feature.ConfiguredFeatures.Decorators.SQUARE_HEIGHTMAP)
-                            .decorate(Decorator.COUNT_EXTRA.configure(new CountExtraDecoratorConfig(1, 0.1F, 1))),
+                            .decorate(Decorator.COUNT_EXTRA.configure(new CountExtraDecoratorConfig(3, 0.1F, 1))),
                     "tree_charred_fallen_small")
     );
 
