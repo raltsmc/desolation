@@ -1,4 +1,4 @@
-package raltsmc.desolation.mixin;
+package raltsmc.desolation.mixin.world.gen.trunk;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.world.gen.trunk.TrunkPlacer;

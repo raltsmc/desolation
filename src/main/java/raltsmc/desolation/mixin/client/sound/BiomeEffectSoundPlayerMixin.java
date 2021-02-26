@@ -1,4 +1,4 @@
-package raltsmc.desolation.mixin;
+package raltsmc.desolation.mixin.client.sound;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

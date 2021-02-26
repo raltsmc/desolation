@@ -1,4 +1,4 @@
-package raltsmc.desolation.mixin;
+package raltsmc.desolation.mixin.entity;
 
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;

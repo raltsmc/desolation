@@ -1,4 +1,4 @@
-package raltsmc.desolation.mixin;
+package raltsmc.desolation.mixin.recipe;
 
 import net.minecraft.item.Item;
 import net.minecraft.potion.Potion;

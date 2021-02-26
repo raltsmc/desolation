@@ -1,4 +1,4 @@
-package raltsmc.desolation.mixin;
+package raltsmc.desolation.mixin.client.network;
 
 import com.mojang.authlib.GameProfile;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;

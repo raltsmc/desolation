@@ -1,4 +1,4 @@
-package raltsmc.desolation.mixin;
+package raltsmc.desolation.mixin.world.biome.layer;
 
 import net.minecraft.world.biome.layer.SetBaseBiomesLayer;
 import org.spongepowered.asm.mixin.Mixin;

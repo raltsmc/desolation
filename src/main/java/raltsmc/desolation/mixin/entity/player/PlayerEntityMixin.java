@@ -1,4 +1,4 @@
-package raltsmc.desolation.mixin;
+package raltsmc.desolation.mixin.entity.player;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;

@@ -4,7 +4,7 @@ import net.minecraft.item.Items;
 import net.minecraft.potion.Potions;
 import raltsmc.desolation.entity.effect.DesolationStatusEffects;
 import raltsmc.desolation.item.potion.DesolationPotions;
-import raltsmc.desolation.mixin.BrewingRecipeRegistryInvoker;
+import raltsmc.desolation.mixin.recipe.BrewingRecipeRegistryInvoker;
 import raltsmc.desolation.world.feature.DesolationConfiguredFeatures;
 import raltsmc.desolation.world.feature.DesolationFeatures;
 

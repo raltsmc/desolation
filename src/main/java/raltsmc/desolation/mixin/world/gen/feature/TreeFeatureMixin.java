@@ -1,8 +1,5 @@
-package raltsmc.desolation.mixin;
+package raltsmc.desolation.mixin.world.gen.feature;
 
-
-import net.minecraft.block.Block;
-import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.TestableWorld;
 import net.minecraft.world.gen.feature.TreeFeature;
@@ -11,8 +8,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import raltsmc.desolation.registry.DesolationBlocks;
-
-import static net.minecraft.world.gen.feature.Feature.isSoil;
 
 @Mixin(TreeFeature.class)
 public class TreeFeatureMixin {

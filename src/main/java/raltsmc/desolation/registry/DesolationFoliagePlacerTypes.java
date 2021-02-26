@@ -4,7 +4,7 @@ import com.mojang.serialization.Codec;
 import net.minecraft.world.gen.foliage.FoliagePlacer;
 import net.minecraft.world.gen.foliage.FoliagePlacerType;
 import raltsmc.desolation.Desolation;
-import raltsmc.desolation.mixin.FoliagePlacerTypeInvoker;
+import raltsmc.desolation.mixin.world.gen.foliage.FoliagePlacerTypeInvoker;
 import raltsmc.desolation.world.gen.foliage.CharredFoliagePlacer;
 
 public class DesolationFoliagePlacerTypes {
