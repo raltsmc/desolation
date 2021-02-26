@@ -1,0 +1,10 @@
+{
+  "music_disc.ashes": {
+    "sounds": [
+      {
+        "name": "desolation:records/ashes",
+        "stream": true
+      }
+    ]
+  }
+}

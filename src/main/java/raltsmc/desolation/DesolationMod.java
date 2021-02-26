@@ -18,6 +18,7 @@ import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.BiomeMoodSound;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.structure.StructurePieceType;
 import net.minecraft.util.Identifier;
@@ -60,6 +61,9 @@ public class DesolationMod implements ModInitializer {
 	public static final Identifier CINDER_SOUL_READY_PACKET_ID = Desolation.id("cinder_soul_ready");
 	public static final Identifier CINDER_SOUL_TICK_PACKET_ID = Desolation.id("cinder_soul_tick");
 	public static final Identifier CINDER_SOUL_DO_CINDER_DASH = Desolation.id("do_cinder_dash");
+
+	public static final Identifier MUSIC_DISC_ASHES_SOUND_ID = Desolation.id("music_disc.ashes");
+	public static final SoundEvent MUSIC_DISC_ASHES_SOUND = new SoundEvent(MUSIC_DISC_ASHES_SOUND_ID);
 
 	public static final StructurePieceType TINKER_BASE_PIECE = AshTinkerBaseGenerator.Piece::new;
 	private static final StructureFeature<DefaultFeatureConfig> TINKER_BASE =
@@ -145,6 +149,8 @@ public class DesolationMod implements ModInitializer {
 		DesolationRegistries.init();
 
 		GeckoLib.initialize();
+
+		Registry.register(Registry.SOUND_EVENT, MUSIC_DISC_ASHES_SOUND_ID, MUSIC_DISC_ASHES_SOUND);
 
 		Registry.register(Registry.STRUCTURE_PIECE, Desolation.id("tinker_base_piece"), TINKER_BASE_PIECE);
 		FabricStructureBuilder.create(Desolation.id("tinker_base"), TINKER_BASE)
