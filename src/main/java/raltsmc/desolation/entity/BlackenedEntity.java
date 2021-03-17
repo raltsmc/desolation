@@ -34,7 +34,7 @@ import software.bernie.geckolib3.core.manager.AnimationFactory;
 
 public class BlackenedEntity extends HostileEntity implements IAnimatable {
     private static final TrackedData<Boolean> MELEE_ATTACKING;
-    private static final TrackedData<Boolean> THROW_ATTACKING;
+    private static final TrackedData<Boolean> ASH_ATTACKING;
 
     public BlackenedEntity(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
@@ -66,7 +66,7 @@ public class BlackenedEntity extends HostileEntity implements IAnimatable {
     protected void initDataTracker() {
         super.initDataTracker();
         this.dataTracker.startTracking(MELEE_ATTACKING, false);
-        this.dataTracker.startTracking(THROW_ATTACKING, false);
+        this.dataTracker.startTracking(ASH_ATTACKING, false);
     }
 
     protected void playStepSound(BlockPos pos, BlockState state) {
@@ -114,7 +114,7 @@ public class BlackenedEntity extends HostileEntity implements IAnimatable {
     }
 
     public boolean isAshAttacking() {
-        return (Boolean)this.dataTracker.get(THROW_ATTACKING);
+        return (Boolean)this.dataTracker.get(ASH_ATTACKING);
     }
 
     public void setMeleeAttacking(boolean val) {
@@ -122,7 +122,7 @@ public class BlackenedEntity extends HostileEntity implements IAnimatable {
     }
 
     public void setAshAttacking(boolean val) {
-        this.dataTracker.set(MELEE_ATTACKING, val);
+        this.dataTracker.set(ASH_ATTACKING, val);
     }
 
     private <E extends IAnimatable>PlayState idlePredicate(AnimationEvent<E> event) {
@@ -150,16 +150,13 @@ public class BlackenedEntity extends HostileEntity implements IAnimatable {
 
     private <E extends IAnimatable>PlayState attackPredicate(AnimationEvent<E> event) {
         if (this.isMeleeAttacking()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.desolation.blackened_melee"));
-            this.setMeleeAttacking(false);
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.desolation.blackened_melee", true));
             return PlayState.CONTINUE;
         } else if (this.isAshAttacking()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.desolation.blackened_throw"));
-            this.setAshAttacking(false);
+            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.desolation.blackened_throw", true));
             return PlayState.CONTINUE;
-        } else {
-            return PlayState.STOP;
         }
+        return PlayState.STOP;
     }
 
     @Override
@@ -172,6 +169,6 @@ public class BlackenedEntity extends HostileEntity implements IAnimatable {
 
     static {
         MELEE_ATTACKING = DataTracker.registerData(BlackenedEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-        THROW_ATTACKING = DataTracker.registerData(BlackenedEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+        ASH_ATTACKING = DataTracker.registerData(BlackenedEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
     }
 }

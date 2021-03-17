@@ -85,7 +85,7 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 10,
+          "weight": 6,
           "functions": [
             {
               "function": "minecraft:set_count",
@@ -105,8 +105,13 @@
         },
         {
           "type": "minecraft:item",
-          "weight": 2,
+          "weight": 5,
           "name": "desolation:goggles"
+        },
+        {
+          "type": "minecraft:item",
+          "weight": 2,
+          "name": "desolation:music_disc_ashes"
         }
       ]
     },

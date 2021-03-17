@@ -53,7 +53,7 @@ dependencies {
 	modImplementation "io.github.prospector:modmenu:1.14.13+build.21"
 
 	modRuntime "me.shedaniel:RoughlyEnoughItems:5.8.9"
-	modRuntime "grondag:canvas-mc116:1.0.1267"
+	//modRuntime "grondag:canvas-mc116:1.0.1267"
 
 	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.
 	// You may need to force-disable transitiveness on them.

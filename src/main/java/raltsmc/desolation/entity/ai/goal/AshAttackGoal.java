@@ -59,9 +59,16 @@ public class AshAttackGoal extends Goal {
     private double targetY;
     private double targetZ;
     private int updateCountdownTicks;
-    private int field_24667;
+    private int attackCd;
     private final int attackIntervalTicks = 20;
     private long lastUpdateTime;
+    private AttackType lastAttack;
+
+    private enum AttackType {
+        MELEE,
+        ASH,
+        NONE
+    }
 
     public AshAttackGoal(BlackenedEntity mob, double speed, boolean pauseWhenMobIdle) {
         this.mob = mob;
@@ -119,7 +126,8 @@ public class AshAttackGoal extends Goal {
         this.mob.getNavigation().startMovingAlong(this.path, this.speed);
         this.mob.setAttacking(true);
         this.updateCountdownTicks = 0;
-        this.field_24667 = 0;
+        this.attackCd = 0;
+        this.lastAttack = AttackType.NONE;
     }
 
     public void stop() {
@@ -129,6 +137,8 @@ public class AshAttackGoal extends Goal {
         }
 
         this.mob.setAttacking(false);
+        this.mob.setMeleeAttacking(false);
+        this.mob.setAshAttacking(false);
         this.mob.getNavigation().stop();
     }
 
@@ -153,43 +163,46 @@ public class AshAttackGoal extends Goal {
             }
         }
 
-        this.field_24667 = Math.max(this.field_24667 - 1, 0);
+        this.attackCd = Math.max(this.attackCd - 1, 0);
         this.attack(livingEntity, d);
     }
 
     protected void attack(LivingEntity target, double squaredDistance) {
         double d = this.getSquaredMaxAttackDistance(target);
         double e = this.getSquaredCloseAttackDistance(target);
-        if (this.field_24667 <= 0) {
-            if (squaredDistance <= e) {
-                this.method_28346();
-                this.mob.swingHand(Hand.MAIN_HAND);
-                this.mob.setMeleeAttacking(true);
-                this.mob.tryAttack(target);
-            } else if (squaredDistance <= d) {
-                this.method_28346();
-                this.mob.swingHand(Hand.MAIN_HAND);
-                this.mob.setAshAttacking(true);
-                this.mob.tryAshAttack(target);
-            }
+        if (squaredDistance <= e &&
+                (this.lastAttack == AttackType.NONE && this.getAttackCd() <= 0) ||
+                (this.lastAttack == AttackType.MELEE && this.getAttackCd() <= 0) ||
+                (this.lastAttack == AttackType.ASH && this.getAttackCd() <= 30)) {
+            this.resetAttackCd();
+            this.mob.swingHand(Hand.MAIN_HAND);
+            this.mob.setMeleeAttacking(true);
+            this.mob.setAshAttacking(false);
+            this.lastAttack = AttackType.MELEE;
+            this.mob.tryAttack(target);
+        } else if (squaredDistance <= d &&
+                (this.lastAttack == AttackType.NONE && this.getAttackCd() <= 0) ||
+                (this.lastAttack == AttackType.MELEE && this.getAttackCd() <= 30) ||
+                (this.lastAttack == AttackType.ASH && this.getAttackCd() <= 0)) {
+            this.resetAttackCd();
+            this.mob.swingHand(Hand.MAIN_HAND);
+            this.mob.setAshAttacking(true);
+            this.mob.setMeleeAttacking(false);
+            this.lastAttack = AttackType.ASH;
+            this.mob.tryAshAttack(target);
+        } else if (squaredDistance > d || this.getAttackCd() <= 0) {
+            this.mob.setAshAttacking(false);
+            this.mob.setMeleeAttacking(false);
+            this.lastAttack = AttackType.NONE;
         }
-
     }
 
-    protected void method_28346() {
-        this.field_24667 = 40;
+    protected void resetAttackCd() {
+        this.attackCd = 60;
     }
 
-    protected boolean method_28347() {
-        return this.field_24667 <= 0;
-    }
-
-    protected int method_28348() {
-        return this.field_24667;
-    }
-
-    protected int method_28349() {
-        return 20;
+    protected int getAttackCd() {
+        return this.attackCd;
     }
 
     protected double getSquaredMaxAttackDistance(LivingEntity entity) {
@@ -197,6 +210,6 @@ public class AshAttackGoal extends Goal {
     }
 
     protected double getSquaredCloseAttackDistance(LivingEntity entity) {
-        return (double)(this.mob.getWidth() * 1.5F * this.mob.getWidth() * 1.5F + entity.getWidth());
+        return (double)(this.mob.getWidth() * 2.0F * this.mob.getWidth() * 2.0F + entity.getWidth());
     }
 }
