@@ -67,7 +67,7 @@ public class CinderfruitPlantBlock extends PlantBlock {
             return super.onUse(state, world, pos, player, hand, hit);
         } else {
             dropStack(world, pos, new ItemStack(DesolationItems.CINDERFRUIT, 1));
-            world.playSound((PlayerEntity) null, pos, SoundEvents.ITEM_SWEET_BERRIES_PICK_FROM_BUSH, SoundCategory.BLOCKS, 1.0F,
+            world.playSound((PlayerEntity) null, pos, SoundEvents.BLOCK_SWEET_BERRY_BUSH_PICK_BERRIES, SoundCategory.BLOCKS, 1.0F,
                     0.3F + world.random.nextFloat() * 0.4F);
             world.setBlockState(pos, (BlockState) state.with(AGE, 0), 2);
             return ActionResult.success(world.isClient);

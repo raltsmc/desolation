@@ -12,6 +12,7 @@ import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.ModifiableTestableWorld;
+import net.minecraft.world.TestableWorld;
 import net.minecraft.world.gen.feature.TreeFeature;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import net.minecraft.world.gen.foliage.FoliagePlacer;
@@ -23,6 +24,7 @@ import raltsmc.desolation.registry.DesolationTrunkPlacerTypes;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 
 public class FallenTrunkPlacer extends StraightTrunkPlacer {
@@ -30,7 +32,7 @@ public class FallenTrunkPlacer extends StraightTrunkPlacer {
         super(baseHeight, firstRandomHeight, secondRandomHeight);
     }
 
-    public static final Codec<FallenTrunkPlacer> CODEC = RecordCodecBuilder.create((instance) -> method_28904(instance).apply(instance, FallenTrunkPlacer::new));
+    public static final Codec<FallenTrunkPlacer> CODEC = RecordCodecBuilder.create((instance) -> fillTrunkPlacerFields(instance).apply(instance, FallenTrunkPlacer::new));
 
     @Override
     protected TrunkPlacerType<?> getType() {
@@ -38,7 +40,9 @@ public class FallenTrunkPlacer extends StraightTrunkPlacer {
     }
 
     @Override
-    public List<FoliagePlacer.TreeNode> generate(ModifiableTestableWorld world, Random random, int trunkHeight, BlockPos pos, Set<BlockPos> set, BlockBox blockBox, TreeFeatureConfig treeFeatureConfig) {
+    public List<FoliagePlacer.TreeNode> generate(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer,
+                                                 Random random, int trunkHeight, BlockPos pos,
+                                                 TreeFeatureConfig config) {
         Direction.Axis placementAxis = random.nextBoolean() ? Direction.Axis.X : Direction.Axis.Z;
         Direction placementDirection = Direction.from(placementAxis, random.nextBoolean() ?
                 Direction.AxisDirection.POSITIVE : Direction.AxisDirection.NEGATIVE);
@@ -57,44 +61,19 @@ public class FallenTrunkPlacer extends StraightTrunkPlacer {
             }
         }
 
-        if (supportedAndFree / trunkHeight > 0.6) {
+        if ((float)supportedAndFree / (float)trunkHeight > 0.6) {
             for (int i = 0; i < trunkHeight; ++i) {
                 currentPos.move(placementDirection);
                 if (world.testBlockState(currentPos, BlockStatePredicate.forBlock(DesolationBlocks.CHARRED_SOIL)
                         .or(BlockStatePredicate.forBlock(DesolationBlocks.CHARRED_LOG)))) { break; }
-                placeAt(world, random, currentPos, placementDirection, set, blockBox,
-                        treeFeatureConfig);
+                getAndSetState(world, replacer., random, currentPos, config);
             }
         }
 
         return ImmutableList.of(new FoliagePlacer.TreeNode(currentPos, 0, false));
     }
 
-    protected static void placeAt(ModifiableTestableWorld world, Random random, BlockPos pos, Direction direction,
-                                  Set<BlockPos> set, BlockBox blockBox, TreeFeatureConfig treeFeatureConfig) {
-        setBlockState(world, pos, treeFeatureConfig.trunkProvider.getBlockState(random, pos).with(PillarBlock.AXIS,
-                direction.getAxis()), blockBox);
-        set.add(pos.toImmutable());
-    }
-
-    /*protected static void tryToPlace(ModifiableTestableWorld world, Random random, BlockPos pos,
-                              Direction placementDirection, Set<BlockPos> set,
-                              BlockBox blockBox, TreeFeatureConfig treeFeatureConfig) {
-        /*if ((TreeFeature.canReplace(world, pos) || canReplace(world, pos)) && !TreeFeature.canReplace(world,
-                pos.offset(placementDirection, -1).down(1))) {
-            method_27404(world, pos, treeFeatureConfig.trunkProvider.getBlockState(random, pos).with(PillarBlock.AXIS, placementDirection.getAxis()), blockBox);
-            set.add(pos.toImmutable());
-            return true;
-        } else {
-            return false;
-        }*//*
-        if (TreeFeature.canReplace(world, pos)) {
-            method_27404(world, pos, treeFeatureConfig.trunkProvider.getBlockState(random, pos).with(PillarBlock.AXIS, placementDirection.getAxis()), blockBox);
-            set.add(pos.toImmutable());
-        }
-    }*/
-
-    protected static boolean canReplace(ModifiableTestableWorld world, BlockPos pos) {
+    protected static boolean canReplace(TestableWorld world, BlockPos pos) {
         Predicate<BlockState> REPLACEABLE_PREDICATE = BlockStatePredicate.forBlock(DesolationBlocks.ASH_BLOCK)
                 .or(BlockStatePredicate.forBlock(DesolationBlocks.ASH_LAYER_BLOCK))
                 .or(BlockStatePredicate.forBlock(DesolationBlocks.EMBER_BLOCK));
