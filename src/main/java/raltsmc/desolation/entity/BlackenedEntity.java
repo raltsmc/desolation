@@ -54,7 +54,7 @@ public class BlackenedEntity extends HostileEntity implements IAnimatable {
         this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8F));
         this.goalSelector.add(6, new LookAroundGoal(this));
         this.targetSelector.add(1, new RevengeGoal(this, new Class[0]));
-        this.targetSelector.add(2, new FollowTargetGoal(this, PlayerEntity.class, true));
+        this.targetSelector.add(2, new ActiveTargetGoal(this, PlayerEntity.class, true));
     }
 
     public static DefaultAttributeContainer.Builder createBlackenedAttributes() {

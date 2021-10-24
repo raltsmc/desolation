@@ -110,62 +110,62 @@ public class ScatteredFeatureConfig implements FeatureConfig {
             this.blockPlacer = blockPlacer;
         }
 
-        public ScatteredFeatureConfig.Builder whitelist(Set<Block> whitelist) {
+        public Builder whitelist(Set<Block> whitelist) {
             this.whitelist = whitelist;
             return this;
         }
 
-        public ScatteredFeatureConfig.Builder blacklist(Set<BlockState> blacklist) {
+        public Builder blacklist(Set<BlockState> blacklist) {
             this.blacklist = blacklist;
             return this;
         }
 
-        public ScatteredFeatureConfig.Builder tries(int tries) {
+        public Builder tries(int tries) {
             this.tries = tries;
             return this;
         }
 
-        public ScatteredFeatureConfig.Builder spreadX(int spreadX) {
+        public Builder spreadX(int spreadX) {
             this.spreadX = spreadX;
             return this;
         }
 
-        public ScatteredFeatureConfig.Builder spreadY(int spreadY) {
+        public Builder spreadY(int spreadY) {
             this.spreadY = spreadY;
             return this;
         }
 
-        public ScatteredFeatureConfig.Builder spreadZ(int spreadZ) {
+        public Builder spreadZ(int spreadZ) {
             this.spreadZ = spreadZ;
             return this;
         }
 
-        public ScatteredFeatureConfig.Builder failChance(double failChance) {
+        public Builder failChance(double failChance) {
             this.failChance = failChance;
             return this;
         }
 
-        public ScatteredFeatureConfig.Builder canReplace() {
+        public Builder canReplace() {
             this.canReplace = true;
             return this;
         }
 
-        public ScatteredFeatureConfig.Builder cannotProject() {
+        public Builder cannotProject() {
             this.project = false;
             return this;
         }
 
-        public ScatteredFeatureConfig.Builder needsWater() {
+        public Builder needsWater() {
             this.needsWater = true;
             return this;
         }
 
-        public ScatteredFeatureConfig.Builder modifyGround() {
+        public Builder modifyGround() {
             this.modifyGround = true;
             return this;
         }
 
-        public ScatteredFeatureConfig.Builder genInWater() {
+        public Builder genInWater() {
             this.genInWater = true;
             return this;
         }

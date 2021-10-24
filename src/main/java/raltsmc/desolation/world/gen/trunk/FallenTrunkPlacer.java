@@ -30,7 +30,7 @@ public class FallenTrunkPlacer extends StraightTrunkPlacer {
         super(baseHeight, firstRandomHeight, secondRandomHeight);
     }
 
-    public static final Codec<FallenTrunkPlacer> CODEC = RecordCodecBuilder.create((instance) -> method_28904(instance).apply(instance, FallenTrunkPlacer::new));
+    public static final Codec<FallenTrunkPlacer> CODEC = RecordCodecBuilder.create((instance) -> fillTrunkPlacerFields(instance).apply(instance, FallenTrunkPlacer::new));
 
     @Override
     protected TrunkPlacerType<?> getType() {

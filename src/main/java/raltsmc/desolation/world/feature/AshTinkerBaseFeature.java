@@ -20,8 +20,8 @@ public class AshTinkerBaseFeature extends StructureFeature<DefaultFeatureConfig>
     }
 
     @Override
-    public StructureFeature.StructureStartFactory<DefaultFeatureConfig> getStructureStartFactory() {
-        return AshTinkerBaseFeature.Start::new;
+    public StructureStartFactory<DefaultFeatureConfig> getStructureStartFactory() {
+        return Start::new;
     }
 
     public static class Start extends StructureStart<DefaultFeatureConfig> {

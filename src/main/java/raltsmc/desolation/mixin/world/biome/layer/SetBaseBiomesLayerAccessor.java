@@ -1,10 +1,10 @@
 package raltsmc.desolation.mixin.world.biome.layer;
 
-import net.minecraft.world.biome.layer.SetBaseBiomesLayer;
+import net.minecraft.world.biome.layer.AddBaseBiomesLayer;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 
-@Mixin(SetBaseBiomesLayer.class)
+@Mixin(AddBaseBiomesLayer.class)
 public interface SetBaseBiomesLayerAccessor {
     @Accessor("TEMPERATE_BIOMES")
     public static int[] getTemperateBiomes() {
