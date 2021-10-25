@@ -4,19 +4,19 @@
   "package": "raltsmc.desolation.mixin",
   "compatibilityLevel": "JAVA_16",
   "mixins": [
-    "recipe.BrewingRecipeRegistryInvoker",
     "entity.LivingEntityMixin",
     "entity.player.PlayerEntityMixin",
+    "recipe.BrewingRecipeRegistryInvoker",
     "world.biome.layer.SetBaseBiomesLayerAccessor",
-    "world.gen.trunk.TrunkPlacerTypeInvoker",
-    "world.gen.foliage.FoliagePlacerTypeInvoker"
+    "world.gen.foliage.FoliagePlacerTypeInvoker",
+    "world.gen.trunk.TrunkPlacerTypeInvoker"
   ],
   "client": [
-    "client.sound.BiomeEffectSoundPlayerMixin",
-    "client.render.entity.feature.ArmorFeatureRendererMixin",
-    "client.render.entity.feature.HeadFeatureRendererMixin",
     "client.gui.hud.InGameHudMixin",
     "client.network.ClientPlayerEntityMixin",
+    "client.render.entity.feature.ArmorFeatureRendererMixin",
+    "client.render.entity.feature.HeadFeatureRendererMixin",
+    "client.sound.BiomeEffectSoundPlayerMixin",
     "potion.PotionUtilMixin"
   ],
   "injectors": {

@@ -5,7 +5,10 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.structure.*;
+import net.minecraft.structure.SimpleStructurePiece;
+import net.minecraft.structure.StructureManager;
+import net.minecraft.structure.StructurePiecesHolder;
+import net.minecraft.structure.StructurePlacementData;
 import net.minecraft.structure.processor.BlockIgnoreStructureProcessor;
 import net.minecraft.util.BlockMirror;
 import net.minecraft.util.BlockRotation;
@@ -16,7 +19,6 @@ import net.minecraft.world.ServerWorldAccess;
 import raltsmc.desolation.Desolation;
 import raltsmc.desolation.DesolationMod;
 
-import java.util.List;
 import java.util.Random;
 
 public class AshTinkerBaseGenerator {
