@@ -7,6 +7,7 @@ import net.minecraft.client.render.BufferBuilder;
 import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormat;
 import net.minecraft.client.render.VertexFormats;
+import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import org.lwjgl.opengl.GL11;
@@ -16,6 +17,7 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import raltsmc.desolation.Desolation;
 import raltsmc.desolation.DesolationMod;
 import raltsmc.desolation.registry.DesolationItems;
@@ -34,11 +36,9 @@ public abstract class InGameHudMixin {
 
     private static final Identifier GOGGLES_OVERLAY = Desolation.id("textures/misc/goggles_overlay.png");
     
-    @Inject(method = "render", at=@At("HEAD"))
-    private void render(CallbackInfo info) {
-        this.scaledWidth = this.client.getWindow().getScaledWidth();
-        this.scaledHeight = this.client.getWindow().getScaledHeight();
-
+    //@Inject(method = "render", at=@At("TAIL"))
+    @Inject(method = "render", at = @At(value = "INVOKE", target = "net/minecraft/client/network/ClientPlayerEntity.getFrozenTicks()I", ordinal = 0))
+    private void render(MatrixStack matrices, float tickDelta, CallbackInfo info) {
         // TODO maybe use a generic 'goggles' tag instead of having to check both? same w/ mask
         ItemStack itemStackA = this.client.player.getInventory().getArmorStack(3);
         if (this.client.options.getPerspective().isFirstPerson()
@@ -56,6 +56,7 @@ public abstract class InGameHudMixin {
         RenderSystem.depthMask(false);
         RenderSystem.defaultBlendFunc();
         RenderSystem.setShaderColor(0.0F, 0.0F, 0.0F, 0.36F);
+        RenderSystem.disableTexture();
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferBuilder = tessellator.getBuffer();
         bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
@@ -66,5 +67,6 @@ public abstract class InGameHudMixin {
         tessellator.draw();
         RenderSystem.depthMask(true);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.enableTexture();
     }
 }
