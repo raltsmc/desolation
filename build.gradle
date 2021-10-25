@@ -12,6 +12,7 @@ group = project.maven_group
 
 repositories {
 	maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
+	maven { url "https://maven.shedaniel.me/" }
 	maven {
 		name = "dblsaiko"
 		url = "https://maven.dblsaiko.net/"
@@ -19,6 +20,10 @@ repositories {
 	maven {
 		name = "CurseForge"
 		url = "https://minecraft.curseforge.com/api/maven"
+	}
+	maven {
+		name = "Terraformers"
+		url = "https://maven.terraformersmc.com/releases/"
 	}
 	jcenter()
 }
@@ -29,10 +34,10 @@ dependencies {
 	mappings "net.fabricmc:yarn:${project.yarn_mappings}:v2"
 	modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
-	modApi("me.shedaniel.cloth:config-2:4.8.3") {
+	modApi("me.shedaniel.cloth:cloth-config-fabric:5.0.38") {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
-	include "me.shedaniel.cloth:config-2:4.8.3"
+	include "me.shedaniel.cloth:cloth-config-fabric:5.0.38"
 
 	modImplementation("me.sargunvohra.mcmods:autoconfig1u:3.3.1") {
 		exclude(group: "net.fabricmc.fabric-api")
@@ -46,9 +51,10 @@ dependencies {
 	//modImplementation "software.bernie.geckolib:fabric-1.16.2-geckolib:2.0.0:dev"
 	//include "software.bernie.geckolib:fabric-1.16.2-geckolib:2.0.0:dev"
 
-	modImplementation "io.github.prospector:modmenu:1.14.13+build.21"
+	//modImplementation "io.github.prospector:modmenu:1.14.13+build.21"
+	modImplementation "com.terraformersmc:modmenu:2.0.14"
 
-	modRuntime "me.shedaniel:RoughlyEnoughItems:5.8.9"
+	//modRuntime "me.shedaniel:RoughlyEnoughItems:5.8.9"
 	//modRuntime "grondag:canvas-mc116:1.0.1267"
 
 	// PSA: Some older mods, compiled on Loom 0.2.1, might have outdated Maven POMs.

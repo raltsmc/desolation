@@ -23,9 +23,9 @@ public class DesolationPotions {
     }
 
     static {
-        CINDER_SOUL = register("cinder_soul", new Potion(new StatusEffectInstance[]{new StatusEffectInstance(DesolationStatusEffects.CINDER_SOUL, 1200)}));
-        LONG_CINDER_SOUL = register("long_cinder_soul", new Potion("cinder_soul", new StatusEffectInstance[]{new StatusEffectInstance(DesolationStatusEffects.CINDER_SOUL, 3600)}));
-        BLINDNESS = register("blindness", new Potion(new StatusEffectInstance[]{new StatusEffectInstance(StatusEffects.BLINDNESS, 1200)}));
-        LONG_BLINDNESS = register("long_blindness", new Potion("blindness", new StatusEffectInstance[]{new StatusEffectInstance(StatusEffects.BLINDNESS, 3600)}));
+        CINDER_SOUL = register("cinder_soul", new Potion(new StatusEffectInstance(DesolationStatusEffects.CINDER_SOUL, 1200)));
+        LONG_CINDER_SOUL = register("long_cinder_soul", new Potion("cinder_soul", new StatusEffectInstance(DesolationStatusEffects.CINDER_SOUL, 3600)));
+        BLINDNESS = register("blindness", new Potion(new StatusEffectInstance(StatusEffects.BLINDNESS, 1200)));
+        LONG_BLINDNESS = register("long_blindness", new Potion("blindness", new StatusEffectInstance(StatusEffects.BLINDNESS, 3600)));
     }
 }

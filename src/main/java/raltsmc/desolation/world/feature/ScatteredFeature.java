@@ -10,11 +10,19 @@ import net.minecraft.world.Heightmap;
 import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
+import net.minecraft.world.gen.feature.SingleStateFeatureConfig;
+import net.minecraft.world.gen.feature.util.FeatureContext;
 
 import java.util.Random;
 
 public class ScatteredFeature extends Feature<ScatteredFeatureConfig> {
     public ScatteredFeature(Codec<ScatteredFeatureConfig> codec) { super(codec); }
+
+    @Override
+    public boolean generate(FeatureContext<ScatteredFeatureConfig> context) {
+        return this.generate(context.getWorld(), context.getGenerator(), context.getRandom(), context.getOrigin(),
+                context.getConfig());
+    }
 
     public boolean generate(StructureWorldAccess structureWorldAccess, ChunkGenerator chunkGenerator, Random random,
                             BlockPos blockPos, ScatteredFeatureConfig scatteredFeatureConfig) {

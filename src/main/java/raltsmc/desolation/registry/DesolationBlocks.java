@@ -12,6 +12,8 @@ import net.minecraft.util.registry.Registry;
 import raltsmc.desolation.Desolation;
 import raltsmc.desolation.DesolationMod;
 import raltsmc.desolation.block.*;
+import raltsmc.desolation.world.feature.DesolationConfiguredFeatures;
+import raltsmc.desolation.world.gen.sapling.CharredSaplingGenerator;
 
 public final class DesolationBlocks {
 
@@ -27,6 +29,7 @@ public final class DesolationBlocks {
     public static final Block CHARRED_BRANCHES = register(new Block(FabricBlockSettings.of(Material.LEAVES).hardness(0.3f).nonOpaque().sounds(BlockSoundGroup.VINE).breakByTool(FabricToolTags.SWORDS).allowsSpawning((state, world, pos, entityType) -> { return false; })), "charred_branches", true);
     public static final Block CHARRED_LOG = register(new PillarBlock(FabricBlockSettings.of(Material.WOOD).hardness(1.8f).sounds(BlockSoundGroup.BASALT).breakByTool(FabricToolTags.AXES)), "charred_log", true);
     public static final Block CHARRED_PLANKS = register(new Block(FabricBlockSettings.of(Material.WOOD, MapColor.GRAY).strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD)), "charred_planks", true);
+    public static final Block CHARRED_SAPLING = register(new CharredSaplingBlock(new CharredSaplingGenerator(() -> DesolationConfiguredFeatures.TREE_CHARRED), FabricBlockSettings.copyOf(Blocks.OAK_SAPLING)), "charred_sapling", true);
     // TODO add signs (and add them to non_flammable_wood, wall_signs, and standing_signs tags) (and add loot table +recipe)
     //public static final Block CHARRED_SIGN = register(new SignBlock(FabricBlockSettings.of(Material.WOOD,MaterialColor.GRAY).noCollision().strength(1.0f).sounds(BlockSoundGroup.WOOD)));
     public static final Block CHARRED_SLAB = register(new SlabBlock(FabricBlockSettings.of(Material.WOOD, MapColor.GRAY).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)), "charred_slab", true);

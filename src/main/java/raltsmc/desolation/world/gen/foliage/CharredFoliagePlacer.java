@@ -5,12 +5,15 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import com.mojang.serialization.codecs.RecordCodecBuilder.Instance;
 import com.mojang.serialization.codecs.RecordCodecBuilder.Mu;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.intprovider.IntProvider;
+import net.minecraft.util.math.intprovider.UniformIntProvider;
 import net.minecraft.world.ModifiableTestableWorld;
-import net.minecraft.world.gen.UniformIntDistribution;
+import net.minecraft.world.TestableWorld;
 import net.minecraft.world.gen.feature.TreeFeature;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import net.minecraft.world.gen.foliage.FoliagePlacer;
@@ -22,30 +25,31 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Random;
 import java.util.Set;
+import java.util.function.BiConsumer;
 
 public class CharredFoliagePlacer extends FoliagePlacer {
-    public static final Codec<CharredFoliagePlacer> CODEC = RecordCodecBuilder.create((instance) -> {
-        return method_28838(instance).apply(instance, CharredFoliagePlacer::new);
-    });
-    protected final int height;
+    public static final Codec<CharredFoliagePlacer> CODEC = RecordCodecBuilder.create((instance) ->
+        fillFoliagePlacerFields(instance)
+                .and(IntProvider.createValidatingCodec(1, 512).fieldOf("foliage_height").forGetter(CharredFoliagePlacer::getFoliageHeight))
+                .apply(instance, CharredFoliagePlacer::new)
+    );
+    protected final IntProvider foliageHeight;
 
-    protected static <P extends CharredFoliagePlacer> P3<Mu<P>, UniformIntDistribution, UniformIntDistribution, Integer> method_28838(Instance<P> instance) {
-        return fillFoliagePlacerFields(instance).and(Codec.intRange(0, 16).fieldOf("height").forGetter((charredFoliagePlacer) -> {
-            return charredFoliagePlacer.height;
-        }));
-    }
-
-    public CharredFoliagePlacer(UniformIntDistribution radius, UniformIntDistribution offset, int height) {
+    public CharredFoliagePlacer(IntProvider radius, IntProvider offset, IntProvider foliageHeight) {
         super(radius, offset);
-        this.height = height;
+        this.foliageHeight = foliageHeight;
     }
 
     protected FoliagePlacerType<?> getType() {
         return DesolationFoliagePlacerTypes.CHARRED_FOLIAGE_PLACER;
     }
 
-    protected void generate(ModifiableTestableWorld world, Random random, TreeFeatureConfig config, int trunkHeight, TreeNode treeNode, int foliageHeight, int radius, Set<BlockPos> leaves, int offset, BlockBox box) {
+    public IntProvider getFoliageHeight() {
+        return this.foliageHeight;
+    }
 
+    @Override
+    protected void generate(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, TreeFeatureConfig config, int trunkHeight, TreeNode treeNode, int foliageHeight, int radius, int offset) {
         for (int i = -foliageHeight; i <= foliageHeight; ++i) {
             int r = radius - (Math.abs(i) / (foliageHeight)) * (radius/2) + i/4;
 
@@ -69,34 +73,14 @@ public class CharredFoliagePlacer extends FoliagePlacer {
                 }
 
                 if (random.nextDouble() < chance && TreeFeature.canReplace(world, blockPos2)) {
-                    world.setBlockState(blockPos2, config.leavesProvider.getBlockState(random, blockPos2), 19);
-                    box.encompass(new BlockBox(blockPos2, blockPos2));
-                    leaves.add(blockPos2);
+                    placeFoliageBlock(world, replacer, random, config, blockPos2);
                 }
             }
         }
-
-        // TODO make this work (fix for floating leaves)
-        /*for (BlockPos pos : new HashSet<>(leaves)) {
-            boolean canStay = false;
-            for (Direction dir : Direction.values()) {
-                if (world.testBlockState(pos.offset(dir), state -> state.getBlock() == DesolationBlocks.CHARRED_BRANCHES)) {
-                    canStay = true;
-                    break;
-                }
-            }
-            if (!canStay) {
-                world.setBlockState(pos, Blocks.AIR.getDefaultState(), 19);
-                leaves.remove(pos);
-            } else {
-                box.encompass(new BlockBox(pos, pos));
-            }
-        }*/
-
     }
 
     public int getRandomHeight(Random random, int trunkHeight, TreeFeatureConfig config) {
-        return this.height;
+        return this.foliageHeight.get(random);
     }
 
     protected boolean isInvalidForLeaves(Random random, int baseHeight, int dx, int dy, int dz, boolean giantTrunk) {

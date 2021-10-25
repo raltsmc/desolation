@@ -40,7 +40,7 @@ public class AshItem extends ConfigurableFertilizerItem {
             world.spawnEntity(areaEffectCloudEntity);
         }
 
-        if (!user.abilities.creativeMode) {
+        if (!user.getAbilities().creativeMode) {
             itemStack.decrement(1);
         }
 

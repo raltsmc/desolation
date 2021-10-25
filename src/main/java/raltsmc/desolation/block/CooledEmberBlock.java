@@ -27,7 +27,7 @@ public class CooledEmberBlock extends Block {
             if (!world.isClient) {
                 world.setBlockState(pos, DesolationBlocks.EMBER_BLOCK.getDefaultState());
                 world.playSound(null, pos, SoundEvents.ITEM_FLINTANDSTEEL_USE, SoundCategory.BLOCKS, 1f, 1f);
-                if (!player.abilities.creativeMode) {
+                if (!player.getAbilities().creativeMode) {
                     stack.damage(1, (LivingEntity)player, (p) -> {
                         p.sendToolBreakStatus(hand);
                     });
@@ -38,7 +38,7 @@ public class CooledEmberBlock extends Block {
             if (!world.isClient) {
                 world.setBlockState(pos, DesolationBlocks.EMBER_BLOCK.getDefaultState());
                 world.playSound(null, pos, SoundEvents.ITEM_FIRECHARGE_USE, SoundCategory.BLOCKS, 1f, 1f);
-                if (!player.abilities.creativeMode) {
+                if (!player.getAbilities().creativeMode) {
                     stack.decrement(1);
                 }
             }

@@ -47,7 +47,7 @@ public class AshScuttlerEntity extends PathAwareEntity implements IAnimatable {
     protected void initGoals() {
         this.goalSelector.add(1, new DigAshGoal(this, 0.3D,40,2));
         this.goalSelector.add(2, new EscapeDangerGoal(this, 0.4F));
-        this.goalSelector.add(3, new TemptGoal(this, 0.3D, false, ATTRACTING_INGREDIENT));
+        this.goalSelector.add(3, new TemptGoal(this, 0.3D, ATTRACTING_INGREDIENT, false));
         this.goalSelector.add(4, new WanderAroundGoal(this, 0.2F));
         this.goalSelector.add(5, new LookAtEntityGoal(this, PlayerEntity.class, 8F));
         this.goalSelector.add(6, new LookAroundGoal(this));
@@ -83,7 +83,7 @@ public class AshScuttlerEntity extends PathAwareEntity implements IAnimatable {
         Item item = itemStack.getItem();
         if (item == DesolationItems.CINDERFRUIT && !this.isSearching()) {
             if (!this.world.isClient) {
-                if (!player.abilities.creativeMode) {
+                if (!player.getAbilities().creativeMode) {
                     itemStack.decrement(1);
                 }
                 this.dataTracker.set(SEARCHING, true);

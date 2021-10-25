@@ -2,13 +2,12 @@
   "required": true,
   "minVersion": "0.8",
   "package": "raltsmc.desolation.mixin",
-  "compatibilityLevel": "JAVA_8",
+  "compatibilityLevel": "JAVA_16",
   "mixins": [
     "recipe.BrewingRecipeRegistryInvoker",
     "entity.LivingEntityMixin",
     "entity.player.PlayerEntityMixin",
     "world.biome.layer.SetBaseBiomesLayerAccessor",
-    "world.gen.feature.TreeFeatureMixin",
     "world.gen.trunk.TrunkPlacerTypeInvoker",
     "world.gen.foliage.FoliagePlacerTypeInvoker"
   ],

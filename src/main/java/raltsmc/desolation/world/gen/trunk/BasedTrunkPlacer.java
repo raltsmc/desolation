@@ -1,6 +1,7 @@
 package raltsmc.desolation.world.gen.trunk;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.BlockState;
@@ -10,6 +11,7 @@ import net.minecraft.util.math.BlockBox;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.ModifiableTestableWorld;
+import net.minecraft.world.TestableWorld;
 import net.minecraft.world.gen.feature.TreeFeature;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import net.minecraft.world.gen.foliage.FoliagePlacer;
@@ -19,9 +21,14 @@ import raltsmc.desolation.registry.DesolationBlocks;
 import raltsmc.desolation.registry.DesolationTrunkPlacerTypes;
 
 import java.util.*;
+import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 
 public class BasedTrunkPlacer extends StraightTrunkPlacer {
+    public static Predicate<BlockState> REPLACEABLE_PREDICATE = BlockStatePredicate.forBlock(DesolationBlocks.ASH_BLOCK)
+            .or(BlockStatePredicate.forBlock(DesolationBlocks.ASH_LAYER_BLOCK))
+            .or(BlockStatePredicate.forBlock(DesolationBlocks.EMBER_BLOCK));
+
     public BasedTrunkPlacer(int baseHeight, int firstRandomHeight, int secondRandomHeight) {
         super(baseHeight, firstRandomHeight, secondRandomHeight);
     }
@@ -34,16 +41,18 @@ public class BasedTrunkPlacer extends StraightTrunkPlacer {
     }
 
     @Override
-    public List<FoliagePlacer.TreeNode> generate(ModifiableTestableWorld world, Random random, int trunkHeight, BlockPos pos, Set<BlockPos> set, BlockBox blockBox, TreeFeatureConfig treeFeatureConfig) {
-        Direction placementDirection = Direction.UP;
+    public List<FoliagePlacer.TreeNode> generate(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer,
+                                                 Random random, int height, BlockPos startPos,
+                                                 TreeFeatureConfig config) {
+        List<FoliagePlacer.TreeNode> treeNodes = Lists.newArrayList();
 
-        BlockPos.Mutable currentPos = pos.mutableCopy();
+        BlockPos.Mutable currentPos = startPos.mutableCopy();
         int maxBaseHeight = 2;
 
-        for (int i = 0; i < trunkHeight; ++i) {
-            placeAt(world, random, currentPos, placementDirection, set, blockBox, treeFeatureConfig);
+        for (int i = 0; i < height; ++i) {
+            placeTrunkBlock(world, replacer, random, currentPos, config, Direction.UP.getAxis(), treeNodes);
             if (i == 0) {
-                generateBase(world, random, currentPos, placementDirection, set, blockBox, treeFeatureConfig, maxBaseHeight);
+                generateBase(world, replacer, random, currentPos, config, maxBaseHeight, treeNodes);
             }
             currentPos.move(Direction.UP);
         }
@@ -51,9 +60,9 @@ public class BasedTrunkPlacer extends StraightTrunkPlacer {
         return ImmutableList.of(new FoliagePlacer.TreeNode(currentPos, 0, false));
     }
 
-    protected static void generateBase(ModifiableTestableWorld world, Random random, BlockPos pos, Direction direction,
-                                       Set<BlockPos> set, BlockBox blockBox, TreeFeatureConfig treeFeatureConfig,
-                                       int maxBaseHeight) {
+    protected static void generateBase(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer,
+                                       Random random, BlockPos pos, TreeFeatureConfig config, int maxBaseHeight,
+                                       List<FoliagePlacer.TreeNode> treeNodes) {
         List<Direction> dirs = Arrays.asList(Direction.values());
         Collections.shuffle(dirs);
         for (Direction dir : dirs) {
@@ -62,7 +71,7 @@ public class BasedTrunkPlacer extends StraightTrunkPlacer {
                 BlockPos.Mutable startPos = pos.offset(dir).mutableCopy();
                 if (!canReplace(world, startPos.down())) {
                     for (int j = 0; j < height; j++) {
-                        placeAt(world, random, startPos.up(j), direction, set, blockBox, treeFeatureConfig);
+                        placeTrunkBlock(world, replacer, random, startPos.up(j), config, Direction.UP.getAxis(), treeNodes);
                     }
                     if (random.nextBoolean()) {
                         maxBaseHeight--;
@@ -72,17 +81,17 @@ public class BasedTrunkPlacer extends StraightTrunkPlacer {
         }
     }
 
-    protected static void placeAt(ModifiableTestableWorld world, Random random, BlockPos pos, Direction direction,
-                                  Set<BlockPos> set, BlockBox blockBox, TreeFeatureConfig treeFeatureConfig) {
-        setBlockState(world, pos, treeFeatureConfig.trunkProvider.getBlockState(random, pos).with(PillarBlock.AXIS,
-                direction.getAxis()), blockBox);
-        set.add(pos.toImmutable());
+    protected static boolean placeTrunkBlock(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, BlockPos blockPos, TreeFeatureConfig treeFeatureConfig, Direction.Axis axis, List<FoliagePlacer.TreeNode> treeNodes) {
+        if (TreeFeature.canReplace(world, blockPos)) {
+            replacer.accept(blockPos, treeFeatureConfig.trunkProvider.getBlockState(random, blockPos).with(PillarBlock.AXIS, axis));
+            treeNodes.add(new FoliagePlacer.TreeNode(blockPos.toImmutable(), 0, false));
+            return true;
+        } else {
+            return false;
+        }
     }
 
-    protected static boolean canReplace(ModifiableTestableWorld world, BlockPos pos) {
-        Predicate<BlockState> REPLACEABLE_PREDICATE = BlockStatePredicate.forBlock(DesolationBlocks.ASH_BLOCK)
-                .or(BlockStatePredicate.forBlock(DesolationBlocks.ASH_LAYER_BLOCK))
-                .or(BlockStatePredicate.forBlock(DesolationBlocks.EMBER_BLOCK));
+    protected static boolean canReplace(TestableWorld world, BlockPos pos) {
         return TreeFeature.canReplace(world, pos) || world.testBlockState(pos, REPLACEABLE_PREDICATE);
     }
 

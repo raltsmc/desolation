@@ -99,14 +99,14 @@ public class DesolationMod implements ModInitializer {
 		DefaultBiomeFeatures.addFrozenTopLayer(generationSettings);
 		if (isSmall) {
 			if (!isClearing) {
-				generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, DesolationConfiguredFeatures.TREE_CHARRED_SMALL);
+				generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, DesolationConfiguredFeatures.TREES_CHARRED_SMALL);
 			}
-			generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, DesolationConfiguredFeatures.TREE_CHARRED_FALLEN_SMALL);
+			generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, DesolationConfiguredFeatures.TREES_CHARRED_FALLEN_SMALL);
 		} else {
 			if (!isClearing) {
-				generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, DesolationConfiguredFeatures.TREE_CHARRED);
+				generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, DesolationConfiguredFeatures.TREES_CHARRED_LARGE);
 			}
-			generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, DesolationConfiguredFeatures.TREE_CHARRED_FALLEN);
+			generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, DesolationConfiguredFeatures.TREES_CHARRED_FALLEN_LARGE);
 		}
 		generationSettings.feature(GenerationStep.Feature.TOP_LAYER_MODIFICATION, DesolationConfiguredFeatures.PATCH_ASH_LAYER);
 		generationSettings.feature(GenerationStep.Feature.TOP_LAYER_MODIFICATION, DesolationConfiguredFeatures.PATCH_EMBER_CHUNK);

@@ -7,6 +7,7 @@ import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.SingleStateFeatureConfig;
+import net.minecraft.world.gen.feature.util.FeatureContext;
 import raltsmc.desolation.registry.DesolationBlocks;
 
 import java.util.Iterator;
@@ -15,6 +16,12 @@ import java.util.Random;
 public class GiantBoulderFeature extends Feature<SingleStateFeatureConfig> {
     public GiantBoulderFeature(Codec<SingleStateFeatureConfig> codec) {
         super(codec);
+    }
+
+    @Override
+    public boolean generate(FeatureContext<SingleStateFeatureConfig> context) {
+        return this.generate(context.getWorld(), context.getGenerator(), context.getRandom(), context.getOrigin(),
+                context.getConfig());
     }
 
     public boolean generate(StructureWorldAccess structureWorldAccess, ChunkGenerator chunkGenerator, Random random,

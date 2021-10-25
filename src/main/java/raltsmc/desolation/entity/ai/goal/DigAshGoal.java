@@ -1,29 +1,38 @@
 package raltsmc.desolation.entity.ai.goal;
 
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.ai.goal.MoveToTargetPosGoal;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.loot.LootTable;
+import net.minecraft.loot.context.LootContext;
+import net.minecraft.loot.context.LootContextParameters;
+import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.predicate.block.BlockStatePredicate;
+import net.minecraft.server.world.ServerWorld;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.ItemScatterer;
 import net.minecraft.util.collection.WeightedList;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
+import org.jetbrains.annotations.Nullable;
+import raltsmc.desolation.Desolation;
 import raltsmc.desolation.entity.AshScuttlerEntity;
 import raltsmc.desolation.registry.DesolationBlocks;
 import raltsmc.desolation.registry.DesolationItems;
 
 import java.util.EnumSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.function.Predicate;
 
 public class DigAshGoal extends MoveToTargetPosGoal {
     private static final Predicate<BlockState> ASH_PREDICATE;
-    private static final WeightedList<Item> ASH_LOOT_TABLE;
     private final AshScuttlerEntity mob;
     private final World world;
     private final int range;
@@ -74,8 +83,14 @@ public class DigAshGoal extends MoveToTargetPosGoal {
                 if (!world.isClient) {
                     world.breakBlock(targetPos, false, this.mob, 1);
                     world.syncWorldEvent(2001, targetPos, 0);
-                    ItemScatterer.spawn(world, targetPos.getX() + 0.5D, targetPos.getY() + 0.5D, targetPos.getZ() + 0.5D,
-                            new ItemStack(ASH_LOOT_TABLE.pickRandom(world.random)));
+
+                    Identifier id = Desolation.id("misc/ash_scuttler_dig");
+                    LootTable lootTable = this.world.getServer().getLootManager().getTable(id);
+                    LootContext.Builder builder = (new net.minecraft.loot.context.LootContext.Builder((ServerWorld)this.world))
+                            .random(this.world.random);
+                    lootTable.generateLoot(builder.build(LootContextTypes.EMPTY), itemStack -> {
+                        ItemScatterer.spawn(world, targetPos.getX() + 0.5D, targetPos.getY() + 0.5D, targetPos.getZ() + 0.5D, itemStack);
+                    });
                 }
                 stop();
             }
@@ -112,24 +127,5 @@ public class DigAshGoal extends MoveToTargetPosGoal {
     static {
         ASH_PREDICATE = BlockStatePredicate.forBlock(DesolationBlocks.ASH_LAYER_BLOCK)
                 .or(BlockStatePredicate.forBlock(DesolationBlocks.ASH_BLOCK));
-        ASH_LOOT_TABLE = new WeightedList<Item>()
-                .add(Items.GLASS, 240)
-                .add(Items.OAK_WOOD, 280)
-                .add(Items.BONE, 232)
-                .add(Items.EGG, 160)
-                .add(Items.FLINT, 160)
-                .add(Items.STRING, 160)
-                .add(Items.GUNPOWDER, 160)
-                .add(Items.IRON_INGOT, 160)
-                .add(Items.EMERALD, 80)
-                .add(Items.LEATHER, 200)
-                .add(Items.LEAD, 56)
-                .add(Items.NAME_TAG, 56)
-                .add(Items.SUGAR_CANE, 120)
-                .add(Items.ENDER_PEARL, 64)
-                .add(Items.FIRE_CHARGE, 40)
-                .add(Items.DIAMOND, 10)
-                .add(Items.ENCHANTED_GOLDEN_APPLE, 4)
-                .add(Items.TOTEM_OF_UNDYING, 1);
     }
 }

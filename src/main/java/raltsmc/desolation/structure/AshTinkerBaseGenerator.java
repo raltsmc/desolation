@@ -4,6 +4,7 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.ChestBlockEntity;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.structure.*;
 import net.minecraft.structure.processor.BlockIgnoreStructureProcessor;
 import net.minecraft.util.BlockMirror;
@@ -21,43 +22,29 @@ import java.util.Random;
 public class AshTinkerBaseGenerator {
     private static final Identifier TINKER_BASE_MAIN = Desolation.id("ash_tinker_base/ash_tinker_base");
 
-    public static void addPieces(StructureManager manager, BlockPos pos, BlockRotation rotation,
-                                 List<StructurePiece> pieces) {
-        pieces.add(new Piece(manager, pos, TINKER_BASE_MAIN, rotation));
+    public static void addPieces(StructureManager manager, StructurePiecesHolder structurePiecesHolder,
+                                 BlockRotation rotation, BlockPos pos) {
+        structurePiecesHolder.addPiece(new Piece(manager, TINKER_BASE_MAIN, pos, rotation));
     }
 
     public static class Piece extends SimpleStructurePiece {
-        private final BlockRotation rotation;
-        private final Identifier template;
-
-        public Piece(StructureManager structureManager, NbtCompound compoundTag) {
-            super(DesolationMod.TINKER_BASE_PIECE, compoundTag);
-            this.template = new Identifier(compoundTag.getString("Template"));
-            this.rotation = BlockRotation.valueOf(compoundTag.getString("Rot"));
-            this.initializeStructureData(structureManager);
+        public Piece(StructureManager manager, Identifier template, BlockPos pos, BlockRotation rotation) {
+            super(DesolationMod.TINKER_BASE_PIECE, 0, manager, template, template.toString(),
+                    createPlacementData(rotation), pos);
         }
 
-        public Piece(StructureManager structureManager, BlockPos pos, Identifier template, BlockRotation rotation) {
-            super(DesolationMod.TINKER_BASE_PIECE, 0);
-            this.pos = pos;
-            this.rotation = rotation;
-            this.template = template;
-            this.initializeStructureData(structureManager);
+        public Piece(ServerWorld world, NbtCompound nbt) {
+            super(DesolationMod.TINKER_BASE_PIECE, nbt, world,
+                    (identifier1 -> createPlacementData(BlockRotation.valueOf(nbt.getString("Rot")))));
         }
 
-        private void initializeStructureData(StructureManager structureManager) {
-            Structure structure = structureManager.getStructureOrBlank(this.template);
-            StructurePlacementData placementData = (new StructurePlacementData())
-                    .setRotation(this.rotation)
-                    .setMirror(BlockMirror.NONE)
-                    .addProcessor(BlockIgnoreStructureProcessor.IGNORE_STRUCTURE_BLOCKS);
-            this.setStructureData(structure, this.pos, placementData);
+        private static StructurePlacementData createPlacementData(BlockRotation rotation) {
+            return (new StructurePlacementData()).setRotation(rotation).setMirror(BlockMirror.NONE).addProcessor(BlockIgnoreStructureProcessor.IGNORE_STRUCTURE_BLOCKS);
         }
 
-        protected void writeNbt(NbtCompound tag) {
-            super.writeNbt(tag);
-            tag.putString("Template", this.template.toString());
-            tag.putString("Rot", this.rotation.name());
+        protected void writeNbt(ServerWorld world, NbtCompound nbt) {
+            super.writeNbt(world, nbt);
+            nbt.putString("Rot", this.placementData.getRotation().name());
         }
 
         @Override
