@@ -20,10 +20,9 @@ public final class DesolationEntities {
     public static final EntityType<AshScuttlerEntity> ASH_SCUTTLER = Registry.register(
             Registry.ENTITY_TYPE,
             Desolation.id("ash_scuttler"),
-            FabricEntityTypeBuilder.<AshScuttlerEntity>create(SpawnGroup.CREATURE, AshScuttlerEntity::new)
+            FabricEntityTypeBuilder.<AshScuttlerEntity>create(SpawnGroup.AMBIENT, AshScuttlerEntity::new)
                     .dimensions(EntityDimensions.fixed(0.56f,0.32f))
                     .fireImmune()
-                    .specificSpawnBlocks(DesolationBlocks.CHARRED_SOIL)
                     .build()
     );
 
@@ -33,7 +32,6 @@ public final class DesolationEntities {
             FabricEntityTypeBuilder.<BlackenedEntity>create(SpawnGroup.MONSTER, BlackenedEntity::new)
                     .dimensions(EntityDimensions.fixed(0.75f,2f))
                     .fireImmune()
-                    .specificSpawnBlocks(DesolationBlocks.CHARRED_SOIL)
                     .build()
     );
 
