@@ -7,6 +7,7 @@
     "entity.LivingEntityMixin",
     "entity.player.PlayerEntityMixin",
     "recipe.BrewingRecipeRegistryInvoker",
+    "world.HeightmapTypeMixin",
     "world.biome.layer.SetBaseBiomesLayerAccessor",
     "world.gen.foliage.FoliagePlacerTypeInvoker",
     "world.gen.trunk.TrunkPlacerTypeInvoker"
