@@ -35,8 +35,7 @@ public final class DesolationItems {
     public static final Item INFUSED_POWDER = register(new Item(new Item.Settings().group(DesolationMod.DSL_GROUP)), "infused_powder");
     public static final Item HEART_OF_CINDER = register(new CinderHeartItem(new Item.Settings().rarity(Rarity.RARE).group(DesolationMod.DSL_GROUP)), "heart_of_cinder");
 
-    public static final Item MUSIC_DISC_ASHES = register(new DesolationMusicDiscItem(14, DesolationMod.MUSIC_DISC_ASHES_SOUND,
-            (new Item.Settings().rarity(Rarity.RARE).maxCount(1).group(DesolationMod.DSL_GROUP))), "music_disc_ashes");
+    public static final Item MUSIC_DISC_ASHES = register(new DesolationMusicDiscItem(14, DesolationSounds.MUSIC_DISC_ASHES_SOUND, (new Item.Settings().rarity(Rarity.RARE).maxCount(1).group(DesolationMod.DSL_GROUP))), "music_disc_ashes");
 
 
 

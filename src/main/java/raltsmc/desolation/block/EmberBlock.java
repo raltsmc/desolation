@@ -11,6 +11,7 @@ import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.tag.FluidTags;
 import net.minecraft.util.math.BlockPos;
@@ -19,6 +20,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import raltsmc.desolation.registry.DesolationParticles;
+import raltsmc.desolation.registry.DesolationSounds;
 
 import java.util.Random;
 
@@ -62,8 +64,19 @@ public class EmberBlock extends Block {
         if (random.nextBoolean()) {
             world.addParticle(ParticleTypes.LARGE_SMOKE, d + g, e + h, f + i, 0.0D, 0.1D + rdY, 0.0D);
         }
-        if (random.nextFloat() >= 0.3f) {
+        if (random.nextFloat() < 0.3f) {
             world.addParticle(DesolationParticles.SPARK, d + j, e + k, f + l, 0.0D, random.nextDouble() * 0.3D + 0.1D, 0.0D);
+            if (random.nextFloat() < 0.05f) {
+                int index = random.nextInt(4);
+                SoundEvent popSound = switch (index) {
+                    case 0 -> DesolationSounds.EMBER_BLOCK_POP_1;
+                    case 1 -> DesolationSounds.EMBER_BLOCK_POP_2;
+                    case 2 -> DesolationSounds.EMBER_BLOCK_POP_3;
+                    case 3 -> DesolationSounds.EMBER_BLOCK_POP_4;
+                    default -> throw new IllegalStateException("Unexpected value: " + index);
+                };
+                world.playSound(d + j, e + k, f + l, popSound, SoundCategory.BLOCKS, random.nextFloat() * 0.2F + 0.8F, 1.0F, true);
+            }
         }
     }
 

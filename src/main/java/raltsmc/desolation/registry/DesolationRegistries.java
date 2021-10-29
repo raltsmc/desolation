@@ -11,6 +11,7 @@ import raltsmc.desolation.world.feature.DesolationFeatures;
 public class DesolationRegistries {
 
     public static void init() {
+        DesolationSounds.init();
         DesolationItems.init();
         DesolationBlocks.init();
         DesolationConfiguredFeatures.init();

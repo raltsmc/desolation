@@ -11,7 +11,7 @@ import raltsmc.desolation.client.particle.SparkParticle;
 public class DesolationParticles {
     public static final DefaultParticleType SPARK;
 
-    static void init() {
+    public static void init() {
         register(SPARK, "spark");
     }
 

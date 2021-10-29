@@ -6,5 +6,37 @@
         "stream": true
       }
     ]
+  },
+  "block.ember_pop1": {
+    "sounds": [
+      {
+        "name": "desolation:block/ember_pop1",
+        "stream": true
+      }
+    ]
+  },
+  "block.ember_pop2": {
+    "sounds": [
+      {
+        "name": "desolation:block/ember_pop2",
+        "stream": true
+      }
+    ]
+  },
+  "block.ember_pop3": {
+    "sounds": [
+      {
+        "name": "desolation:block/ember_pop3",
+        "stream": true
+      }
+    ]
+  },
+  "block.ember_pop4": {
+    "sounds": [
+      {
+        "name": "desolation:block/ember_pop4",
+        "stream": true
+      }
+    ]
   }
 }
