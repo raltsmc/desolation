@@ -39,6 +39,7 @@ public class DesolationClient implements ClientModInitializer {
         EntityRendererRegistry.register(DesolationEntities.ASH_SCUTTLER, AshScuttlerEntityRenderer::new);
         EntityRendererRegistry.register(DesolationEntities.BLACKENED, BlackenedEntityRenderer::new);
 
+
         ParticleFactoryRegistryImpl.INSTANCE.register(DesolationParticles.SPARK, SparkParticle.Factory::new);
     }
 
