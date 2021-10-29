@@ -72,7 +72,7 @@ public class ScatteredFeature extends Feature<ScatteredFeatureConfig> {
                                 structureWorldAccess.getFluidState(mutable.west()).isIn(FluidTags.WATER)
                 ))
                 ) {
-                    scatteredFeatureConfig.blockPlacer.generate(structureWorldAccess, mutable, blockState, random);
+                    scatteredFeatureConfig.blockPlacer.generate(structureWorldAccess, mutable, scatteredFeatureConfig.stateProvider.getBlockState(random, mutable), random);
                     ++i;
                 }
 
