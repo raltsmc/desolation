@@ -65,7 +65,7 @@ public class FallenTrunkPlacer extends StraightTrunkPlacer {
             }
         }
 
-        if (supportedAndFree / height > 0.6) {
+        if (supportedAndFree / (float)height > 0.6) {
             for (int i = 0; i < height; ++i) {
                 currentPos.move(placementDirection);
                 if (world.testBlockState(currentPos, BlockStatePredicate.forBlock(DesolationBlocks.CHARRED_SOIL)

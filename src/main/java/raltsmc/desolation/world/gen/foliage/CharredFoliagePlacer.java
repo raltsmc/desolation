@@ -18,9 +18,9 @@ import java.util.function.BiConsumer;
 
 public class CharredFoliagePlacer extends FoliagePlacer {
     public static final Codec<CharredFoliagePlacer> CODEC = RecordCodecBuilder.create((instance) ->
-        fillFoliagePlacerFields(instance)
-                .and(IntProvider.createValidatingCodec(1, 512).fieldOf("foliage_height").forGetter(CharredFoliagePlacer::getFoliageHeight))
-                .apply(instance, CharredFoliagePlacer::new)
+            fillFoliagePlacerFields(instance)
+                    .and(IntProvider.createValidatingCodec(1, 512).fieldOf("foliage_height").forGetter(CharredFoliagePlacer::getFoliageHeight))
+                    .apply(instance, CharredFoliagePlacer::new)
     );
     protected final IntProvider foliageHeight;
 
@@ -44,13 +44,10 @@ public class CharredFoliagePlacer extends FoliagePlacer {
 
             BlockPos blockPos = treeNode.getCenter().add(0, i, 0);
 
-            Iterator var11 = BlockPos.iterate(blockPos.add(-r, 0, -r), blockPos.add(r, 0, r)).iterator();
-
-            while(var11.hasNext()) {
+            for (BlockPos pos : BlockPos.iterate(blockPos.add(-r, 0, -r), blockPos.add(r, 0, r))) {
                 double chance;
-                BlockPos blockPos2 = ((BlockPos)var11.next());
-                int dX = Math.abs(blockPos2.getX() - blockPos.getX());
-                int dZ = Math.abs(blockPos2.getZ() - blockPos.getZ());
+                int dX = Math.abs(pos.getX() - blockPos.getX());
+                int dZ = Math.abs(pos.getZ() - blockPos.getZ());
                 int thisRadius = Math.max(dX, dZ);
 
                 if (thisRadius <= 1) {
@@ -61,8 +58,8 @@ public class CharredFoliagePlacer extends FoliagePlacer {
                     chance = 0.25;
                 }
 
-                if (random.nextDouble() < chance && TreeFeature.canReplace(world, blockPos2)) {
-                    placeFoliageBlock(world, replacer, random, config, blockPos2);
+                if (random.nextDouble() < chance && TreeFeature.canReplace(world, pos)) {
+                    placeFoliageBlock(world, replacer, random, config, pos);
                 }
             }
         }
