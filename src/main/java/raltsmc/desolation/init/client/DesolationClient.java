@@ -6,14 +6,20 @@ import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
+import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
+import net.fabricmc.fabric.impl.client.particle.ParticleFactoryRegistryImpl;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.texture.SpriteAtlasTexture;
 import net.minecraft.client.util.InputUtil;
 import org.lwjgl.glfw.GLFW;
+import raltsmc.desolation.Desolation;
+import raltsmc.desolation.client.particle.SparkParticle;
 import raltsmc.desolation.entity.renderer.AshScuttlerEntityRenderer;
 import raltsmc.desolation.entity.renderer.BlackenedEntityRenderer;
 import raltsmc.desolation.registry.DesolationBlocks;
 import raltsmc.desolation.registry.DesolationEntities;
+import raltsmc.desolation.registry.DesolationParticles;
 
 @Environment(EnvType.CLIENT)
 public class DesolationClient implements ClientModInitializer {
@@ -32,6 +38,8 @@ public class DesolationClient implements ClientModInitializer {
 
         EntityRendererRegistry.register(DesolationEntities.ASH_SCUTTLER, AshScuttlerEntityRenderer::new);
         EntityRendererRegistry.register(DesolationEntities.BLACKENED, BlackenedEntityRenderer::new);
+
+        ParticleFactoryRegistryImpl.INSTANCE.register(DesolationParticles.SPARK, SparkParticle.Factory::new);
     }
 
     static {

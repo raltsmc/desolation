@@ -18,6 +18,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
+import raltsmc.desolation.registry.DesolationParticles;
 
 import java.util.Random;
 
@@ -50,9 +51,20 @@ public class EmberBlock extends Block {
 
         double g = random.nextDouble() * 0.6D - 0.3D;
         double h = random.nextDouble() * 6.0D / 16.0D;
-        double i = (random.nextDouble() - 0.5D) / 5.0D;
+        double i = random.nextDouble() * 0.6D - 0.3D;
 
-        world.addParticle(ParticleTypes.LARGE_SMOKE, d + g, e + h, f + g, 0.0D, 0.1D + i, 0.0D);
+        double j = random.nextDouble() * 0.6D - 0.3D;
+        double k = random.nextDouble() * 6.0D / 16.0D;
+        double l = random.nextDouble() * 0.6D - 0.3D;
+
+        double rdY = (random.nextDouble() - 0.5D) / 5.0D;
+
+        if (random.nextBoolean()) {
+            world.addParticle(ParticleTypes.LARGE_SMOKE, d + g, e + h, f + i, 0.0D, 0.1D + rdY, 0.0D);
+        }
+        if (random.nextFloat() >= 0.3f) {
+            world.addParticle(DesolationParticles.SPARK, d + j, e + k, f + l, 0.0D, random.nextDouble() * 0.3D + 0.1D, 0.0D);
+        }
     }
 
     public BlockState getPlacementState(ItemPlacementContext ctx) {

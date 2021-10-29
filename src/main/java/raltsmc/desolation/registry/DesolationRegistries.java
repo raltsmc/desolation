@@ -20,6 +20,7 @@ public class DesolationRegistries {
         DesolationFeatures.init();
         DesolationStatusEffects.init();
         DesolationPotions.init();
+        DesolationParticles.init();
 
         BrewingRecipeRegistryInvoker.invokeRegisterPotionRecipe(Potions.AWKWARD, DesolationItems.INFUSED_POWDER, Potions.FIRE_RESISTANCE);
         BrewingRecipeRegistryInvoker.invokeRegisterPotionRecipe(Potions.AWKWARD, DesolationItems.HEART_OF_CINDER, DesolationPotions.CINDER_SOUL);
