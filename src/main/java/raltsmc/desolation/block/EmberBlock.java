@@ -8,12 +8,18 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ShovelItem;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.tag.FluidTags;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.BlockView;
@@ -30,6 +36,26 @@ public class EmberBlock extends Block {
     public EmberBlock(Block cooled, Settings settings) {
         super(settings);
         this.cooledState = cooled.getDefaultState();
+    }
+
+    @Override
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand,
+                              BlockHitResult hit) {
+        ItemStack stack = player.getStackInHand(hand);
+        if (stack.getItem() instanceof ShovelItem) {
+            if (!world.isClient) {
+                world.setBlockState(pos, this.cooledState);
+                world.playSound(null, pos, SoundEvents.BLOCK_BASALT_HIT, SoundCategory.BLOCKS, 1f, 1f);
+                world.playSound(null, pos, SoundEvents.BLOCK_FIRE_EXTINGUISH, SoundCategory.BLOCKS, 0.3f, 1f);
+                if (!player.getAbilities().creativeMode) {
+                    stack.damage(1, (LivingEntity) player, (p) -> {
+                        p.sendToolBreakStatus(hand);
+                    });
+                }
+            }
+            return ActionResult.success(world.isClient);
+        }
+        return super.onUse(state, world, pos, player, hand, hit);
     }
 
     @Override
