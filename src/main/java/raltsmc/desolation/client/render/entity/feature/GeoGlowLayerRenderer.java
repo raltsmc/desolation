@@ -1,4 +1,4 @@
-package raltsmc.desolation.entity.renderer.feature;
+package raltsmc.desolation.client.render.entity.feature;
 
 import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.RenderLayer;

@@ -1,4 +1,4 @@
-package raltsmc.desolation.entity.model;
+package raltsmc.desolation.client.render.entity.model;
 
 import net.minecraft.util.Identifier;
 import raltsmc.desolation.Desolation;

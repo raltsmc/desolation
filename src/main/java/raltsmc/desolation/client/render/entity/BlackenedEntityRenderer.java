@@ -1,9 +1,9 @@
-package raltsmc.desolation.entity.renderer;
+package raltsmc.desolation.client.render.entity;
 
 import net.minecraft.client.render.entity.EntityRendererFactory;
 import raltsmc.desolation.entity.BlackenedEntity;
-import raltsmc.desolation.entity.model.BlackenedEntityModel;
-import raltsmc.desolation.entity.renderer.feature.GeoGlowLayerRenderer;
+import raltsmc.desolation.client.render.entity.model.BlackenedEntityModel;
+import raltsmc.desolation.client.render.entity.feature.GeoGlowLayerRenderer;
 import software.bernie.geckolib3.renderers.geo.GeoEntityRenderer;
 
 public class BlackenedEntityRenderer extends GeoEntityRenderer<BlackenedEntity> {
