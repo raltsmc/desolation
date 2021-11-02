@@ -25,6 +25,10 @@ repositories {
 		name = "Terraformers"
 		url = "https://maven.terraformersmc.com/releases/"
 	}
+	maven {
+		name = "Ladysnake Libs"
+		url = "https://ladysnake.jfrog.io/artifactory/mods"
+	}
 	jcenter()
 }
 
@@ -43,6 +47,8 @@ dependencies {
 	modImplementation 'software.bernie.geckolib:geckolib-fabric-1.17:3.0.13:dev'
 
 	modImplementation "com.terraformersmc:modmenu:2.0.14"
+
+	modImplementation "dev.emi:trinkets:3.0.4"
 
 	//modRuntime "me.shedaniel:RoughlyEnoughItems:5.8.9"
 	//modRuntime "grondag:canvas-mc116:1.0.1267"

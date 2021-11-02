@@ -1,5 +1,6 @@
 package raltsmc.desolation.registry;
 
+import dev.emi.trinkets.api.TrinketItem;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.effect.StatusEffectInstance;
@@ -22,9 +23,9 @@ public final class DesolationItems {
     public static final Item PRIMED_ASH = register(new Item(new Item.Settings().group(DesolationMod.DSL_GROUP)), "primed_ash");
     public static final Item ACTIVATED_CHARCOAL = register(new Item(new Item.Settings().group(DesolationMod.DSL_GROUP)), "activated_charcoal");
     public static final Item AIR_FILTER = register(new Item(new Item.Settings().group(DesolationMod.DSL_GROUP)), "air_filter");
-    public static final Item MASK = register(new Item(new FabricItemSettings().group(DesolationMod.DSL_GROUP).equipmentSlot(itemStack -> EquipmentSlot.HEAD).maxCount(1)), "mask");
-    public static final Item GOGGLES = register(new Item(new FabricItemSettings().group(DesolationMod.DSL_GROUP).equipmentSlot(itemStack -> EquipmentSlot.HEAD).maxCount(1)), "goggles");
-    public static final Item MASK_GOGGLES = register(new Item(new FabricItemSettings().group(DesolationMod.DSL_GROUP).equipmentSlot(itemStack -> EquipmentSlot.HEAD).maxCount(1)), "mask_and_goggles");
+    public static final Item MASK = register(new TrinketItem(new FabricItemSettings().group(DesolationMod.DSL_GROUP).maxCount(1)), "mask");
+    public static final Item GOGGLES = register(new TrinketItem(new FabricItemSettings().group(DesolationMod.DSL_GROUP).maxCount(1)), "goggles");
+//    public static final Item MASK_GOGGLES = register(new Item(new FabricItemSettings().group(DesolationMod.DSL_GROUP).equipmentSlot(itemStack -> EquipmentSlot.HEAD).maxCount(1)), "mask_and_goggles");
     public static final Item CINDERFRUIT = register(new Item(new Item.Settings().group(DesolationMod.DSL_GROUP).food(new FoodComponent.Builder()
                     .hunger(5)
                     .saturationModifier(6.5F)

@@ -15,8 +15,6 @@
   "client": [
     "client.gui.hud.InGameHudMixin",
     "client.network.ClientPlayerEntityMixin",
-    "client.render.entity.feature.ArmorFeatureRendererMixin",
-    "client.render.entity.feature.HeadFeatureRendererMixin",
     "client.sound.BiomeEffectSoundPlayerMixin",
     "potion.PotionUtilMixin"
   ],

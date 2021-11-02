@@ -1,5 +1,7 @@
 package raltsmc.desolation.mixin.entity.player;
 
+import dev.emi.trinkets.api.TrinketComponent;
+import dev.emi.trinkets.api.TrinketsApi;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.EquipmentSlot;
@@ -22,6 +24,7 @@ import raltsmc.desolation.entity.effect.DesolationStatusEffects;
 import raltsmc.desolation.registry.DesolationItems;
 
 import java.util.Objects;
+import java.util.Optional;
 
 @Mixin(PlayerEntity.class)
 public class PlayerEntityMixin extends LivingEntity {
@@ -31,23 +34,19 @@ public class PlayerEntityMixin extends LivingEntity {
 
     @Inject(method = "tick", at = @At("HEAD"))
     private void tick(CallbackInfo info) {
+        Optional<TrinketComponent> component = TrinketsApi.getTrinketComponent(this);
         if ((Objects.equals(this.world.getRegistryManager().get(Registry.BIOME_KEY).getId(this.world.getBiome(this.getBlockPos())), Desolation.id("charred_forest"))
                 || Objects.equals(this.world.getRegistryManager().get(Registry.BIOME_KEY).getId(this.world.getBiome(this.getBlockPos())), Desolation.id("charred_forest_small"))
                 || Objects.equals(this.world.getRegistryManager().get(Registry.BIOME_KEY).getId(this.world.getBiome(this.getBlockPos())), Desolation.id("charred_forest_clearing")))
                 && this.getY() >= world.getSeaLevel() - 10) {
             if (!this.world.isClient) {
-                if (this.getEquippedStack(EquipmentSlot.HEAD).getItem() != DesolationItems.MASK
-                && this.getEquippedStack(EquipmentSlot.HEAD).getItem() != DesolationItems.MASK_GOGGLES) {
-                //&& this.config.inflictBiomeDebuffs) {
+                if (component.isEmpty() || !component.get().isEquipped(DesolationItems.MASK)) {
                     this.addStatusEffect(new StatusEffectInstance(StatusEffects.WEAKNESS, 308));
                     this.addStatusEffect(new StatusEffectInstance(StatusEffects.MINING_FATIGUE, 308));
                 }
             }
         }
-        // TODO make goggles only stop blindness from ash rather than all blindness
-        if (this.hasStatusEffect(StatusEffects.BLINDNESS)
-                && (this.getEquippedStack(EquipmentSlot.HEAD).getItem() == DesolationItems.GOGGLES
-                || this.getEquippedStack(EquipmentSlot.HEAD).getItem() == DesolationItems.MASK_GOGGLES)) {
+        if (this.hasStatusEffect(StatusEffects.BLINDNESS) && component.isPresent() && component.get().isEquipped(DesolationItems.GOGGLES)) {
             this.removeStatusEffect(StatusEffects.BLINDNESS);
         }
     }

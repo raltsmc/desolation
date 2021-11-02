@@ -33,7 +33,7 @@ public class GogglesFeatureRenderer<T extends LivingEntity, A extends EntityMode
 
     public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, T livingEntity, float f, float g, float h, float j, float k, float l) {
         ItemStack itemStack = livingEntity.getEquippedStack(EquipmentSlot.HEAD);
-        if (itemStack.getItem() == DesolationItems.GOGGLES || itemStack.getItem() == DesolationItems.MASK_GOGGLES) {
+        if (itemStack.getItem() == DesolationItems.GOGGLES) {
             //matrixStack.push();
             this.getContextModel().copyStateTo(goggles);
             this.goggles.setAngles(livingEntity, f, g, j, k, l);

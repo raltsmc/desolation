@@ -34,7 +34,7 @@ public class MaskFeatureRenderer<T extends LivingEntity, A extends EntityModel<T
 
     public void render(MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, T livingEntity, float f, float g, float h, float j, float k, float l) {
         ItemStack itemStack = livingEntity.getEquippedStack(EquipmentSlot.HEAD);
-        if (itemStack.getItem() == DesolationItems.MASK || itemStack.getItem() == DesolationItems.MASK_GOGGLES) {
+        if (itemStack.getItem() == DesolationItems.MASK) {
             //matrixStack.push();
             this.getContextModel().copyStateTo(mask);
             this.mask.setAngles(livingEntity, f, g, j, k, l);

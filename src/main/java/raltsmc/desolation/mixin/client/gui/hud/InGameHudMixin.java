@@ -1,6 +1,8 @@
 package raltsmc.desolation.mixin.client.gui.hud;
 
 import com.mojang.blaze3d.systems.RenderSystem;
+import dev.emi.trinkets.api.TrinketComponent;
+import dev.emi.trinkets.api.TrinketsApi;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.hud.InGameHud;
 import net.minecraft.client.render.BufferBuilder;
@@ -20,6 +22,8 @@ import raltsmc.desolation.Desolation;
 import raltsmc.desolation.DesolationMod;
 import raltsmc.desolation.registry.DesolationItems;
 
+import java.util.Optional;
+
 @Mixin(InGameHud.class)
 public abstract class InGameHudMixin {
     @Shadow
@@ -37,12 +41,11 @@ public abstract class InGameHudMixin {
     //@Inject(method = "render", at=@At("TAIL"))
     @Inject(method = "render", at = @At(value = "INVOKE", target = "net/minecraft/client/network/ClientPlayerEntity.getFrozenTicks()I", ordinal = 0))
     private void render(MatrixStack matrices, float tickDelta, CallbackInfo info) {
-        // TODO maybe use a generic 'goggles' tag instead of having to check both? same w/ mask
-        ItemStack itemStackA = this.client.player.getInventory().getArmorStack(3);
+        Optional<TrinketComponent> component = TrinketsApi.getTrinketComponent(this.client.player);
         if (this.client.options.getPerspective().isFirstPerson()
-                && (itemStackA.getItem() == DesolationItems.GOGGLES
-                || itemStackA.getItem() == DesolationItems.MASK_GOGGLES)
-                && DesolationMod.CONFIG.showGogglesOverlay) {
+                && DesolationMod.CONFIG.showGogglesOverlay
+                && component.isPresent()
+                && component.get().isEquipped(DesolationItems.GOGGLES)) {
             this.renderGogglesTranslucency();
             this.renderOverlay(GOGGLES_OVERLAY, 1.0F);
         }
