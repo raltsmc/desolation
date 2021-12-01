@@ -2,6 +2,7 @@ package raltsmc.desolation.world.feature;
 
 import com.mojang.serialization.Codec;
 import net.minecraft.block.Block;
+import net.minecraft.fluid.FluidState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.StructureWorldAccess;
 import net.minecraft.world.gen.chunk.ChunkGenerator;
@@ -26,7 +27,8 @@ public class GiantBoulderFeature extends Feature<SingleStateFeatureConfig> {
 
     public boolean generate(StructureWorldAccess structureWorldAccess, ChunkGenerator chunkGenerator, Random random,
                             BlockPos blockPos, SingleStateFeatureConfig singleStateFeatureConfig) {
-        for(; blockPos.getY() > 3; blockPos = blockPos.down()) {
+
+        for (; blockPos.getY() > 3; blockPos = blockPos.down()) {
             if (!structureWorldAccess.isAir(blockPos.down())) {
                 Block block = structureWorldAccess.getBlockState(blockPos.down()).getBlock();
                 if (block == DesolationBlocks.CHARRED_SOIL) {
@@ -36,6 +38,8 @@ public class GiantBoulderFeature extends Feature<SingleStateFeatureConfig> {
         }
 
         if (blockPos.getY() <= 3 && random.nextDouble() > 0.32) {
+            return false;
+        } else if (structureWorldAccess.testFluidState(blockPos, fluidState -> !fluidState.isEmpty())) {
             return false;
         } else {
             BlockPos blockPosB = blockPos;
