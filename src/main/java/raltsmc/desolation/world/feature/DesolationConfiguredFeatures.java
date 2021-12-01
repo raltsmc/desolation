@@ -96,6 +96,12 @@ public final class DesolationConfiguredFeatures {
             "trees_charred_fallen_small"
     );
 
+    public static final ConfiguredFeature<FeatureConfig, ?> PATCH_CHARRED_SAPLING = register(
+            (ConfiguredFeature)Feature.RANDOM_PATCH
+                    .configure(Configs.CHARRED_SAPLING_CONFIG)
+                    .decorate(SQUARE_HEIGHTMAP_SPREAD_DOUBLE)
+                    .repeat(2), "patch_charred_sapling");
+
     public static final ConfiguredFeature<FeatureConfig, ?> PATCH_SCORCHED_TUFT = register(
             (ConfiguredFeature)Feature.RANDOM_PATCH
                     .configure(Configs.SCORCHED_TUFT_CONFIG)
@@ -133,6 +139,7 @@ public final class DesolationConfiguredFeatures {
                     .repeatRandomly(1), "giant_boulder");
 
     public static final class Configs {
+        public static final RandomPatchFeatureConfig CHARRED_SAPLING_CONFIG;
         public static final RandomPatchFeatureConfig SCORCHED_TUFT_CONFIG;
         public static final RandomPatchFeatureConfig ASH_LAYER_CONFIG;
         public static final ScatteredFeatureConfig EMBER_CHUNK_CONFIG;
@@ -140,6 +147,12 @@ public final class DesolationConfiguredFeatures {
         public static final ScatteredFeatureConfig PLANT_CINDERFRUIT_CONFIG;
 
         static {
+            CHARRED_SAPLING_CONFIG =
+                    (new RandomPatchFeatureConfig.Builder(new SimpleBlockStateProvider(DesolationBlocks.CHARRED_SAPLING.getDefaultState()),
+                            SimpleBlockPlacer.INSTANCE))
+                            .tries(1)
+                            .whitelist(Sets.newHashSet(DesolationBlocks.CHARRED_SOIL))
+                            .build();
             SCORCHED_TUFT_CONFIG =
                     (new RandomPatchFeatureConfig.Builder(new SimpleBlockStateProvider(DesolationBlocks.SCORCHED_TUFT.getDefaultState()),
                             SimpleBlockPlacer.INSTANCE))

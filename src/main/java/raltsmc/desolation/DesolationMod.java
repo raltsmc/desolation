@@ -105,6 +105,7 @@ public class DesolationMod implements ModInitializer {
 			if (!isClearing) {
 				generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, DesolationConfiguredFeatures.TREES_CHARRED_LARGE);
 			}
+			generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, DesolationConfiguredFeatures.PATCH_CHARRED_SAPLING);
 			generationSettings.feature(GenerationStep.Feature.VEGETAL_DECORATION, DesolationConfiguredFeatures.TREES_CHARRED_FALLEN_LARGE);
 		}
 		generationSettings.feature(GenerationStep.Feature.TOP_LAYER_MODIFICATION, DesolationConfiguredFeatures.PATCH_ASH_LAYER);
