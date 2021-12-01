@@ -35,6 +35,9 @@ import net.minecraft.world.gen.feature.StructureFeature;
 import net.minecraft.world.gen.surfacebuilder.ConfiguredSurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilder.SurfaceBuilder;
 import net.minecraft.world.gen.surfacebuilder.TernarySurfaceConfig;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import raltsmc.desolation.config.DesolationConfig;
 import raltsmc.desolation.registry.DesolationBlocks;
 import raltsmc.desolation.registry.DesolationEntities;
@@ -52,6 +55,7 @@ import java.util.Random;
 public class DesolationMod implements ModInitializer {
 
 	public static final String MODID = "desolation";
+	public static final Logger LOGGER = LogManager.getLogger(StringUtils.capitalize(MODID));
 	public static final DesolationConfig CONFIG;
 
 	public static final ItemGroup DSL_GROUP = FabricItemGroupBuilder.build(
@@ -244,7 +248,7 @@ public class DesolationMod implements ModInitializer {
 			});
 		});
 
-		System.out.println("Desolation initialized!");
+		LOGGER.info("Desolation initialized!");
 	}
 
 	static {
