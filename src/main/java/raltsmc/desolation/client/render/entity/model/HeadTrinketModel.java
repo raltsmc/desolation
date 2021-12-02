@@ -48,7 +48,7 @@ public class HeadTrinketModel extends BipedEntityModel<LivingEntity> {
         ModelPartBuilder head = ModelPartBuilder.create();
 
         head.uv(0, 13);
-        head.cuboid(-4.5F, -3F, -4F, 9F, 4F, 8F, new Dilation(0.125f));
+        head.cuboid(-4.5F, -2.5F, -4F, 9F, 4F, 8F, new Dilation(0.6f));
 
         return TexturedModelData.of(createEmptyHat(head), 64, 32);
     }
