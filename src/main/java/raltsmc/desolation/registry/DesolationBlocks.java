@@ -30,6 +30,7 @@ public final class DesolationBlocks {
     public static final Block CHARRED_LOG = register(new PillarBlock(FabricBlockSettings.of(Material.WOOD).hardness(1.8f).sounds(BlockSoundGroup.BASALT).breakByTool(FabricToolTags.AXES)), "charred_log", true);
     public static final Block CHARRED_PLANKS = register(new Block(FabricBlockSettings.of(Material.WOOD, MapColor.GRAY).strength(2.0F, 3.0F).sounds(BlockSoundGroup.WOOD)), "charred_planks", true);
     public static final Block CHARRED_SAPLING = register(new CharredSaplingBlock(new CharredSaplingGenerator(() -> DesolationConfiguredFeatures.TREE_CHARRED), FabricBlockSettings.copyOf(Blocks.OAK_SAPLING)), "charred_sapling", true);
+    public static final Block POTTED_CHARRED_SAPLING = register(new FlowerPotBlock(CHARRED_SAPLING, Settings.of(Material.DECORATION).breakInstantly().nonOpaque()), "potted_charred_sapling", false);
     // TODO add signs (and add them to non_flammable_wood, wall_signs, and standing_signs tags) (and add loot table +recipe)
     //public static final Block CHARRED_SIGN = register(new SignBlock(FabricBlockSettings.of(Material.WOOD,MaterialColor.GRAY).noCollision().strength(1.0f).sounds(BlockSoundGroup.WOOD)));
     public static final Block CHARRED_SLAB = register(new SlabBlock(FabricBlockSettings.of(Material.WOOD, MapColor.GRAY).strength(2.0f, 3.0f).sounds(BlockSoundGroup.WOOD)), "charred_slab", true);
