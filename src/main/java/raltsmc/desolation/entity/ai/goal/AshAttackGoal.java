@@ -133,7 +133,7 @@ public class AshAttackGoal extends Goal {
     public void stop() {
         LivingEntity livingEntity = this.mob.getTarget();
         if (!EntityPredicates.EXCEPT_CREATIVE_OR_SPECTATOR.test(livingEntity)) {
-            this.mob.setTarget((LivingEntity)null);
+            this.mob.setTarget(null);
         }
 
         this.mob.setAttacking(false);
@@ -206,10 +206,10 @@ public class AshAttackGoal extends Goal {
     }
 
     protected double getSquaredMaxAttackDistance(LivingEntity entity) {
-        return (double)(this.mob.getWidth() * 4.0F * this.mob.getWidth() * 4.0F + entity.getWidth());
+        return this.mob.getWidth() * 4.0F * this.mob.getWidth() * 4.0F + entity.getWidth();
     }
 
     protected double getSquaredCloseAttackDistance(LivingEntity entity) {
-        return (double)(this.mob.getWidth() * 2.0F * this.mob.getWidth() * 2.0F + entity.getWidth());
+        return this.mob.getWidth() * 2.0F * this.mob.getWidth() * 2.0F + entity.getWidth();
     }
 }

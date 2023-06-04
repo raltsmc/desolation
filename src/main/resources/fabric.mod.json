@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "id": "desolation",
-  "version": "1.2.0",
+  "version": "${version}",
 
   "name": "Desolation",
   "description": "Wildfires bring both destruction and renewal.",
@@ -20,22 +20,26 @@
   "environment": "*",
   "entrypoints": {
     "main": [
-      "raltsmc.desolation.DesolationMod"
+      "raltsmc.desolation.Desolation"
     ],
     "client": [
       "raltsmc.desolation.init.client.DesolationClient"
+    ],
+    "fabric-datagen": [
+      "raltsmc.desolation.data.DesolationDatagen"
     ],
     "modmenu": [
       "raltsmc.desolation.config.DesolationModMenu"
     ]
   },
+  "accessWidener": "desolation.accesswidener",
   "mixins": [
     "desolation.mixins.json"
   ],
 
   "depends": {
-    "fabricloader": ">=0.7.4",
+    "fabricloader": ">=0.13.3",
     "fabric": "*",
-    "minecraft": "1.17.x"
+    "minecraft": "1.19.4"
   }
 }

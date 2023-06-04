@@ -7,28 +7,26 @@ import net.minecraft.block.BlockState;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShovelItem;
 import net.minecraft.particle.ParticleTypes;
+import net.minecraft.registry.tag.FluidTags;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
-import net.minecraft.tag.FluidTags;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import raltsmc.desolation.registry.DesolationParticles;
 import raltsmc.desolation.registry.DesolationSounds;
-
-import java.util.Random;
 
 public class EmberBlock extends Block {
     private final BlockState cooledState;
@@ -61,7 +59,7 @@ public class EmberBlock extends Block {
     @Override
     public void onSteppedOn(World world, BlockPos pos, BlockState state, Entity entity) {
         if (!world.isClient && !entity.isFireImmune() && entity instanceof LivingEntity && !EnchantmentHelper.hasFrostWalker((LivingEntity)entity)) {
-            entity.damage(DamageSource.HOT_FLOOR, 1.0F);
+            entity.damage(world.getDamageSources().hotFloor(), 1.0F);
             if (Math.random() > 0.9D) {
                 entity.setFireTicks(120);
             }
@@ -106,6 +104,7 @@ public class EmberBlock extends Block {
         }
     }
 
+    @Override
     public BlockState getPlacementState(ItemPlacementContext ctx) {
         BlockView blockView = ctx.getWorld();
         BlockPos blockPos = ctx.getBlockPos();

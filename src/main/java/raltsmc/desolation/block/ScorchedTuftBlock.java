@@ -16,10 +16,12 @@ public class ScorchedTuftBlock extends PlantBlock {
         super(settings);
     }
 
+    @Override
     public VoxelShape getOutlineShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         return SHAPE;
     }
 
+    @Override
     protected boolean canPlantOnTop(BlockState floor, BlockView world, BlockPos pos) {
         return floor.isOf(DesolationBlocks.CHARRED_SOIL);
     }

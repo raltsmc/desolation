@@ -14,8 +14,8 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import raltsmc.desolation.DesolationMod;
-import raltsmc.desolation.entity.effect.DesolationStatusEffects;
+import raltsmc.desolation.Desolation;
+import raltsmc.desolation.registry.DesolationStatusEffects;
 import raltsmc.desolation.init.client.DesolationClient;
 
 @Mixin(ClientPlayerEntity.class)
@@ -39,17 +39,17 @@ public class ClientPlayerEntityMixin extends AbstractClientPlayerEntity {
                 if (cinderDashCooldown == cinderDashCooldownMax) {
 
                     PacketByteBuf buf = PacketByteBufs.create();
-                    if (ClientPlayNetworking.canSend(DesolationMod.CINDER_SOUL_READY_PACKET_ID)) {
-                        ClientPlayNetworking.send(DesolationMod.CINDER_SOUL_READY_PACKET_ID, buf);
+                    if (ClientPlayNetworking.canSend(Desolation.CINDER_SOUL_READY_PACKET_ID)) {
+                        ClientPlayNetworking.send(Desolation.CINDER_SOUL_READY_PACKET_ID, buf);
                     }
-                    this.playSound(SoundEvents.BLOCK_NOTE_BLOCK_CHIME, 1F, 1.2F);
+                    this.playSound(SoundEvents.BLOCK_NOTE_BLOCK_CHIME.value(), 1F, 1.2F);
                 }
             }
 
             if (random.nextDouble() < 0.3) {
                 PacketByteBuf buf = PacketByteBufs.create();
-                if (ClientPlayNetworking.canSend(DesolationMod.CINDER_SOUL_TICK_PACKET_ID)) {
-                    ClientPlayNetworking.send(DesolationMod.CINDER_SOUL_TICK_PACKET_ID, buf);
+                if (ClientPlayNetworking.canSend(Desolation.CINDER_SOUL_TICK_PACKET_ID)) {
+                    ClientPlayNetworking.send(Desolation.CINDER_SOUL_TICK_PACKET_ID, buf);
                 }
             }
 
@@ -58,8 +58,8 @@ public class ClientPlayerEntityMixin extends AbstractClientPlayerEntity {
                 cinderDashCooldown = 0;
                 isDashing = true;
                 PacketByteBuf buf = PacketByteBufs.create();
-                if (ClientPlayNetworking.canSend(DesolationMod.CINDER_SOUL_DO_CINDER_DASH)) {
-                    ClientPlayNetworking.send(DesolationMod.CINDER_SOUL_DO_CINDER_DASH, buf);
+                if (ClientPlayNetworking.canSend(Desolation.CINDER_SOUL_DO_CINDER_DASH)) {
+                    ClientPlayNetworking.send(Desolation.CINDER_SOUL_DO_CINDER_DASH, buf);
                 }
             }
 

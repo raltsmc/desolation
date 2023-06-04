@@ -1,0 +1,8 @@
+{
+  "type": "desolation:ash_tinker_base",
+  "biomes": "#desolation:ash_tinker_base_has_structure",
+  "step": "surface_structures",
+  "terrain_adaptation": "beard_thin",
+  "spawn_overrides": {},
+  "config": {}
+}

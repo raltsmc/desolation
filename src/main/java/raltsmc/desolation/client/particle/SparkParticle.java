@@ -8,8 +8,6 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.util.math.MathHelper;
 
-import java.util.Random;
-
 @Environment(EnvType.CLIENT)
 public class SparkParticle extends SpriteBillboardParticle {
     private final SpriteProvider spriteProvider;
@@ -22,9 +20,9 @@ public class SparkParticle extends SpriteBillboardParticle {
         this.velocityX = 0D;
         this.velocityY = random.nextDouble() * 0.2D + 0.1D;
         this.velocityZ = 0D;
-        this.colorRed = 1.0F;
-        this.colorGreen = 0.5F;
-        this.colorBlue = 0.0F;
+        this.red = 1.0F;
+        this.green = 0.5F;
+        this.blue = 0.0F;
         this.gravityStrength = 0.25F;
         this.maxAge = 30;
         this.spriteProvider = spriteProvider;
@@ -70,7 +68,7 @@ public class SparkParticle extends SpriteBillboardParticle {
             this.velocityY += (toMax * windFactorY + this.windConstantY) * 0.005D;
             this.velocityZ += (toMax * windFactorZ + this.windConstantZ) * 0.01D;
 
-            this.colorGreen = (1F - toMax) * 0.5F;
+            this.green = (1F - toMax) * 0.5F;
 
             if (this.onGround) {
                 this.velocityX *= 0.699999988079071D;
@@ -95,7 +93,6 @@ public class SparkParticle extends SpriteBillboardParticle {
         }
 
         public Particle createParticle(DefaultParticleType defaultParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i) {
-            Random random = clientWorld.random;
             return new SparkParticle(clientWorld, d, e, f, this.spriteProvider);
         }
     }

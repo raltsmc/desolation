@@ -10,7 +10,6 @@ import net.minecraft.client.render.Tessellator;
 import net.minecraft.client.render.VertexFormat;
 import net.minecraft.client.render.VertexFormats;
 import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -19,7 +18,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import raltsmc.desolation.Desolation;
-import raltsmc.desolation.DesolationMod;
 import raltsmc.desolation.registry.DesolationItems;
 
 import java.util.Optional;
@@ -34,7 +32,7 @@ public abstract class InGameHudMixin {
     @Shadow
     private int scaledHeight;
 
-    @Shadow protected abstract void renderOverlay(Identifier texture, float opacity);
+    @Shadow protected abstract void renderOverlay(MatrixStack matrices, Identifier texture, float opacity);
 
     private static final Identifier GOGGLES_OVERLAY = Desolation.id("textures/misc/goggles_overlay.png");
     
@@ -43,11 +41,11 @@ public abstract class InGameHudMixin {
     private void render(MatrixStack matrices, float tickDelta, CallbackInfo info) {
         Optional<TrinketComponent> component = TrinketsApi.getTrinketComponent(this.client.player);
         if (this.client.options.getPerspective().isFirstPerson()
-                && DesolationMod.CONFIG.showGogglesOverlay
+                && Desolation.CONFIG.showGogglesOverlay
                 && component.isPresent()
                 && component.get().isEquipped(DesolationItems.GOGGLES)) {
             this.renderGogglesTranslucency();
-            this.renderOverlay(GOGGLES_OVERLAY, 1.0F);
+            this.renderOverlay(matrices, GOGGLES_OVERLAY, 1.0F);
         }
     }
 
@@ -57,17 +55,17 @@ public abstract class InGameHudMixin {
         RenderSystem.depthMask(false);
         RenderSystem.defaultBlendFunc();
         RenderSystem.setShaderColor(0.0F, 0.0F, 0.0F, 0.36F);
-        RenderSystem.disableTexture();
+        //RenderSystem.disableTexture();
         Tessellator tessellator = Tessellator.getInstance();
         BufferBuilder bufferBuilder = tessellator.getBuffer();
         bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE);
-        bufferBuilder.vertex(0.0D, (double)this.scaledHeight, -90.0D).texture(0.0F, 1.0F).next();
-        bufferBuilder.vertex((double)this.scaledWidth, (double)this.scaledHeight, -90.0D).texture(1.0F, 1.0F).next();
-        bufferBuilder.vertex((double)this.scaledWidth, 0.0D, -90.0D).texture(1.0F, 0.0F).next();
+        bufferBuilder.vertex(0.0D, this.scaledHeight, -90.0D).texture(0.0F, 1.0F).next();
+        bufferBuilder.vertex(this.scaledWidth, this.scaledHeight, -90.0D).texture(1.0F, 1.0F).next();
+        bufferBuilder.vertex(this.scaledWidth, 0.0D, -90.0D).texture(1.0F, 0.0F).next();
         bufferBuilder.vertex(0.0D, 0.0D, -90.0D).texture(0.0F, 0.0F).next();
         tessellator.draw();
         RenderSystem.depthMask(true);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.enableTexture();
+        //RenderSystem.enableTexture();
     }
 }

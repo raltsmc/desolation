@@ -8,14 +8,18 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 
 public class CharredBranchBlock extends LeavesBlock {
-    public CharredBranchBlock(Settings settings) { super(settings); }
+    public CharredBranchBlock(Settings settings) {
+        super(settings);
+    }
 
+    @Override
     @Environment(EnvType.CLIENT)
     public float getAmbientOcclusionLightLevel(BlockState state, BlockView world, BlockPos pos) {
         return 0.35F;
     }
 
-    public boolean isTranslucent(BlockState state, BlockView world, BlockPos pos) {
+    @Override
+    public boolean isTransparent(BlockState state, BlockView world, BlockPos pos) {
         return true;
     }
 }

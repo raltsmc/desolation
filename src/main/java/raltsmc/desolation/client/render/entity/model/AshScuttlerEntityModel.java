@@ -1,40 +1,28 @@
 package raltsmc.desolation.client.render.entity.model;
 
-import net.minecraft.util.Identifier;
 import raltsmc.desolation.Desolation;
 import raltsmc.desolation.entity.AshScuttlerEntity;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.processor.IBone;
-import software.bernie.geckolib3.model.AnimatedGeoModel;
-import software.bernie.geckolib3.model.provider.data.EntityModelData;
+import software.bernie.geckolib.core.animatable.model.CoreGeoBone;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.model.DefaultedEntityGeoModel;
+import software.bernie.geckolib.model.data.EntityModelData;
 
-public class AshScuttlerEntityModel extends AnimatedGeoModel<AshScuttlerEntity> {
-
-	@Override
-	public Identifier getModelLocation(AshScuttlerEntity object) {
-		return Desolation.id("geo/ash_scuttler.geo.json");
+public class AshScuttlerEntityModel extends DefaultedEntityGeoModel<AshScuttlerEntity> {
+	public AshScuttlerEntityModel() {
+		super(Desolation.id("ash_scuttler"), true);
 	}
 
 	@Override
-	public Identifier getTextureLocation(AshScuttlerEntity object) {
-		return Desolation.id("textures/entity/ash_scuttler.png");
-	}
+	@SuppressWarnings("unchecked")
+	public void setCustomAnimations(AshScuttlerEntity entity, long uniqueID, AnimationState customPredicate) {
+		super.setCustomAnimations(entity, uniqueID, customPredicate);
+		CoreGeoBone head = this.getAnimationProcessor().getBone("head");
+		EntityModelData extraData = (EntityModelData) customPredicate.getExtraData().get(EntityModelData.class);
 
-	@Override
-	public Identifier getAnimationFileLocation(AshScuttlerEntity object)
-	{
-		return Desolation.id("animations/ash_scuttler.json");
-	}
-
-	@SuppressWarnings({ "rawtypes", "unchecked" })
-	@Override
-	public void setLivingAnimations(AshScuttlerEntity entity, Integer uniqueID, AnimationEvent customPredicate) {
-		super.setLivingAnimations(entity, uniqueID, customPredicate);
-		IBone head = this.getAnimationProcessor().getBone("head");
-		EntityModelData extraData = (EntityModelData) customPredicate.getExtraDataOfType(EntityModelData.class).get(0);
-		if (head != null) {
-			head.setRotationX(extraData.headPitch * ((float) Math.PI / 360F));
-			head.setRotationY(extraData.netHeadYaw * ((float) Math.PI / 340F));
+		// TODO: For some reason, extraData is sometimes? null ... need to track this down
+		if (head != null && extraData != null) {
+			head.setRotX(extraData.headPitch() * ((float) Math.PI / 360F));
+			head.setRotY(extraData.netHeadYaw() * ((float) Math.PI / 340F));
 		}
 	}
 }

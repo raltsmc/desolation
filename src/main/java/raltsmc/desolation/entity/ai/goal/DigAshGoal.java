@@ -58,7 +58,7 @@ public class DigAshGoal extends MoveToTargetPosGoal {
 
     public void tick() {
         BlockPos blockPos = this.getTargetPos();
-        if (!blockPos.isWithinDistance(this.mob.getPos(), getDesiredSquaredDistanceToTarget())) {
+        if (!blockPos.isWithinDistance(this.mob.getPos(), getDesiredDistanceToTarget())) {
             this.reached = false;
             ++this.tryingTime;
             Vec3d vel = this.mob.getVelocity();
@@ -90,7 +90,7 @@ public class DigAshGoal extends MoveToTargetPosGoal {
         }
     }
 
-    public double getDesiredSquaredDistanceToTarget() {
+    public double getDesiredDistanceToTarget() {
         return 2.0D;
     }
 

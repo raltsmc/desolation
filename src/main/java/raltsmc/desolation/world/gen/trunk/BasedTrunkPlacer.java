@@ -9,6 +9,7 @@ import net.minecraft.block.PillarBlock;
 import net.minecraft.predicate.block.BlockStatePredicate;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.TestableWorld;
 import net.minecraft.world.gen.feature.TreeFeature;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
@@ -21,7 +22,6 @@ import raltsmc.desolation.registry.DesolationTrunkPlacerTypes;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Random;
 import java.util.function.BiConsumer;
 import java.util.function.Predicate;
 
@@ -61,7 +61,7 @@ public class BasedTrunkPlacer extends StraightTrunkPlacer {
         return ImmutableList.of(new FoliagePlacer.TreeNode(currentPos, 0, false));
     }
 
-    protected static void generateBase(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer,
+    protected void generateBase(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer,
                                        Random random, BlockPos pos, TreeFeatureConfig config, int maxBaseHeight,
                                        List<FoliagePlacer.TreeNode> treeNodes) {
         List<Direction> dirs = Arrays.asList(Direction.values());
@@ -84,7 +84,7 @@ public class BasedTrunkPlacer extends StraightTrunkPlacer {
 
     protected static boolean placeTrunkBlock(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, BlockPos blockPos, TreeFeatureConfig treeFeatureConfig, Direction.Axis axis, List<FoliagePlacer.TreeNode> treeNodes) {
         if (TreeFeature.canReplace(world, blockPos)) {
-            replacer.accept(blockPos, treeFeatureConfig.trunkProvider.getBlockState(random, blockPos).with(PillarBlock.AXIS, axis));
+            replacer.accept(blockPos, treeFeatureConfig.trunkProvider.get(random, blockPos).with(PillarBlock.AXIS, axis));
             treeNodes.add(new FoliagePlacer.TreeNode(blockPos.toImmutable(), 0, false));
             return true;
         } else {
@@ -92,7 +92,8 @@ public class BasedTrunkPlacer extends StraightTrunkPlacer {
         }
     }
 
-    protected static boolean canReplace(TestableWorld world, BlockPos pos) {
+    @Override
+    protected boolean canReplace(TestableWorld world, BlockPos pos) {
         return TreeFeature.canReplace(world, pos) || world.testBlockState(pos, REPLACEABLE_PREDICATE);
     }
 
