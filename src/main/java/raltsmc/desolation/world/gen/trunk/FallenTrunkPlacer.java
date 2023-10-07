@@ -6,9 +6,9 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
-import net.minecraft.block.Material;
 import net.minecraft.block.PillarBlock;
 import net.minecraft.predicate.block.BlockStatePredicate;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
@@ -57,9 +57,8 @@ public class FallenTrunkPlacer extends StraightTrunkPlacer {
         for (int i = 0; i < height; ++i) {
             if (!world.testBlockState(startPos.offset(placementDirection, i).down(),
                     BlockStatePredicate.forBlock(Blocks.AIR).or(BlockStatePredicate.forBlock(Blocks.WATER)))
-                    && !world.testBlockState(startPos.offset(placementDirection, i).down(), (state) -> {
-                Material material = state.getMaterial();
-                return material == Material.REPLACEABLE_PLANT; })
+                    && !world.testBlockState(startPos.offset(placementDirection, i).down(),
+                            state -> state.isAir() || state.isIn(BlockTags.REPLACEABLE_BY_TREES))
                     && canReplace(world, startPos)) {
                 supportedAndFree++;
             }
@@ -77,7 +76,7 @@ public class FallenTrunkPlacer extends StraightTrunkPlacer {
         return ImmutableList.of(new FoliagePlacer.TreeNode(currentPos, 0, false));
     }
 
-    protected boolean placeTrunkBlock(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, BlockPos blockPos, TreeFeatureConfig treeFeatureConfig, Direction.Axis axis, List<FoliagePlacer.TreeNode> treeNodes) {
+    protected static boolean placeTrunkBlock(TestableWorld world, BiConsumer<BlockPos, BlockState> replacer, Random random, BlockPos blockPos, TreeFeatureConfig treeFeatureConfig, Direction.Axis axis, List<FoliagePlacer.TreeNode> treeNodes) {
         if (TreeFeature.canReplace(world, blockPos)) {
             replacer.accept(blockPos, treeFeatureConfig.trunkProvider.get(random, blockPos).with(PillarBlock.AXIS, axis));
             treeNodes.add(new FoliagePlacer.TreeNode(blockPos.toImmutable(), 0, false));

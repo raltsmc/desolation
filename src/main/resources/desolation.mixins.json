@@ -5,11 +5,7 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "entity.LivingEntityMixin",
-    "entity.player.PlayerEntityMixin",
-    "recipe.BrewingRecipeRegistryInvoker",
-    "world.HeightmapTypeMixin",
-    "world.gen.foliage.FoliagePlacerTypeInvoker",
-    "world.gen.trunk.TrunkPlacerTypeInvoker"
+    "entity.player.PlayerEntityMixin"
   ],
   "client": [
     "client.gui.hud.InGameHudMixin",

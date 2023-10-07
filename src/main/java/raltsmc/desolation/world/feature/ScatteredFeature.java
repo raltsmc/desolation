@@ -73,7 +73,7 @@ public class ScatteredFeature extends Feature<ScatteredFeatureConfig> {
                 }
                 BlockState blockState2 = world.getBlockState(blockPos4);
 
-                if ((world.isAir(mutable) || (config.canReplace && world.getBlockState(mutable).getMaterial().isReplaceable()) || bl2)
+                if ((world.isAir(mutable) || (config.canReplace && world.getBlockState(mutable).isReplaceable()) || bl2)
                         && blockState.canPlaceAt(world, mutable)
                         && (config.whitelist.isEmpty() || config.whitelist.contains(blockState2))
                         && !config.blacklist.contains(blockState2)

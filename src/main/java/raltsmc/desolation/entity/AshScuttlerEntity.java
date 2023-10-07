@@ -85,10 +85,11 @@ public class AshScuttlerEntity extends PathAwareEntity implements GeoEntity {
 
     @Override
     public ActionResult interactMob(PlayerEntity player, Hand hand) {
+        World world = this.getWorld();
         ItemStack itemStack = player.getStackInHand(hand);
         Item item = itemStack.getItem();
         if (item == DesolationItems.CINDERFRUIT && !this.isSearching()) {
-            if (!this.world.isClient) {
+            if (!world.isClient) {
                 if (!player.getAbilities().creativeMode) {
                     itemStack.decrement(1);
                 }

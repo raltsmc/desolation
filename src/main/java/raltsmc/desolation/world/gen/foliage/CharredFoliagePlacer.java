@@ -6,7 +6,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.intprovider.IntProvider;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.TestableWorld;
-import net.minecraft.world.gen.feature.TreeFeature;
 import net.minecraft.world.gen.feature.TreeFeatureConfig;
 import net.minecraft.world.gen.foliage.FoliagePlacer;
 import net.minecraft.world.gen.foliage.FoliagePlacerType;
@@ -55,7 +54,7 @@ public class CharredFoliagePlacer extends FoliagePlacer {
                     chance = 0.25;
                 }
 
-                if (random.nextDouble() < chance && TreeFeature.canReplace(world, pos)) {
+                if (random.nextDouble() < chance) {
                     placeFoliageBlock(world, replacer, random, config, pos);
                 }
             }

@@ -17,12 +17,12 @@ import java.util.Map;
 
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin {
-
-    @Shadow @Final
+    @Shadow
+    @Final
     private Map<StatusEffect, StatusEffectInstance> activeStatusEffects;
 
     @Inject(method = "damage", at = @At("HEAD"), cancellable = true)
-    public void damage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> info) {
+    public void desolation$negateDamage(DamageSource source, float amount, CallbackInfoReturnable<Boolean> info) {
         if (source.getTypeRegistryEntry().isIn(DamageTypeTags.IS_FIRE) && this.activeStatusEffects.containsKey(DesolationStatusEffects.CINDER_SOUL)) {
             info.setReturnValue(false);
         }

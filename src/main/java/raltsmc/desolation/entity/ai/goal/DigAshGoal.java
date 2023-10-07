@@ -1,10 +1,13 @@
 package raltsmc.desolation.entity.ai.goal;
 
+import it.unimi.dsi.fastutil.objects.ObjectArrayList;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.ai.goal.MoveToTargetPosGoal;
 import net.minecraft.item.ItemStack;
 import net.minecraft.loot.LootTable;
-import net.minecraft.loot.context.LootContext;
+import net.minecraft.loot.context.LootContextParameterSet;
+import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.loot.context.LootContextTypes;
 import net.minecraft.particle.ParticleTypes;
 import net.minecraft.predicate.block.BlockStatePredicate;
@@ -26,64 +29,68 @@ import java.util.function.Predicate;
 
 public class DigAshGoal extends MoveToTargetPosGoal {
     private static final Predicate<BlockState> ASH_PREDICATE;
+    private static final long DIG_DURATION_TICKS = 20;
     private final AshScuttlerEntity mob;
     private final World world;
     private final int range;
     private final int maxDY;
     private int digTick;
-    private boolean reached;
 
     public DigAshGoal(AshScuttlerEntity mob, double speed, int range, int maxDY) {
         super(mob, speed, range, maxDY);
         this.mob = mob;
-        this.world = mob.world;
+        this.world = mob.getWorld();
         this.range = range;
         this.maxDY = maxDY;
         this.setControls(EnumSet.of(Control.MOVE, Control.LOOK, Control.JUMP));
     }
 
     public boolean canStart() {
-        return this.mob.isSearching() && this.getNearestBlock(this.mob.getBlockPos(), range, maxDY);
+        return mob.isSearching() && this.getNearestBlock(mob.getBlockPos(), range, maxDY);
     }
 
     public void start() {
         super.start();
-        this.digTick = 0;
+        digTick = 0;
     }
 
     public void stop() {
         super.stop();
-        this.mob.setSearching(false);
+        mob.setSearching(false);
     }
 
     public void tick() {
-        BlockPos blockPos = this.getTargetPos();
-        if (!blockPos.isWithinDistance(this.mob.getPos(), getDesiredDistanceToTarget())) {
-            this.reached = false;
-            ++this.tryingTime;
-            Vec3d vel = this.mob.getVelocity();
+        Vec3d location = targetPos.toCenterPos();
+
+        if (!location.isInRange(mob.getPos(), getDesiredDistanceToTarget())) {
+            ++tryingTime;
+            Vec3d vel = mob.getVelocity();
             if (this.shouldResetPath() && new Vec3d(vel.x, 0, vel.z).lengthSquared() < 0.2f) {
-                this.mob.setVelocity(vel.x, 0.5f, vel.z);
-                this.mob.getNavigation().startMovingTo((double)((float)blockPos.getX()) + 0.5D, (double)blockPos.getY(), (double)((float)blockPos.getZ()) + 0.5D, this.speed);
+                mob.setVelocity(vel.x, 0.5f, vel.z);
+                mob.getNavigation().startMovingTo(location.getX(), location.getY(), location.getZ(), speed);
             }
         } else {
-            this.reached = true;
-            --this.tryingTime;
-        }
-        if (this.reached) {
-            digTick++;
-            if (digTick >= 20) {
+            --tryingTime;
+            if (++digTick >= DIG_DURATION_TICKS) {
                 if (!world.isClient) {
-                    world.breakBlock(targetPos, false, this.mob, 1);
+                    assert world.getServer() != null;
+                    Identifier id = Desolation.id("misc/ash_scuttler_dig");
+
+                    world.breakBlock(targetPos, false, mob, 1);
                     world.syncWorldEvent(2001, targetPos, 0);
 
-                    Identifier id = Desolation.id("misc/ash_scuttler_dig");
-                    LootTable lootTable = this.world.getServer().getLootManager().getTable(id);
-                    LootContext.Builder builder = (new net.minecraft.loot.context.LootContext.Builder((ServerWorld)this.world))
-                            .random(this.world.random);
-                    lootTable.generateLoot(builder.build(LootContextTypes.EMPTY), itemStack -> {
-                        ItemScatterer.spawn(world, targetPos.getX() + 0.5D, targetPos.getY() + 0.5D, targetPos.getZ() + 0.5D, itemStack);
-                    });
+                    LootTable lootTable = world.getServer().getLootManager().getLootTable(id);
+                    LootContextParameterSet parameterSet = new LootContextParameterSet.Builder((ServerWorld) world)
+                            .add(LootContextParameters.ORIGIN, location)
+                            .add(LootContextParameters.THIS_ENTITY, mob)
+                            .build(LootContextTypes.GIFT);
+
+                    ObjectArrayList<ItemStack> list = lootTable.generateLoot(parameterSet);
+                    for (ItemStack itemStack : list) {
+                        ItemEntity itemEntity = new ItemEntity(world, location.getX(), location.getY(), location.getZ(), itemStack);
+                        itemEntity.setToDefaultPickupDelay();
+                        world.spawnEntity(itemEntity);
+                    }
                 }
                 stop();
             }

@@ -1,45 +1,5 @@
 package raltsmc.desolation.entity.ai.goal;
 
-/*import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.ai.goal.MeleeAttackGoal;
-import net.minecraft.entity.mob.PathAwareEntity;
-import net.minecraft.util.Hand;
-import raltsmc.desolation.registry.DesolationItems;
-
-public class AshAttackGoal extends MeleeAttackGoal {
-
-    public AshAttackGoal(PathAwareEntity mob, double speed, boolean pauseWhenMobIdle) {
-        super(mob, speed, pauseWhenMobIdle);
-    }
-
-    @Override
-    public boolean canStart() {
-        return super.canStart() && this.mob.isHolding(DesolationItems.ASH_PILE);
-    }
-
-    @Override
-    protected void attack(LivingEntity target, double squaredDistance) {
-        double d = this.getSquaredMaxAttackDistance(target);
-        if (squaredDistance <= d && this.field_24667 <= 0) {
-            this.method_28346();
-            this.mob.swingHand(Hand.MAIN_HAND);
-            this.mob.tryAttack(target);
-        }
-
-    }
-
-    @Override
-    protected double getSquaredMaxAttackDistance(LivingEntity entity) {
-        return (double)(this.mob.getWidth() * 4.0F * this.mob.getWidth() * 4.0F + entity.getWidth());
-    }
-}
-*/
-
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.ai.pathing.Path;
@@ -60,7 +20,7 @@ public class AshAttackGoal extends Goal {
     private double targetZ;
     private int updateCountdownTicks;
     private int attackCd;
-    private final int attackIntervalTicks = 20;
+    private static final long attackIntervalTicks = 20;
     private long lastUpdateTime;
     private AttackType lastAttack;
 
@@ -79,8 +39,8 @@ public class AshAttackGoal extends Goal {
 
     public boolean canStart() {
         //if (Objects.equals(this.mob.getEquippedStack(EquipmentSlot.MAINHAND),new ItemStack(DesolationItems.ASH_PILE))) {
-            long l = this.mob.world.getTime();
-            if (l - this.lastUpdateTime < 20L) {
+            long l = this.mob.getWorld().getTime();
+            if (l - this.lastUpdateTime < attackIntervalTicks) {
                 return false;
             } else {
                 this.lastUpdateTime = l;
@@ -144,6 +104,10 @@ public class AshAttackGoal extends Goal {
 
     public void tick() {
         LivingEntity livingEntity = this.mob.getTarget();
+        if (livingEntity == null) {
+            return;
+        }
+
         this.mob.getLookControl().lookAt(livingEntity, 30.0F, 30.0F);
         double d = this.mob.squaredDistanceTo(livingEntity.getX(), livingEntity.getY(), livingEntity.getZ());
         this.updateCountdownTicks = Math.max(this.updateCountdownTicks - 1, 0);

@@ -99,10 +99,11 @@ public class BlackenedEntity extends HostileEntity implements GeoEntity {
     }
 
     public void tryAshAttack(LivingEntity target) {
+            World world = this.getWorld();
             Vec3d eyePos = this.getPos().add(new Vec3d(0, this.getEyeY() - this.getY(), 0).multiply(0.75));
             Vec3d targetVector = eyePos.add(target.getPos().subtract(this.getPos()).normalize().multiply(2.5));
 
-            if (!this.world.isClient) {
+            if (!world.isClient) {
                 AreaEffectCloudEntity areaEffectCloudEntity = new AreaEffectCloudEntity(world, targetVector.x,
                         targetVector.y, targetVector.z);
                 areaEffectCloudEntity.setDuration(30);

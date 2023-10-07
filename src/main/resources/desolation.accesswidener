@@ -1,3 +1,5 @@
 accessWidener   v1  named
 
 accessible  method  net/minecraft/block/BlockSetType register (Lnet/minecraft/block/BlockSetType;)Lnet/minecraft/block/BlockSetType;
+accessible  method  net/minecraft/world/gen/foliage/FoliagePlacerType register (Ljava/lang/String;Lcom/mojang/serialization/Codec;)Lnet/minecraft/world/gen/foliage/FoliagePlacerType;
+accessible  method  net/minecraft/world/gen/trunk/TrunkPlacerType register (Ljava/lang/String;Lcom/mojang/serialization/Codec;)Lnet/minecraft/world/gen/trunk/TrunkPlacerType;
