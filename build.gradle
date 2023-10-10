@@ -30,11 +30,6 @@ repositories {
 		name = "Ladysnake Libs"
 		url = "https://maven.ladysnake.org/releases"
 	}
-
-	// TerraBlender (Biolith dev dep for now)
-	maven {
-		url = 'https://maven.minecraftforge.net/'
-	}
 }
 
 dependencies {
@@ -45,6 +40,7 @@ dependencies {
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
 	modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-base:${project.cca_version}"
+	modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${project.cca_version}"
 
 	include(implementation(annotationProcessor("io.github.llamalad7:mixinextras-fabric:${project.mixinextras_version}")))
 

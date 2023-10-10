@@ -7,7 +7,6 @@ import net.minecraft.world.biome.Biome;
 import raltsmc.desolation.Desolation;
 import raltsmc.desolation.world.biome.BiomeCreator;
 
-@SuppressWarnings("UnstableApiUsage")
 public class DesolationBiomes {
     public static final RegistryKey<Biome> CHARRED_FOREST = RegistryKey.of(RegistryKeys.BIOME, Desolation.id("charred_forest"));
     public static final RegistryKey<Biome> CHARRED_FOREST_CLEARING = RegistryKey.of(RegistryKeys.BIOME, Desolation.id("charred_forest_clearing"));

@@ -14,7 +14,6 @@ import raltsmc.desolation.tag.DesolationBlockTags;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressWarnings("UnstableApiUsage")
 public class DesolationPlacedFeatures {
     public static final RegistryKey<PlacedFeature> TREES_CHARRED_LARGE = createRegistryKey("trees_charred_large");
     public static final RegistryKey<PlacedFeature> TREES_CHARRED_SMALL = createRegistryKey("trees_charred_small");

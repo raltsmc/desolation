@@ -3,14 +3,10 @@ package raltsmc.desolation.data;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.advancement.criterion.InventoryChangedCriterion;
-import net.minecraft.data.server.recipe.RecipeJsonProvider;
+import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.item.Items;
-import net.minecraft.predicate.NbtPredicate;
-import net.minecraft.predicate.NumberRange;
-import net.minecraft.predicate.item.EnchantmentPredicate;
-import net.minecraft.predicate.item.ItemPredicate;
 import net.minecraft.recipe.Ingredient;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.util.Identifier;
@@ -20,8 +16,6 @@ import raltsmc.desolation.registry.DesolationItems;
 import raltsmc.desolation.tag.DesolationItemTags;
 
 import java.util.List;
-import java.util.Set;
-import java.util.function.Consumer;
 
 public class DesolationRecipeProvider extends FabricRecipeProvider {
 	protected DesolationRecipeProvider(FabricDataOutput dataOutput) {
@@ -29,7 +23,7 @@ public class DesolationRecipeProvider extends FabricRecipeProvider {
 	}
 
 	@Override
-	public void generate(Consumer<RecipeJsonProvider> exporter) {
+	public void generate(RecipeExporter exporter) {
 		// vanilla recipes
 		offer2x2CompactingRecipe(exporter, RecipeCategory.MISC, Items.CHARCOAL, DesolationItems.CHARCOAL_BIT);
 
@@ -37,8 +31,7 @@ public class DesolationRecipeProvider extends FabricRecipeProvider {
 				.input(Items.BONE_MEAL)
 				.input(Items.CHARCOAL)
 				.input(Items.CLAY_BALL)
-				.criterion("has_sulfurs", InventoryChangedCriterion.Conditions.items(
-						new ItemPredicate(null, Set.of(Items.CHARCOAL), NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, EnchantmentPredicate.ARRAY_OF_ANY, EnchantmentPredicate.ARRAY_OF_ANY, null, NbtPredicate.ANY)))
+				.criterion("has_charcoal", InventoryChangedCriterion.Conditions.items(Items.CHARCOAL))
 				.offerTo(exporter);
 
 

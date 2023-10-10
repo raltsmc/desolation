@@ -9,7 +9,6 @@ import raltsmc.desolation.world.feature.DesolationPlacedFeatures;
 
 import java.util.concurrent.CompletableFuture;
 
-@SuppressWarnings("UnstableApiUsage")
 public class DesolationDynamicRegistryProvider extends FabricDynamicRegistryProvider {
 	protected DesolationDynamicRegistryProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
 		super(output, registriesFuture);

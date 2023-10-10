@@ -11,7 +11,6 @@ import net.minecraft.world.gen.feature.DefaultBiomeFeatures;
 import raltsmc.desolation.registry.DesolationEntities;
 import raltsmc.desolation.world.feature.DesolationPlacedFeatures;
 
-@SuppressWarnings("UnstableApiUsage")
 public class BiomeCreator {
     public static Biome createCharredForest(FabricDynamicRegistryProvider.Entries entries, boolean isClearing, boolean isSmall) {
         return new Biome.Builder()

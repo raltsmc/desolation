@@ -26,7 +26,6 @@ import java.util.List;
 import static net.minecraft.block.SnowBlock.LAYERS;
 import static raltsmc.desolation.block.CinderfruitPlantBlock.AGE;
 
-@SuppressWarnings("UnstableApiUsage")
 public final class DesolationConfiguredFeatures {
     public static RegistryKey<ConfiguredFeature<?, ?>> TREE_CHARRED = createRegistryKey("tree_charred");
     public static RegistryKey<ConfiguredFeature<?, ?>> TREE_CHARRED_SMALL = createRegistryKey("tree_charred_small");
