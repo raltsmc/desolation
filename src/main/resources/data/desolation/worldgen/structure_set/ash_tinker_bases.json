@@ -1,0 +1,14 @@
+{
+  "structures": [
+    {
+      "structure": "desolation:ash_tinker_base",
+      "weight": 1
+    }
+  ],
+  "placement": {
+    "type": "minecraft:random_spread",
+    "spacing": 32,
+    "separation": 7,
+    "salt": 14325
+  }
+}

@@ -26,4 +26,5 @@ bin/
 
 # fabric
 
+src/main/generated/
 run/

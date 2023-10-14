@@ -20,41 +20,45 @@ import net.minecraft.sound.SoundEvent;
 import net.minecraft.sound.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.World;
 import raltsmc.desolation.entity.ai.goal.AshAttackGoal;
 import raltsmc.desolation.registry.DesolationItems;
-import software.bernie.geckolib3.core.IAnimatable;
-import software.bernie.geckolib3.core.PlayState;
-import software.bernie.geckolib3.core.builder.AnimationBuilder;
-import software.bernie.geckolib3.core.controller.AnimationController;
-import software.bernie.geckolib3.core.event.predicate.AnimationEvent;
-import software.bernie.geckolib3.core.manager.AnimationData;
-import software.bernie.geckolib3.core.manager.AnimationFactory;
+import software.bernie.geckolib.animatable.GeoEntity;
+import software.bernie.geckolib.core.animatable.GeoAnimatable;
+import software.bernie.geckolib.core.animatable.instance.AnimatableInstanceCache;
+import software.bernie.geckolib.core.animation.AnimatableManager;
+import software.bernie.geckolib.core.animation.AnimationController;
+import software.bernie.geckolib.core.animation.AnimationState;
+import software.bernie.geckolib.core.animation.RawAnimation;
+import software.bernie.geckolib.core.object.PlayState;
+import software.bernie.geckolib.util.GeckoLibUtil;
 
-public class BlackenedEntity extends HostileEntity implements IAnimatable {
-    private static final TrackedData<Boolean> MELEE_ATTACKING;
-    private static final TrackedData<Boolean> ASH_ATTACKING;
+public class BlackenedEntity extends HostileEntity implements GeoEntity {
+    private static final TrackedData<Boolean> MELEE_ATTACKING = DataTracker.registerData(BlackenedEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    private static final TrackedData<Boolean> ASH_ATTACKING = DataTracker.registerData(BlackenedEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+
+    private final AnimatableInstanceCache cache = GeckoLibUtil.createInstanceCache(this);
+    private static final RawAnimation IDLE_ANIM = RawAnimation.begin().thenLoop("animation.desolation.blackened_idle");
+    private static final RawAnimation WALK_ANIM = RawAnimation.begin().thenLoop("animation.desolation.blackened_hobble");
+    private static final RawAnimation HEART_ANIM = RawAnimation.begin().thenLoop("animation.desolation.blackened_heartbeat");
+    private static final RawAnimation MELEE_ANIM = RawAnimation.begin().thenLoop("animation.desolation.blackened_melee");
+    private static final RawAnimation THROW_ANIM = RawAnimation.begin().thenLoop("animation.desolation.blackened_throw");
 
     public BlackenedEntity(EntityType<? extends HostileEntity> entityType, World world) {
         super(entityType, world);
     }
 
-    private AnimationFactory factory = new AnimationFactory(this);
-
     @Override
-    public AnimationFactory getFactory() {
-        return this.factory;
-    }
-
     protected void initGoals() {
-        this.goalSelector.add(3, new FleeEntityGoal(this, WolfEntity.class, 6.0F, 1.0D, 1.2D));
+        this.goalSelector.add(3, new FleeEntityGoal<>(this, WolfEntity.class, 6.0F, 1.0D, 1.2D));
         this.goalSelector.add(4, new AshAttackGoal(this, 1D, false));
         this.goalSelector.add(5, new WanderAroundFarGoal(this, 1.0D));
         this.goalSelector.add(6, new LookAtEntityGoal(this, PlayerEntity.class, 8F));
         this.goalSelector.add(6, new LookAroundGoal(this));
         this.targetSelector.add(1, new RevengeGoal(this));
-        this.targetSelector.add(2, new ActiveTargetGoal(this, PlayerEntity.class, true));
+        this.targetSelector.add(2, new ActiveTargetGoal<>(this, PlayerEntity.class, true));
     }
 
     public static DefaultAttributeContainer.Builder createBlackenedAttributes() {
@@ -63,36 +67,43 @@ public class BlackenedEntity extends HostileEntity implements IAnimatable {
                 .add(EntityAttributes.GENERIC_ATTACK_DAMAGE, 6);
     }
 
+    @Override
     protected void initDataTracker() {
         super.initDataTracker();
         this.dataTracker.startTracking(MELEE_ATTACKING, false);
         this.dataTracker.startTracking(ASH_ATTACKING, false);
     }
 
+    @Override
     protected void playStepSound(BlockPos pos, BlockState state) {
         this.playSound(SoundEvents.ENTITY_SKELETON_STEP, 0.5F, 1.0F);
     }
 
+    @Override
     protected SoundEvent getHurtSound(DamageSource source) {
         return SoundEvents.ENTITY_SKELETON_HURT;
     }
 
+    @Override
     protected SoundEvent getDeathSound() {
         return SoundEvents.ENTITY_SKELETON_DEATH;
     }
 
+    @Override
     public EntityGroup getGroup() { return EntityGroup.UNDEAD; }
 
-    protected void initEquipment(LocalDifficulty difficulty) {
-        super.initEquipment(difficulty);
+    @Override
+    protected void initEquipment(Random random, LocalDifficulty difficulty) {
+        super.initEquipment(random, difficulty);
         this.equipStack(EquipmentSlot.MAINHAND, new ItemStack(DesolationItems.ASH_PILE));
     }
 
     public void tryAshAttack(LivingEntity target) {
+            World world = this.getWorld();
             Vec3d eyePos = this.getPos().add(new Vec3d(0, this.getEyeY() - this.getY(), 0).multiply(0.75));
             Vec3d targetVector = eyePos.add(target.getPos().subtract(this.getPos()).normalize().multiply(2.5));
 
-            if (!this.world.isClient) {
+            if (!world.isClient) {
                 AreaEffectCloudEntity areaEffectCloudEntity = new AreaEffectCloudEntity(world, targetVector.x,
                         targetVector.y, targetVector.z);
                 areaEffectCloudEntity.setDuration(30);
@@ -110,11 +121,11 @@ public class BlackenedEntity extends HostileEntity implements IAnimatable {
     }
 
     public boolean isMeleeAttacking() {
-        return (Boolean)this.dataTracker.get(MELEE_ATTACKING);
+        return this.dataTracker.get(MELEE_ATTACKING);
     }
 
     public boolean isAshAttacking() {
-        return (Boolean)this.dataTracker.get(ASH_ATTACKING);
+        return this.dataTracker.get(ASH_ATTACKING);
     }
 
     public void setMeleeAttacking(boolean val) {
@@ -125,50 +136,50 @@ public class BlackenedEntity extends HostileEntity implements IAnimatable {
         this.dataTracker.set(ASH_ATTACKING, val);
     }
 
-    private <E extends IAnimatable>PlayState idlePredicate(AnimationEvent<E> event) {
+    private <E extends GeoAnimatable> PlayState idlePredicate(AnimationState<E> event) {
         if (!event.isMoving()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.desolation.blackened_idle", true));
+            event.getController().setAnimation(IDLE_ANIM);
             return PlayState.CONTINUE;
         } else {
             return PlayState.STOP;
         }
     }
 
-    private <E extends IAnimatable>PlayState walkPredicate(AnimationEvent<E> event) {
+    private <E extends GeoAnimatable> PlayState walkPredicate(AnimationState<E> event) {
         if (event.isMoving()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.desolation.blackened_hobble", true));
+            event.getController().setAnimation(WALK_ANIM);
             return PlayState.CONTINUE;
         } else {
             return PlayState.STOP;
         }
     }
 
-    private <E extends IAnimatable>PlayState heartPredicate(AnimationEvent<E> event) {
-        event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.desolation.blackened_heartbeat", true));
+    private <E extends GeoAnimatable> PlayState heartPredicate(AnimationState<E> event) {
+        event.getController().setAnimation(HEART_ANIM);
         return PlayState.CONTINUE;
     }
 
-    private <E extends IAnimatable>PlayState attackPredicate(AnimationEvent<E> event) {
+    private <E extends GeoAnimatable> PlayState attackPredicate(AnimationState<E> event) {
         if (this.isMeleeAttacking()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.desolation.blackened_melee", true));
+            event.getController().setAnimation(MELEE_ANIM);
             return PlayState.CONTINUE;
         } else if (this.isAshAttacking()) {
-            event.getController().setAnimation(new AnimationBuilder().addAnimation("animation.desolation.blackened_throw", true));
+            event.getController().setAnimation(THROW_ANIM);
             return PlayState.CONTINUE;
         }
         return PlayState.STOP;
     }
 
     @Override
-    public void registerControllers(AnimationData data) {
-        data.addAnimationController(new AnimationController(this, "idleController", 0, this::idlePredicate));
-        data.addAnimationController(new AnimationController(this, "walkController", 0, this::walkPredicate));
-        data.addAnimationController(new AnimationController(this, "heartController", 0, this::heartPredicate));
-        data.addAnimationController(new AnimationController(this, "attackController", 0, this::attackPredicate));
+    public void registerControllers(AnimatableManager.ControllerRegistrar controllerRegistrar) {
+        controllerRegistrar.add(new AnimationController<>(this, "idleController", 0, this::idlePredicate));
+        controllerRegistrar.add(new AnimationController<>(this, "walkController", 0, this::walkPredicate));
+        controllerRegistrar.add(new AnimationController<>(this, "heartController", 0, this::heartPredicate));
+        controllerRegistrar.add(new AnimationController<>(this, "attackController", 0, this::attackPredicate));
     }
 
-    static {
-        MELEE_ATTACKING = DataTracker.registerData(BlackenedEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
-        ASH_ATTACKING = DataTracker.registerData(BlackenedEntity.class, TrackedDataHandlerRegistry.BOOLEAN);
+    @Override
+    public AnimatableInstanceCache getAnimatableInstanceCache() {
+        return cache;
     }
 }

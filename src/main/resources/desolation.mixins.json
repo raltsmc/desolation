@@ -2,15 +2,10 @@
   "required": true,
   "minVersion": "0.8",
   "package": "raltsmc.desolation.mixin",
-  "compatibilityLevel": "JAVA_16",
+  "compatibilityLevel": "JAVA_17",
   "mixins": [
     "entity.LivingEntityMixin",
-    "entity.player.PlayerEntityMixin",
-    "recipe.BrewingRecipeRegistryInvoker",
-    "world.HeightmapTypeMixin",
-    "world.biome.layer.SetBaseBiomesLayerAccessor",
-    "world.gen.foliage.FoliagePlacerTypeInvoker",
-    "world.gen.trunk.TrunkPlacerTypeInvoker"
+    "entity.player.PlayerEntityMixin"
   ],
   "client": [
     "client.gui.hud.InGameHudMixin",

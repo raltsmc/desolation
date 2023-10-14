@@ -1,6 +1,7 @@
 package raltsmc.desolation.world.feature;
 
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.world.gen.feature.Feature;
 import net.minecraft.world.gen.feature.SingleStateFeatureConfig;
 import raltsmc.desolation.Desolation;
@@ -14,7 +15,7 @@ public class DesolationFeatures {
         register("scattered", SCATTERED);
     }
 
-    private static void register(String name, Feature feature) {
-        Registry.register(Registry.FEATURE, Desolation.id(name), feature);
+    private static void register(String name, Feature<?> feature) {
+        Registry.register(Registries.FEATURE, Desolation.id(name), feature);
     }
 }

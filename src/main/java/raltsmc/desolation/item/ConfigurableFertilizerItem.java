@@ -35,7 +35,7 @@ public class ConfigurableFertilizerItem extends Item {
     public static boolean useOnFertilizable(ItemStack stack, World world, BlockPos pos, double growChance, int growTries) {
         BlockState blockState = world.getBlockState(pos);
         if (blockState.getBlock() instanceof Fertilizable fertilizable) {
-            if (fertilizable.isFertilizable(world, pos, blockState, world.isClient)) {
+            if (fertilizable.isFertilizable(world, pos, blockState)) {
                 if (world instanceof ServerWorld) {
                     for (int i=0; i<growTries; i++) {
                         if (fertilizable.canGrow(world, world.random, pos, blockState) && world.random.nextDouble() < growChance) {

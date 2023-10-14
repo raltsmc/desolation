@@ -1,21 +1,16 @@
 package raltsmc.desolation.init.client;
 
-import dev.emi.trinkets.api.client.TrinketRendererRegistry;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.blockrenderlayer.v1.BlockRenderLayerMap;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.LivingEntityFeatureRendererRegistrationCallback;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
-import net.fabricmc.fabric.api.resource.SimpleSynchronousResourceReloadListener;
-import net.fabricmc.fabric.impl.client.particle.ParticleFactoryRegistryImpl;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.option.KeyBinding;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.entity.PlayerEntityRenderer;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.util.InputUtil;
 import net.minecraft.resource.ResourceType;
@@ -24,12 +19,10 @@ import raltsmc.desolation.Desolation;
 import raltsmc.desolation.client.particle.SparkParticle;
 import raltsmc.desolation.client.render.entity.AshScuttlerEntityRenderer;
 import raltsmc.desolation.client.render.entity.BlackenedEntityRenderer;
-import raltsmc.desolation.client.render.entity.feature.HeadTrinketRenderer;
 import raltsmc.desolation.client.render.entity.feature.TrinketRenderers;
 import raltsmc.desolation.client.render.entity.model.HeadTrinketModel;
 import raltsmc.desolation.registry.DesolationBlocks;
 import raltsmc.desolation.registry.DesolationEntities;
-import raltsmc.desolation.registry.DesolationItems;
 import raltsmc.desolation.registry.DesolationParticles;
 
 @Environment(EnvType.CLIENT)
@@ -57,14 +50,7 @@ public class DesolationClient implements ClientModInitializer {
 
         ResourceManagerHelper.get(ResourceType.CLIENT_RESOURCES).registerReloadListener(new TrinketRenderers());
 
-//        LivingEntityFeatureRendererRegistrationCallback.EVENT.register((entityType, entityRenderer,
-//                                                                        registrationHelper, context) -> {
-//            if (entityRenderer instanceof PlayerEntityRenderer) {
-//                registrationHelper.register(new HeadGearFeatureRenderer<>(entityRenderer));
-//            }
-//        })
-
-        ParticleFactoryRegistryImpl.INSTANCE.register(DesolationParticles.SPARK, SparkParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(DesolationParticles.SPARK, SparkParticle.Factory::new);
     }
 
     static {
